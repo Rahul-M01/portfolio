@@ -2,19 +2,16 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 20px;
     background: #0A0A0A;
     /* Or any color of your choice */
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     /* Shadow effect */
     border-radius: 10px;
-    /* Optional: rounded corners */
-    margin: 0 20px;
-    /* Optional: adds some margin at the sides */
+    padding: 2rem;
 }
 
 .icon {

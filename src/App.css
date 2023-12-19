@@ -1,13 +1,4 @@
 body {
-    background: #121212;
+    background: #0A0A0A;
     color: white;
-    /* Ensures text is visible on a dark background */
-    margin: 0;
-    /* Removes default margin */
-    padding: 0;
-    /* Removes default padding */
-    height: 100vh;
-    /* Full viewport height */
-    width: 100%;
-    /* Full width */
 }

@@ -3,6 +3,9 @@ import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
+
 const Home = () => {
     const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
     const [word, setWord] = useState('');
@@ -17,6 +20,7 @@ const Home = () => {
         setTimeout(() => setStage('reveal'), 2000); // Reveal the new content
     }, []);
 
+    const languages = ['Python', 'Java', 'C', 'Javascript', 'React', 'TypeScript', 'Django', 'Databases']
     return (
         <main>
             <div className="app">
@@ -28,7 +32,15 @@ const Home = () => {
                         <Header />
                         <h1 class="title">Full Stack &<br /> <span style={{ color: "white" }}>Software Developer</span></h1>
                         <p class="home-text">I am a software developer with 1 year of professional experience,<br />
-                            and 2 years of freelancing experience. I have been coding for the past 5 years,<br /> and have knowledge of a wide range of languages like:<br /></p>
+                            and 2 years of freelancing experience. I have been coding for the past 5 years,<br /> and have knowledge of a wide range of languages and frameworks like:<br /></p>
+                        <div className="languages-list">
+                            {languages.map((language, index) => (
+                                <div key={index} className="language-item">
+                                    <FontAwesomeIcon icon={faCode} className="language-icon" />
+                                    <span className="language-name">{language}</span>
+                                </div>
+                            ))}
+                        </div>
                         <Footer />
                     </div>
                 )}
