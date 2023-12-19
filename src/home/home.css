@@ -1,0 +1,71 @@
+/* App.css */
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* This will prevent scrolling */
+    height: 100%;
+    /* Set the height to fill the viewport */
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+main {
+    background-image: url('../../images/background.jpg');
+    /* Rounded corners */
+    /* Other styles */
+    overflow: hidden;
+    /* This ensures that the content inside respects the border radius */
+    width: 100%;
+    /* Set the width to 80% of the page */
+    height: 100vh;
+    /* Adjust the height as needed */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    /* Center the container on the page */
+}
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    /* White background with low opacity */
+    backdrop-filter: blur(10px);
+    /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px);
+    /* For Safari */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    /* Light white border for glass effect */
+    padding: 2rem;
+    margin: -2rem auto 0;
+    /* Aligns box centrally and pulls it up slightly over the image */
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #fff;
+    /* White text color */
+    transform: translate(40%, -180%);
+    /* Center vertically */
+    transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .background-image {
+        height: 30vh;
+        /* Adjust the height for mobile */
+    }
+
+    .glass-box {
+        transform: translateY(0);
+        /* Resets the position for mobile */
+        margin-top: 20px;
+        /* Adds space between the image and the box */
+    }
+}

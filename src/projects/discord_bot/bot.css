@@ -1,0 +1,55 @@
+.discord-background {
+    background-image: url('../../../images/discord.jpg');
+    /* Rounded corners */
+    border-radius: 20px;
+    /* Adjust the pixel value to get the desired roundness */
+
+    /* Border highlight effect */
+    border: 2px solid #3a9ad9;
+    /* Adjust the color and size to match your design */
+
+    /* Optional: Add a box-shadow for a glowing effect */
+    box-shadow: 0 0 10px #3a9ad9;
+    /* Adjust color and size to match your design */
+
+    /* Other styles */
+    overflow: hidden;
+    /* This ensures that the content inside respects the border radius */
+    width: 95%;
+    /* Set the width to 80% of the page */
+    height: 90vh;
+    /* Adjust the height as needed */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    /* Center the container on the page */
+}
+
+.discord-embed {
+    font-family: Arial, sans-serif;
+    background-color: #2f3136;
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 400px;
+    color: #dcddde;
+    border: 1px solid #4f545c;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.embed-title {
+    color: #00b0f4;
+    margin: 0;
+    font-weight: 600;
+}
+
+.embed-description {
+    color: #dcddde;
+    font-size: 0.875rem;
+}
+
+.embed-footer {
+    color: #72767d;
+    font-size: 0.75rem;
+    margin-top: 1rem;
+}
