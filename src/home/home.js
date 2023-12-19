@@ -1,28 +1,40 @@
-// App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './home.css';
 import Header from '../header/header';
+import Footer from '../footer/Footer';
 
-function Home() {
+const Home = () => {
+    const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
+    const [word, setWord] = useState('');
+    const [stage, setStage] = useState('start');
+
+    useEffect(() => {
+        const randomWord = words[Math.floor(Math.random() * words.length)];
+        setWord(randomWord);
+
+        setTimeout(() => setStage('drop'), 500); // Start drop animation
+        setTimeout(() => setStage('zoom'), 1000); // Start zoom animation
+        setTimeout(() => setStage('reveal'), 2000); // Reveal the new content
+    }, []);
+
     return (
         <main>
-            <Header />
-            <div className="container">
-                <div className="background-image" />
-                <div className="glass-box">
-                    <h1>About Me</h1>
-                    <p>I’m Rahul, a creative and passionate professional specializing in web development.
-                        With 3 years of experience under my belt, I’ve honed my skills across many programming languages,
-                        consistently delivering projects that engage and inspire. My journey has been driven by my curiosity to
-                        explore new technologies and my commitment to making a tangible impact with my work.
-                        When I’m not immersed in the digital world, you can find me [a personal hobby or interest - e.g., exploring the great outdoors, reading sci-fi novels,
-                        or crafting culinary delights]. Let’s connect and create something extraordinary together!
-                    </p>
-                </div>
+            <div className="app">
+                {(stage === 'start' || stage === 'drop') && <div className="hello-text">{word}</div>}
+                {stage === 'drop' && <div className="drop"></div>}
+                {stage === 'zoom' && <div className="hello-text zoom">{word}</div>}
+                {stage === 'reveal' && (
+                    <div className="page-content">
+                        <Header />
+                        <h1 class="title">Full Stack &<br /> <span style={{ color: "white" }}>Software Developer</span></h1>
+                        <p class="home-text">I am a software developer with 1 year of professional experience,<br />
+                            and 2 years of freelancing experience. I have been coding for the past 5 years,<br /> and have knowledge of a wide range of languages like:<br /></p>
+                        <Footer />
+                    </div>
+                )}
             </div>
         </main>
     );
-}
-
+};
 
 export default Home;

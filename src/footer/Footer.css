@@ -1,0 +1,54 @@
+.social-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background: #0A0A0A;
+    /* Or any color of your choice */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /* Shadow effect */
+    border-radius: 10px;
+    /* Optional: rounded corners */
+    margin: 0 20px;
+    /* Optional: adds some margin at the sides */
+}
+
+.icon {
+    color: white;
+    /* White icons by default */
+    margin: 0 15px;
+    font-size: 3rem;
+    /* Adjust size as needed */
+    transition: color 0.3s ease;
+    padding: 1rem 2rem 1rem;
+    box-shadow: 10px 10px 20px 0 rgba(0, 0, 0);
+}
+
+.twitter:hover {
+    color: #1DA1F2;
+}
+
+/* Twitter color */
+.instagram:hover {
+    color: #C13584;
+}
+
+/* Instagram color */
+.github:hover {
+    color: #181717;
+}
+
+/* GitHub color */
+.discord:hover {
+    color: #5865F2;
+}
+
+.linkedIn:hover {
+    color: #0A66C2;
+}
+
+/* Discord color */

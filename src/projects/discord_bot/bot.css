@@ -1,5 +1,5 @@
 .discord-background {
-    background-image: url('../../../images/discord.jpg');
+    background-image: url('../../images/discord.jpg');
     /* Rounded corners */
     border-radius: 20px;
     /* Adjust the pixel value to get the desired roundness */
