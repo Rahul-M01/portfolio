@@ -32,14 +32,14 @@ nav {
     overflow: hidden;
 }
 
-ul {
+.navbar ul {
     list-style: none;
     margin: 0;
     padding: 0;
     float: right;
 }
 
-nav li {
+.navbar li {
     display: inline-block;
     margin-left: 25px;
     height: 70px;
@@ -47,7 +47,7 @@ nav li {
     transition: .5s linear;
 }
 
-nav a {
+.navbar a {
     text-decoration: none;
     display: block;
     position: relative;
@@ -55,7 +55,7 @@ nav a {
     text-transform: uppercase;
 }
 
-nav a:after {
+.navbar a:after {
     content: "";
     width: 0;
     height: 2px;
@@ -66,7 +66,7 @@ nav a:after {
     transition: width .5s linear;
 }
 
-nav a:hover:after {
+.navbar a:hover:after {
     width: 100%;
 }
 
@@ -81,32 +81,32 @@ nav a:hover:after {
         margin: 0 0 16px 0;
     }
 
-    ul {
+    .navbar ul {
         float: none;
     }
 
-    nav li:first-of-type {
+    .navbar li:first-of-type {
         margin-left: 0;
     }
 }
 
 @media screen and (max-width: 550px) {
-    nav {
+    .navbar {
         overflow: visible;
     }
 
-    nav li {
+    .navbar li {
         display: block;
         margin: 0;
         height: 40px;
         line-height: 40px;
     }
 
-    nav li:hover {
+    .navbar li:hover {
         background: rgba(0, 0, 0, .1);
     }
 
-    nav a:after {
+    .navbar a:after {
         content: none;
     }
 }

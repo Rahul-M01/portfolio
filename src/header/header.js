@@ -10,7 +10,7 @@ const Header = () => {
             <div class="header-container">
                 <div class="logo-box">
                 </div>
-                <nav>
+                <nav class="navbar">
                     <ul>
                         <li><a href="/">home</a></li>
                         <li><a href="/bot">Bot</a></li>
