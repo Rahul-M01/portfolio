@@ -7,18 +7,21 @@ import {
 } from "react-router-dom"
 import Home
     from './home/home';
+import Homelab from './projects/homelab/homelab';
 
 function App() {
-    // initialize a browser router
     const router = createBrowserRouter([
         {
             path: "/",
             element: <Home />,
         },
-        // other pages....
         {
             path: "/bot",
             element: <Bot />,
+        },
+        {
+            path: "/homelab",
+            element: <Homelab />,
         },
     ])
 
