@@ -1,27 +1,38 @@
-// Header.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './header.css';
 
 const Header = () => {
-    // You would have state and functions here for handling mobile menu toggle
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsSticky(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <header>
-            <div class="header-container">
-                <div class="logo-box">
+            <div className={`header-container ${isSticky ? 'sticky' : ''}`}>
+                <div className="logo-box">
+                    {/* Logo here */}
                 </div>
-                <nav class="navbar">
+                <nav className="navbar">
                     <ul>
                         <li><a href="/">home</a></li>
                         <li><a href="/bot">Bot</a></li>
-                        <li><a href="">product</a></li>
+                        <li><a href="">Homelab</a></li>
                         <li><a href="">about</a></li>
                         <li><a href="">contact</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
-
     );
 };
 
