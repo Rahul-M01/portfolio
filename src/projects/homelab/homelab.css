@@ -78,11 +78,11 @@ p {
     /* Space between logo and text */
 }
 
-.bot-title {
+.homelab-title {
     font-size: 4.5rem;
     position: relative;
     z-index: 1;
-    color: rgb(255, 115, 0);
+    color: #FF4500;
 }
 
 .additional-text {
@@ -102,9 +102,7 @@ p {
 
     100% {
         transform: translateY(0);
-        /* Move up */
-        height: 40vh;
-        /* Increase height to reveal more content */
+        height: 60vh;
     }
 }
 
