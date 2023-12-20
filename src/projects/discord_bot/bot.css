@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
 .discord-container {
     display: flex;
     align-items: center;
@@ -145,13 +147,13 @@ p {
 .paragraph {
     margin: 10px;
     flex: 1;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     position: relative;
     z-index: 1;
-    color: white;
+    color: rgb(218, 218, 218);
     padding: 2rem;
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 1);
-    max-width: 40%;
+    max-width: 35%;
 }
 
 .paragraph ul {
@@ -162,8 +164,10 @@ p {
 }
 
 .paragraph li {
+    font-size: 1.15rem;
     margin-bottom: 10px;
-    /* Space between list items */
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.5;
 }
 
 .paragraph li svg {
