@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+.discord-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    animation: moveUpAndReveal 1s forwards;
+    animation-delay: 3s;
+}
+
+.logo-container {
+    /* Initial width */
+    width: 100px;
+    overflow: hidden;
+    animation: expandLogo 2s forwards;
+}
+
+@keyframes expandLogo {
+    0% {
+        width: 100px;
+    }
+
+    50% {
+        width: 500px;
+    }
+
+    100% {
+        width: 500px;
+    }
+
+    /* Adjust final width as needed */
+}
+
+.discord-logo {
+    /* Adjust logo size as needed */
+    transition: transform 2s;
+    animation: slideIn 2s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.text-container {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 2s ease;
+    animation: revealText 3s forwards;
+}
+
+@keyframes revealText {
+    0% {
+        max-width: 0;
+    }
+
+    50% {
+        max-width: 0;
+    }
+
+    100% {
+        max-width: 50%;
+    }
+
+    /* Adjust as needed */
+}
+
+p {
+    margin: 0;
+    padding-left: 20px;
+    /* Space between logo and text */
+}
+
+.bot-title {
+    font-size: 4.5rem;
+    position: relative;
+    z-index: 1;
+    color: rgb(255, 115, 0);
+}
+
+.additional-text {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Start slightly below */
+    transition: opacity 2s ease, transform 2s ease;
+    animation-delay: 3s;
+    /* Delay to match the container's animation */
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveUpAndReveal {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+        /* Move up */
+        height: 40vh;
+        /* Increase height to reveal more content */
+    }
+}
+
+@keyframes revealAdditionalText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.additional-text {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Start slightly below */
+    transition: opacity 2s ease, transform 2s ease;
+    animation-delay: 5s;
+    /* Delay to match the container's animation */
+    animation-fill-mode: forwards;
+}
+
+.additional-text {
+    animation: revealAdditionalText 3s forwards;
+    animation-delay: 3s;
+}
+
+.bot-text {
+    font-size: 1.7rem;
+    position: relative;
+    z-index: 1;
+    color: white;
+    padding-left: 5rem;
+}
+
+.two-paragraphs {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.paragraph {
+    margin: 10px;
+    flex: 1;
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+    color: rgb(218, 218, 218);
+    padding: 2rem;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 1);
+    max-width: 35%;
+}
+
+.paragraph ul {
+    list-style-type: none;
+    /* Hides default bullets */
+    padding-left: 0;
+    /* Removes default padding */
+}
+
+.paragraph li {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.5;
+}
+
+.paragraph li svg {
+    margin-right: 10px;
+    width: 20px;
+    /* Adjust size as needed */
+    height: auto;
+    color: #4fc3f7;
+    /* Choose a brighter color for icons */
+}
