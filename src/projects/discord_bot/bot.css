@@ -130,6 +130,13 @@ p {
     animation-delay: 3s;
 }
 
+.bot-feature-title {
+    font-size: 2.5rem;
+    position: relative;
+    color: rgb(255, 115, 0);
+    font-weight: bold;
+}
+
 .bot-text {
     font-size: 1.7rem;
     position: relative;
@@ -138,13 +145,13 @@ p {
     padding-left: 5rem;
 }
 
-.two-paragraphs {
+.bot-two-paragraphs {
     display: flex;
     justify-content: space-around;
     padding: 20px;
 }
 
-.paragraph {
+.bot-paragraph {
     margin: 10px;
     flex: 1;
     font-size: 1.5rem;
@@ -152,25 +159,27 @@ p {
     z-index: 1;
     color: rgb(218, 218, 218);
     padding: 2rem;
-    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 1);
+    border-radius: 5%;
+    box-shadow: 2px 2px 2px 2px rgb(255, 115, 0);
+    background-color: #131313;
     max-width: 35%;
 }
 
-.paragraph ul {
+.bot-paragraph ul {
     list-style-type: none;
     /* Hides default bullets */
     padding-left: 0;
     /* Removes default padding */
 }
 
-.paragraph li {
+.bot-paragraph li {
     font-size: 1.15rem;
     margin-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
     line-height: 1.5;
 }
 
-.paragraph li svg {
+.bot-paragraph li svg {
     margin-right: 10px;
     width: 20px;
     /* Adjust size as needed */

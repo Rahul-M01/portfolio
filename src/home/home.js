@@ -27,23 +27,18 @@ const Home = () => {
                 {(stage === 'start' || stage === 'drop') && <div className="hello-text">{word}</div>}
                 {stage === 'drop' && <div className="drop"></div>}
                 {stage === 'zoom' && <div className="hello-text zoom">{word}</div>}
-                {stage === 'reveal' && (
+                {stage === 'reveal' &&
                     <div className="page-content">
                         <Header />
                         <h1 class="title">Full Stack &<br /> <span style={{ color: "white" }}>Software Developer</span></h1>
                         <p class="home-text">I am a software developer with 1 year of professional experience,<br />
-                            and 2 years of freelancing experience. I have been coding for the past 5 years,<br /> and have knowledge of a wide range of languages and frameworks like:<br /></p>
-                        <div className="languages-list">
-                            {languages.map((language, index) => (
-                                <div key={index} className="language-item">
-                                    <FontAwesomeIcon icon={faCode} className="language-icon" />
-                                    <span className="language-name">{language}</span>
-                                </div>
-                            ))}
+                            and 2 years of freelancing experience. I have graduated from DCU,<br /> with a BSc in Computer Applications.<br />
+                            I have a variety of skills, and projects under my belt, which you can know more about through my Resume attached below.<br /></p>
+                        <div class="resume-button-container">
+                            <button class="cyberpunk-button">RESUME</button>
                         </div>
                         <Footer />
-                    </div>
-                )}
+                    </div>}
             </div>
         </main>
     );
