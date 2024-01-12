@@ -187,3 +187,72 @@ p {
     color: #4fc3f7;
     /* Choose a brighter color for icons */
 }
+
+/*=======================================================*/
+/*                     MOBILE                            */
+/*                     VERSION                           */
+/*=======================================================*/
+
+@media only screen and (max-width: 600px) {
+    .discord-container {
+        flex-direction: column;
+        /* Stack logo and text */
+        height: auto;
+        /* Adjust height as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo-container {
+        width: 100%;
+        /* Adjust width as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .text-container {
+        width: 100%;
+        /* Adjust max-width as needed */
+    }
+
+    .bot-title {
+        font-size: 2rem;
+        /* Adjust font-size as needed */
+    }
+
+    .additional-text {
+        font-size: 1.5rem;
+        /* Adjust font-size as needed */
+    }
+
+    .bot-feature-title {
+        font-size: 1.75rem;
+        /* Adjust font-size as needed */
+    }
+
+    .bot-text {
+        font-size: 1.5rem;
+        /* Adjust font-size as needed */
+    }
+
+    .bot-two-paragraphs {
+        flex-direction: column;
+        width: 80%;
+        margin: 0 auto;
+        padding: 0;
+        /* Stack paragraphs */
+    }
+
+    .bot-paragraph {
+        max-width: 100%;
+        /* Adjust max-width as needed */
+    }
+
+    .bot-paragraph li {
+        font-size: 1.15rem;
+        /* Adjust font-size as needed */
+    }
+}
