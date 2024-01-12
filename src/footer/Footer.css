@@ -10,32 +10,31 @@
     z-index: 1000;
     border-radius: 10px;
     padding: 2rem;
+    flex-wrap: wrap;
 }
 
 .icon {
     color: white;
-    margin: 0 15px;
+    margin: 15px;
     font-size: 3rem;
     transition: color 0.3s ease;
     padding: 1rem 2rem 1rem;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
+/* Social icon hover styles */
 .twitter:hover {
     color: #1DA1F2;
 }
 
-/* Twitter color */
 .instagram:hover {
     color: #C13584;
 }
 
-/* Instagram color */
 .github:hover {
     color: #181717;
 }
 
-/* GitHub color */
 .discord:hover {
     color: #5865F2;
 }
@@ -44,4 +43,16 @@
     color: #0A66C2;
 }
 
-/* Discord color */
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .social-footer {
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .icon {
+        font-size: 2rem;
+        padding: 0.5rem 1rem;
+        margin: 5px;
+    }
+}

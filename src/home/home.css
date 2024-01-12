@@ -77,7 +77,6 @@
     /* Or any color you prefer */
     width: 100%;
     height: 100%;
-    padding-bottom: 100px;
 }
 
 .title {
@@ -85,7 +84,7 @@
     position: relative;
     z-index: 1;
     color: blueviolet;
-    padding: 10rem 0 0 5rem;
+    padding: 0rem 0 0 5rem;
 }
 
 .home-text {
@@ -310,5 +309,44 @@
     100% {
         clip-path: var(--slice-1);
         transform: translate(0);
+    }
+}
+
+/*==================== MOBILE VERSION ===================*/
+/*                                                       */
+/*                                                       */
+/*=======================================================*/
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 3rem;
+        padding: 10rem 0 0 2rem;
+    }
+
+    .home-text {
+        font-size: 1.5rem;
+        padding-left: 2rem;
+    }
+
+    .languages-list {
+        padding: 0 2rem 5rem;
+        font-size: 1rem;
+    }
+
+    .language-item {
+        padding: 5px 10px;
+    }
+
+    .language-name {
+        font-size: 12px;
+    }
+
+    .cyberpunk-button:hover {
+        cursor: pointer;
+        animation: 1s button-glitch infinite;
+    }
+
+    .resume-button-container {
+        padding: 10%;
     }
 }
