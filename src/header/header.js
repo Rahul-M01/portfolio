@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './header.css';
+import './header.css'; // Ensure this points to the correct path of your CSS file
 
 const Header = () => {
     const [isSticky, setIsSticky] = useState(false);
@@ -19,9 +19,9 @@ const Header = () => {
 
     return (
         <header>
-            <div className={`header-container ${isSticky ? 'sticky' : ''}`}>
+            <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
                 <div className="logo-box">
-                    {/* Logo here */}
+                    {/* Place your logo here */}
                 </div>
                 <div className={`hamburger ${isMobileMenuOpen ? 'open' : 'closed'}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     <span></span>
@@ -33,8 +33,8 @@ const Header = () => {
                         <li><a href="/">Home</a></li>
                         <li><a href="/bot">Bot</a></li>
                         <li><a href="/homelab">Homelab</a></li>
-                        <li><a href="">Eternal Horizon</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="/eternal-horizon">Eternal Horizon</a></li>
+                        <li><a href="/contact">Contact</a></li>
                     </ul>
                 </nav>
             </div>
