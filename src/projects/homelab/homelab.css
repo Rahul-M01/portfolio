@@ -85,6 +85,13 @@ p {
     color: #FF4500;
 }
 
+.indra-title {
+    font-size: 2.5rem;
+    position: relative;
+    color: #87CEEB;
+    font-weight: bold;
+}
+
 .additional-text {
     opacity: 0;
     transform: translateY(20px);
@@ -175,4 +182,49 @@ p {
     height: auto;
     color: #4fc3f7;
     /* Choose a brighter color for icons */
+}
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+
+
+.homelab-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.homelab-button svg {
+    height: 55px;
+    width: 150px;
+    fill: none;
+    stroke-width: 5;
+    cursor: pointer;
+}
+
+.homelab-button svg .o1 {
+    stroke: #EAB2A0;
+    fill: #0a0a0a;
+    transition: all 1s ease-in-out;
+}
+
+.homelab-button svg .o2 {
+    stroke: white;
+    stroke-dasharray: 20 420;
+    stroke-dashoffset: 20;
+    transition: all 1s ease-in-out;
+}
+
+.homelab-button span {
+    position: absolute;
+    margin: auto 0;
+    text-transform: uppercase;
+}
+
+.homelab-button:hover .o1 {
+    fill: #435B66;
+}
+
+.homelab-button:hover .o2 {
+    stroke-dashoffset: -420;
 }
