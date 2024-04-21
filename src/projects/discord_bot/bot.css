@@ -5,15 +5,15 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    animation: moveUpAndReveal 1s forwards;
-    animation-delay: 3s;
+    animation: moveUpAndReveal 0.5s forwards;
+    animation-delay: 1.5s;
 }
 
 .logo-container {
     /* Initial width */
     width: 100px;
     overflow: hidden;
-    animation: expandLogo 2s forwards;
+    animation: expandLogo 1s forwards;
 }
 
 @keyframes expandLogo {
@@ -28,14 +28,12 @@
     100% {
         width: 500px;
     }
-
-    /* Adjust final width as needed */
 }
 
 .discord-logo {
     /* Adjust logo size as needed */
-    transition: transform 2s;
-    animation: slideIn 2s forwards;
+    transition: transform 1s;
+    animation: slideIn 1s forwards;
 }
 
 @keyframes slideIn {
@@ -52,8 +50,8 @@
     max-width: 0;
     overflow: hidden;
     white-space: nowrap;
-    transition: max-width 2s ease;
-    animation: revealText 3s forwards;
+    transition: max-width 1s ease;
+    animation: revealText 2s forwards;
 }
 
 @keyframes revealText {
@@ -89,8 +87,8 @@ p {
     opacity: 0;
     transform: translateY(20px);
     /* Start slightly below */
-    transition: opacity 2s ease, transform 2s ease;
-    animation-delay: 3s;
+    transition: opacity 0.5s ease, transform 1s ease;
+    animation-delay: 1s;
     /* Delay to match the container's animation */
     animation-fill-mode: forwards;
 }
@@ -102,9 +100,7 @@ p {
 
     100% {
         transform: translateY(0);
-        /* Move up */
-        height: 40vh;
-        /* Increase height to reveal more content */
+        height: 60vh;
     }
 }
 
@@ -116,18 +112,8 @@ p {
 }
 
 .additional-text {
-    opacity: 0;
-    transform: translateY(20px);
-    /* Start slightly below */
-    transition: opacity 2s ease, transform 2s ease;
-    animation-delay: 5s;
-    /* Delay to match the container's animation */
-    animation-fill-mode: forwards;
-}
-
-.additional-text {
-    animation: revealAdditionalText 3s forwards;
-    animation-delay: 3s;
+    animation: revealAdditionalText 2s forwards;
+    animation-delay: 2s;
 }
 
 .bot-feature-title {

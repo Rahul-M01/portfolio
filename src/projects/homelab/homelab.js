@@ -3,7 +3,7 @@ import React from 'react';
 import homelabLogo from '../../images/homelab.png';
 import Header from '../../header/header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow, faCirclePlay, faLayerGroup, faSquarePollVertical, faLanguage, faLink, faTrash, faBroom, faCloud, faVault, faLaptopFile } from '@fortawesome/free-solid-svg-icons';
+import { faHammer, faLayerGroup, faCloud, faVault, faLaptopFile, faNetworkWired, faGlobe, faFolder } from '@fortawesome/free-solid-svg-icons';
 import Footer from '../../footer/Footer';
 
 function Homelab() {
@@ -25,7 +25,7 @@ function Homelab() {
                         <li><FontAwesomeIcon icon={faCloud} />Service to store and access important documents</li>
                         <li><FontAwesomeIcon icon={faVault} />Safe and Secure</li>
                         <li><FontAwesomeIcon icon={faLaptopFile} />Can be accessed from anywhere</li>
-                        <div className="homelab-button"><span><a href="" style={{ "textDecoration": "none", "color": "white" }}>Visit Indra</a></span>
+                        <div className="homelab-button"><span><a href="" class="button-text">Indra</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
@@ -34,9 +34,12 @@ function Homelab() {
                     </ul>
                 </div>
                 <div className="paragraph">
+                    <span class="plex-title">Plex - Media Hosting</span>
                     <ul>
-                        <li><FontAwesomeIcon icon={faCirclePlay} />Plex - Media Hosting</li>
-                        <div className="homelab-button"><span><a href="" style={{ "textDecoration": "none", "color": "white" }}>Visit Plex</a></span>
+                        <li><FontAwesomeIcon icon={faNetworkWired} />Centralizes all personal media collections—movies, TV shows, music, photos, and more.</li>
+                        <li><FontAwesomeIcon icon={faGlobe} /> Accessible on any device, anywhere in the world.</li>
+                        <li><FontAwesomeIcon icon={faFolder} />Automatically organises media based on type of content.</li>
+                        <div className="homelab-button"><span><a href={process.env.REACT_APP_PLEX_URL} target='_blank' class="button-text">Plex</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
@@ -48,8 +51,8 @@ function Homelab() {
             <div className="additional-text two-paragraphs">
                 <div className="paragraph">
                     <ul>
-                        <li><FontAwesomeIcon icon={faHammer} />Prometheus</li>
-                        <div className="homelab-button"><span><a href="" style={{ "textDecoration": "none", "color": "white" }}>Visit Prometheus</a></span>
+                        <li><FontAwesomeIcon icon={faHammer} />Prometheus(Coming Soon)</li>
+                        <div className="homelab-button"><span><a href="" class="button-text">Prometheus</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
@@ -60,7 +63,7 @@ function Homelab() {
                 <div className="paragraph">
                     <ul>
                         <li><FontAwesomeIcon icon={faLayerGroup} />Home Assistant</li>
-                        <div className="homelab-button"><span><a href="" style={{ "textDecoration": "none", "color": "white" }}>Visit Home Assistant</a></span>
+                        <div className="homelab-button"><span><a href="" class="button-text">Assistant</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>

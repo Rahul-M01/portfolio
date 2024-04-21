@@ -3,9 +3,6 @@ import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
-
 const Home = () => {
     const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
     const [word, setWord] = useState('');

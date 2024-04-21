@@ -3,7 +3,12 @@ import './bot.css';
 import discordLogo from '../../images/discord.png';
 import Header from '../../header/header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow, faCirclePlay, faLayerGroup, faSquarePollVertical, faLanguage, faLink, faTrash, faBroom, faBell, faDiamond, faHeart, faUsersBetweenLines, faMoneyBill, faUserGroup, faPenToSquare, faRankingStar, faChartSimple, faListUl, faScaleBalanced, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import {
+    faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow,
+    faCirclePlay, faLayerGroup, faSquarePollVertical, faLanguage, faLink, faTrash,
+    faBroom, faBell, faMoneyBill, faUserGroup, faPenToSquare, faRankingStar,
+    faChartSimple, faListUl, faScaleBalanced, faPeopleGroup
+} from '@fortawesome/free-solid-svg-icons';
 import Footer from '../../footer/Footer';
 import { faUikit } from '@fortawesome/free-brands-svg-icons';
 
