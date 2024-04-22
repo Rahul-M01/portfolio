@@ -51,8 +51,8 @@ function Homelab() {
             <div className="additional-text two-paragraphs">
                 <div className="paragraph">
                     <ul>
-                        <li><FontAwesomeIcon icon={faHammer} />Prometheus(Coming Soon)</li>
-                        <div className="homelab-button"><span><a href="" class="button-text">Prometheus</a></span>
+                        <span class="plex-title">Prometheus - WIP</span>
+                        <div className="homelab-button"><span><a href="" class="button-text disabled">Prometheus</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
@@ -62,8 +62,8 @@ function Homelab() {
                 </div>
                 <div className="paragraph">
                     <ul>
-                        <li><FontAwesomeIcon icon={faLayerGroup} />Home Assistant</li>
-                        <div className="homelab-button"><span><a href="" class="button-text">Assistant</a></span>
+                        <span class="plex-title">Home Assistant - WIP</span>
+                        <div className="homelab-button"><span><a href="" class="button-text disabled">Assistant</a></span>
                             <svg>
                                 <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                                 <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>

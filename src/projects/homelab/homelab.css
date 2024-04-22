@@ -209,14 +209,14 @@ p {
 .homelab-button svg .o1 {
     stroke: #EAB2A0;
     fill: #0a0a0a;
-    transition: all 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .homelab-button svg .o2 {
     stroke: white;
     stroke-dasharray: 20 420;
     stroke-dashoffset: 20;
-    transition: all 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .homelab-button span {
@@ -231,4 +231,9 @@ p {
 
 .homelab-button:hover .o2 {
     stroke-dashoffset: -420;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: not-allowed !important;
 }
