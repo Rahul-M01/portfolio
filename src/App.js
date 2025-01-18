@@ -5,6 +5,7 @@ import Homelab from './projects/homelab/homelab';
 import Home from './home/home';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutWithTracker from './useTracker/layoutTracker'; // Ensure path is correct
+import Drishyam from './projects/drishyam/drishyam';
 
 function App() {
     const router = createBrowserRouter([
@@ -19,6 +20,10 @@ function App() {
         {
             path: "/homelab",
             element: <LayoutWithTracker><Homelab /></LayoutWithTracker>,
+        },
+        {
+            path: "/drishyam",
+            element: <LayoutWithTracker><Drishyam /></LayoutWithTracker>,
         },
     ]);
 

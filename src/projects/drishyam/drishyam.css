@@ -1,0 +1,13 @@
+.drishyam-title {
+    font-size: 4.5rem;
+    position: relative;
+    z-index: 1;
+    color: #2ff8ff;
+}
+
+.drishyam-feature-title {
+    font-size: 2.5rem;
+    position: relative;
+    color: #2ff8ff;
+    font-weight: bold;
+}

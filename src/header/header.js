@@ -33,7 +33,7 @@ const Header = () => {
                         <li><a href="/">Home</a></li>
                         <li><a href="/bot">Bot</a></li>
                         <li><a href="/homelab">Homelab</a></li>
-                        <li><a href="/eternal-horizon">Eternal Horizon</a></li>
+                        <li><a href="/drishyam">Drishyam</a></li>
                         <li><a href="/contact">Contact</a></li>
                     </ul>
                 </nav>
