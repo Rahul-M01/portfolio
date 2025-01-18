@@ -6,6 +6,7 @@ import Home from './home/home';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutWithTracker from './useTracker/layoutTracker'; // Ensure path is correct
 import Drishyam from './projects/drishyam/drishyam';
+import DrishyamHome from './projects/drishyam/drishyam_site/drishyam_home';
 
 function App() {
     const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
         {
             path: "/drishyam",
             element: <LayoutWithTracker><Drishyam /></LayoutWithTracker>,
+        },
+        {
+            path: "/drishyam_home",
+            element: <LayoutWithTracker><DrishyamHome /></LayoutWithTracker>,
         },
     ]);
 

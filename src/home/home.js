@@ -17,6 +17,29 @@ const Home = () => {
         setTimeout(() => setStage('reveal'), 2000); // Reveal the new content
     }, []);
 
+    const downloadFile = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/api/files/download/resume.pdf", {
+            method: "GET",
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to download file");
+          }
+
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "Rahul Mahajan CV"; // Set the downloaded file name
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        } catch (error) {
+          console.error("Error downloading the file:", error);
+        }
+      };
+
     const languages = ['Python', 'Java', 'C', 'Javascript', 'React', 'TypeScript', 'Django', 'Databases']
     return (
         <main>
@@ -28,11 +51,12 @@ const Home = () => {
                     <div className="page-content">
                         <Header />
                         <h1 class="title">Full Stack &<br /> <span style={{ color: "white" }}>Software Developer</span></h1>
-                        <p class="home-text">I am a software developer with 1 year of professional experience,<br />
-                            and 2 years of freelancing experience. I have graduated from DCU,<br /> with a BSc in Computer Applications.<br />
+                        <p class="home-text">Hi there, welcome to my website. <br />
+                            I am a software developer with 2 years of professional experience,<br />
+                            I have graduated from DCU, with a BSc in Computer Applications.<br />
                             I have a variety of skills, and projects under my belt, which you can know more about through my Resume attached below.<br /></p>
                         <div class="resume-button-container">
-                            <button class="cyberpunk-button">RESUME</button>
+                            <button class="cyberpunk-button" onClick={downloadFile}>RESUME</button>
                         </div>
                         <Footer />
                     </div>}
