@@ -30,55 +30,12 @@ const Drishyam = () => {
                     <ul>
                         <li><FontAwesomeIcon icon={faHammer} />Video hosting platform</li>
                         <li><FontAwesomeIcon icon={faComments} />Auto-download videos using a link provided by user</li>
-                        <li><FontAwesomeIcon icon={faTrash} />Undo deletion of a message done by a user</li>
-                        <li><FontAwesomeIcon icon={faPenToSquare} />See original version of edited text</li>
-                        <li><FontAwesomeIcon icon={faBroom} />Clean up server by wiping 'x' number of messages</li>
-                    </ul>
-                </div>
-                <div className="bot-paragraph">
-                    <span class="drishyam-feature-title">Search functionality</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faCirclePlay} />Search videos by title</li>
-                        <li><FontAwesomeIcon icon={faPause} />Pause</li>
-                        <li><FontAwesomeIcon icon={faPlay} />Resume</li>
-                        <li><FontAwesomeIcon icon={faForward} />Skip</li>
-                        <li><FontAwesomeIcon icon={faList} />Queue</li>
-                        <li><FontAwesomeIcon icon={faVolumeLow} />Adjust Volume</li>
-                    </ul>
-                </div>
-            </div>
-            <div className="additional-text bot-two-paragraphs">
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Blackjack</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faScaleBalanced} />Standard Rules</li>
-                        <li><FontAwesomeIcon icon={faPeopleGroup} />Player vs Player vs Dealer</li>
-                        <li><FontAwesomeIcon icon={faMoneyBill} /> Accepts bets using virtual(fake) currency</li>
-                        <li><FontAwesomeIcon icon={faRankingStar} />Leaderboard and Rankings</li>
-                        <li><FontAwesomeIcon icon={faUikit} />Well Built UI using Embeds</li>
-                    </ul>
-                </div>
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Texas Hold'em Poker</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faUserGroup} />Play against others</li>
-                        <li><FontAwesomeIcon icon={faMoneyBill} />Uses virtual(fake) currency</li>
-                        <li><FontAwesomeIcon icon={faRankingStar} />Leaderboard and Rankings</li>
-                        <li><FontAwesomeIcon icon={faChartSimple} />Individual Statistics</li>
-                        <li><FontAwesomeIcon icon={faListUl} />- (ToDo) Add variants like Omaha and Seven-Card Stud</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="additional-text bot-two-paragraphs">
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Quality of Life</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faLayerGroup} />Leveling system</li>
-                        <li><FontAwesomeIcon icon={faSquarePollVertical} />User defined polls</li>
-                        <li><FontAwesomeIcon icon={faLanguage} />Translation of Text</li>
-                        <li><FontAwesomeIcon icon={faLink} />Shortening URL</li>
-                        <li><FontAwesomeIcon icon={faBell} />Set a Reminder</li>
+                        <div className="homelab-button"><span><a href="drishyam_home" class="button-text">Visit Drishyam</a></span>
+                            <svg>
+                                <polyline class="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
+                                <polyline class="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
+                            </svg>
+                        </div>
                     </ul>
                 </div>
             </div>

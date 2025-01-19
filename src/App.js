@@ -1,4 +1,3 @@
-// App.js
 import './App.css';
 import Bot from './projects/discord_bot/bot';
 import Homelab from './projects/homelab/homelab';
@@ -7,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutWithTracker from './useTracker/layoutTracker'; // Ensure path is correct
 import Drishyam from './projects/drishyam/drishyam';
 import DrishyamHome from './projects/drishyam/drishyam_site/drishyam_home';
+import ProtectedRoute from './routing/protected-route'
+import Login from './login/login'
 
 function App() {
     const router = createBrowserRouter([
@@ -28,7 +29,15 @@ function App() {
         },
         {
             path: "/drishyam_home",
-            element: <LayoutWithTracker><DrishyamHome /></LayoutWithTracker>,
+            element: (
+                <ProtectedRoute>
+                    <LayoutWithTracker><DrishyamHome /></LayoutWithTracker>
+                </ProtectedRoute>
+            ),
+        },
+        {
+            path: "/login",
+            element: <LayoutWithTracker><Login /></LayoutWithTracker>,
         },
     ]);
 
