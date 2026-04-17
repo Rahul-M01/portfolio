@@ -1,9 +1,17 @@
-import React from 'react';
-import usePageTracker from './useTracker'; // Make sure the path is correct
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import usePageTracker from './useTracker';
 
 function LayoutWithTracker({ children }) {
-    usePageTracker();  // This hooks into the router context to track page views
-    return <>{children}</>;  // Render children components
+    const { pathname, hash } = useLocation();
+    usePageTracker();
+
+    useEffect(() => {
+        if (hash) return;
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }, [pathname, hash]);
+
+    return <>{children}</>;
 }
 
 export default LayoutWithTracker;

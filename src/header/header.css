@@ -10,161 +10,155 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    padding: 0.95rem 2rem;
+    padding: 1.3rem 2.5rem;
     margin: 0 auto;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(10, 10, 10, 0.55);
-    backdrop-filter: blur(10px) saturate(130%);
-    -webkit-backdrop-filter: blur(10px) saturate(130%);
-    transition: background-color 0.35s ease, backdrop-filter 0.35s ease,
-                border-color 0.35s ease, padding 0.3s ease;
+    background: transparent;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease,
+                border-color 0.4s ease, padding 0.3s ease;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid transparent;
     isolation: isolate;
 }
 
 .header-container.sticky {
-    padding: 0.7rem 2rem;
-    background-color: rgba(10, 10, 10, 0.82);
+    padding: 0.85rem 2.5rem;
+    background-color: rgba(10, 10, 10, 0.75);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border-bottom-color: rgba(138, 43, 226, 0.18);
-    box-shadow: 0 10px 40px -20px rgba(0, 0, 0, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
 /* BRAND */
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.85rem;
     text-decoration: none;
     color: #fff;
     position: relative;
 }
 
 .brand-mark {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: blueviolet;
-    color: #0a0a0a;
-    font-weight: 800;
-    font-size: 0.95rem;
-    border-radius: 9px;
-    transform: rotate(-4deg);
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.4s ease;
-    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
-    letter-spacing: 0;
+    background: transparent;
+    color: #fff;
+    font-family: 'Times New Roman', Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    position: relative;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease, color 0.3s ease;
 }
 
+.brand-mark::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px dashed rgba(138, 43, 226, 0.35);
+    animation: brandSpin 14s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes brandSpin { to { transform: rotate(360deg); } }
+
 .brand:hover .brand-mark {
-    transform: rotate(6deg) scale(1.1);
-    box-shadow: 0 8px 26px rgba(138, 43, 226, 0.55);
+    color: blueviolet;
+    border-color: blueviolet;
+    transform: scale(1.06);
 }
 
 .brand-name {
     font-family: 'Courier New', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
-    color: #eaeaea;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: #ededed;
+    line-height: 1.3;
 }
 
 .brand-sep {
     color: blueviolet;
-    margin: 0 0.25em;
+    margin: 0 0.35em;
 }
 
 /* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: flex-end;
-}
+.navbar { display: flex; justify-content: flex-end; }
 
 .navbar ul {
     position: relative;
     list-style: none;
-    padding: 0.35rem;
+    padding: 0;
     margin: 0;
     display: flex;
-    gap: 0.15rem;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 999px;
-    background: linear-gradient(
-        180deg,
-        rgba(22, 22, 26, 0.65),
-        rgba(14, 14, 17, 0.55)
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        0 8px 30px -12px rgba(0, 0, 0, 0.8);
+    gap: 2.2rem;
+    align-items: center;
 }
 
-.navbar li {
-    flex: 0 0 auto;
-    position: relative;
-    z-index: 1;
-}
+.navbar li { flex: 0 0 auto; position: relative; }
 
 .navbar a {
     display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.5rem 1rem;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0.45rem 0.1rem;
     text-decoration: none;
-    color: #a8a8a8;
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
+    color: #9a9a9a;
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    border-radius: 999px;
+    font-weight: 500;
     position: relative;
     transition: color 0.3s ease;
-}
-
-/* SLIDING INDICATOR */
-.nav-indicator {
-    position: absolute;
-    top: 0.35rem;
-    bottom: 0.35rem;
-    left: 0;
-    width: 0;
-    border-radius: 999px;
-    background: linear-gradient(
-        180deg,
-        rgba(138, 43, 226, 0.28),
-        rgba(138, 43, 226, 0.18)
-    );
-    box-shadow:
-        inset 0 0 0 1px rgba(138, 43, 226, 0.45),
-        0 0 22px -4px rgba(138, 43, 226, 0.55);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-    transition:
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.3s ease;
-    will-change: transform, width;
 }
 
 .nav-num {
     font-family: 'Courier New', monospace;
     font-size: 0.62rem;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     color: #555;
-    transition: color 0.3s ease;
+    transition: color 0.35s ease;
 }
 
 .nav-label {
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                color 0.3s ease;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* SLIDING UNDERLINE */
+.nav-indicator {
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    height: 1.5px;
+    width: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        blueviolet 20%,
+        blueviolet 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.3s ease;
+    will-change: transform, width;
 }
 
 .navbar a:hover { color: #ffffff; }
@@ -175,7 +169,8 @@ header {
 
 .navbar a:focus-visible {
     outline: 2px solid blueviolet;
-    outline-offset: 3px;
+    outline-offset: 6px;
+    border-radius: 3px;
 }
 
 /* HAMBURGER */
@@ -184,8 +179,8 @@ header {
     cursor: pointer;
     flex-direction: column;
     justify-content: space-around;
-    width: 30px;
-    height: 25px;
+    width: 28px;
+    height: 22px;
     z-index: 110;
     background: transparent;
     border: 0;
@@ -194,12 +189,14 @@ header {
 
 .hamburger span {
     display: block;
-    height: 2px;
+    height: 1.5px;
     width: 100%;
     background-color: #ffffff;
     border-radius: 2px;
     transition: all 0.3s linear;
 }
+
+.hamburger.closed span:nth-child(2) { width: 70%; margin-left: auto; }
 
 .hamburger.open span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -208,7 +205,7 @@ header {
 .hamburger.open span:nth-child(2) { opacity: 0; }
 
 .hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
+    transform: rotate(-45deg) translate(6px, -5px);
 }
 
 /* MOBILE */
@@ -219,7 +216,6 @@ header {
     }
 
     .hamburger { display: flex; }
-
     .brand-name { display: none; }
 
     .navbar {
@@ -240,23 +236,32 @@ header {
 
     .navbar ul {
         flex-direction: column;
-        border-radius: 18px;
-        padding: 0.55rem;
-        gap: 0.3rem;
+        align-items: stretch;
+        gap: 0;
+        padding: 0.75rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        background: rgba(14, 14, 14, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
     }
 
-    .navbar li { width: 100%; }
-
-    .navbar li.active a {
-        background: rgba(138, 43, 226, 0.16);
-        box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.45);
+    .navbar li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
+    .navbar li:last-child { border-bottom: 0; }
 
     .navbar a {
         width: 100%;
         justify-content: space-between;
-        padding: 0.85rem 1rem;
-        font-size: 0.82rem;
+        padding: 0.95rem 1.25rem;
+        font-size: 0.8rem;
+    }
+
+    .navbar li.active a {
+        color: blueviolet;
+        background: rgba(138, 43, 226, 0.08);
     }
 
     /* indicator is desktop-only */
@@ -265,5 +270,9 @@ header {
 
 @media (max-width: 420px) {
     .header-container,
-    .header-container.sticky { gap: 1rem; padding-left: 1rem; padding-right: 1rem; }
+    .header-container.sticky {
+        gap: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }

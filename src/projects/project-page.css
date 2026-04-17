@@ -5,9 +5,14 @@
     overflow: hidden;
 }
 
-.project-page > header,
+.project-page > header {
+    position: relative;
+    z-index: 10;
+}
+
 .project-page > section,
-.project-page > footer {
+.project-page > footer,
+.project-page > nav {
     position: relative;
     z-index: 2;
 }
