@@ -1,55 +1,56 @@
 import React, { useRef } from 'react';
-import './drishyam.css';
+import './lekhak.css';
 import '../project-page.css';
-import videoLogo from '../../images/video.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faVideo, faCloudArrowDown, faLink, faPlay,
-    faServer, faShieldHalved, faFilm, faFolderOpen,
-    faKeyboard, faWandMagicSparkles
+    faListCheck, faCalendarDay, faFlag, faFilter,
+    faNoteSticky, faThumbtack, faMagnifyingGlass, faFloppyDisk,
+    faBell, faArrowsRotate, faMoon, faWindowRestore
 } from '@fortawesome/free-solid-svg-icons';
 
-const ACCENT = '#2ff8ff';
-const ACCENT_RGB = '47, 248, 255';
+const ACCENT = '#E8E4D8';
+const ACCENT_RGB = '232, 228, 216';
 
 const features = [
     {
         num: '01',
-        title: 'Upload & Host',
+        title: 'Prioritised Tasks',
         items: [
-            { icon: faVideo, text: 'Drop any video file into the browser — encoded and stored instantly.' },
-            { icon: faFolderOpen, text: 'Organised library with thumbnails, durations and metadata.' },
-            { icon: faPlay, text: 'Adaptive HTML5 player, works on every modern device.' },
+            { icon: faListCheck, text: 'Quick-capture to-dos with low / medium / high priority tags.' },
+            { icon: faCalendarDay, text: 'Calendar-aware due dates and overdue badges.' },
+            { icon: faFlag, text: 'Status filters — open, done, snoozed — all in the sidebar.' },
+            { icon: faFilter, text: 'Keyword search across every task in your history.' },
         ],
     },
     {
         num: '02',
-        title: 'Auto-Download',
+        title: 'Rich Notes',
         items: [
-            { icon: faLink, text: 'Paste any video URL — Drishyam fetches it in the background.' },
-            { icon: faCloudArrowDown, text: 'Supports hundreds of sources via a yt-dlp pipeline.' },
-            { icon: faWandMagicSparkles, text: 'Automatic transcoding to a clean, portable format.' },
+            { icon: faNoteSticky, text: 'Minimalist note editor built for writing, not formatting wars.' },
+            { icon: faThumbtack, text: 'Pin notes to keep recurring references one click away.' },
+            { icon: faMagnifyingGlass, text: 'Instant full-text search across every note.' },
+            { icon: faFloppyDisk, text: 'Auto-save on every keystroke — no "save" button to forget.' },
         ],
     },
     {
         num: '03',
-        title: 'Self-Hosted',
+        title: 'Reminders',
         items: [
-            { icon: faServer, text: 'Runs on my homelab — no third-party storage, no data collection.' },
-            { icon: faShieldHalved, text: 'Private by default. Authentication gated.' },
-            { icon: faFilm, text: 'Built for personal archives: videos stay yours, forever.' },
+            { icon: faBell, text: 'Native OS notifications for one-off or recurring events.' },
+            { icon: faArrowsRotate, text: 'Daily, weekly or monthly repeats with flexible rules.' },
+            { icon: faWindowRestore, text: 'System tray persistence — closing the window doesn\'t stop alerts.' },
         ],
     },
     {
         num: '04',
-        title: 'Fast Controls',
+        title: 'Designed for You',
         items: [
-            { icon: faKeyboard, text: 'Full keyboard shortcuts for playback and navigation.' },
-            { icon: faPlay, text: 'One-click share links with expiry.' },
-            { icon: faFolderOpen, text: 'Tag, rename and bulk-manage from a single view.' },
+            { icon: faMoon, text: 'High-contrast dark and light modes that match your system.' },
+            { icon: faFloppyDisk, text: 'All data lives in a local SQLite file. No accounts, no sync, no cloud.' },
+            { icon: faWindowRestore, text: 'Built for Windows first. Fast, keyboard-driven, tiny footprint.' },
         ],
     },
 ];
@@ -84,7 +85,7 @@ const FeatureCard = ({ f, index }) => {
     );
 };
 
-const Drishyam = () => {
+const Lekhak = () => {
     return (
         <div
             className="project-page"
@@ -95,38 +96,35 @@ const Drishyam = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 03 — VIDEO PLATFORM'}</span>
-                    <span className="ph-status">SELF-HOSTED</span>
+                    <span className="ph-tag">{'// PROJECT 04 — PRODUCTIVITY'}</span>
+                    <span className="ph-status">DESKTOP · WINDOWS</span>
                 </div>
 
                 <div className="ph-body">
                     <div className="ph-logo-wrap">
-                        <img src={videoLogo} alt="Drishyam" className="ph-logo" />
+                        <span className="ph-mono" aria-hidden>ल</span>
                     </div>
                     <div className="ph-text">
                         <h1 className="ph-title">
                             <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Drishyam</span>
+                                <span className="w" style={{ '--wd': '0ms' }}>Lekhak</span>
                                 <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
                             </span>
                             <span className="line">
-                                <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>Video</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>Platform.</span>
+                                <span className="w w-white" style={{ '--wd': '260ms' }}>tasks,</span>{' '}
+                                <span className="w w-white" style={{ '--wd': '320ms' }}>notes,</span>{' '}
+                                <span className="w w-white" style={{ '--wd': '380ms' }}>reminders.</span>
                             </span>
                         </h1>
                         <p className="ph-desc">
-                            A browser-native video host built for personal archives. Upload directly,
-                            or paste a link and let Drishyam auto-download, transcode and catalogue
-                            it. Everything stays on my homelab.
+                            A privacy-first productivity app for Windows. Prioritised tasks, rich
+                            notes and scheduled reminders, all backed by a local SQLite file. Closes
+                            to the system tray so alerts keep firing in the background.
                         </p>
                         <div className="ph-actions">
-                            <a
-                                href="/drishyam_home"
-                                className="ph-action primary"
-                            >
-                                <span>Visit Drishyam</span>
-                                <span className="arrow">↗</span>
+                            <a href="#features" className="ph-action primary">
+                                <span>Explore features</span>
+                                <span className="arrow">↓</span>
                             </a>
                             <a href="/" className="ph-action ghost">
                                 <span>Back to Home</span>
@@ -137,10 +135,10 @@ const Drishyam = () => {
                 </div>
             </section>
 
-            <section className="project-features">
+            <section className="project-features" id="features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// What it does'}</span>
-                    <h2 className="section-title">Built for <em>keeping things</em>.</h2>
+                    <span className="section-tag">{'// Feature map'}</span>
+                    <h2 className="section-title">What <em>Lekhak</em> ships with.</h2>
                 </div>
                 <div className="feature-grid">
                     {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
@@ -148,13 +146,13 @@ const Drishyam = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/homelab" className="prev">
+                <a href="/drishyam" className="prev">
                     <span className="label">← Previous</span>
-                    <span className="dest">Agni</span>
+                    <span className="dest">Drishyam</span>
                 </a>
-                <a href="/lekhak" className="next">
+                <a href="/kubera" className="next">
                     <span className="label">Next project →</span>
-                    <span className="dest">Lekhak</span>
+                    <span className="dest">Kubera</span>
                 </a>
             </nav>
 
@@ -163,4 +161,4 @@ const Drishyam = () => {
     );
 };
 
-export default Drishyam;
+export default Lekhak;

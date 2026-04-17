@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './bot.css';
+import '../project-page.css';
 import discordLogo from '../../images/discord.png';
 import Header from '../../header/header';
+import Footer from '../../footer/Footer';
+import Chrome from '../../common/Chrome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow,
@@ -9,82 +12,178 @@ import {
     faBroom, faBell, faMoneyBill, faUserGroup, faPenToSquare, faRankingStar,
     faChartSimple, faListUl, faScaleBalanced, faPeopleGroup
 } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../../footer/Footer';
 import { faUikit } from '@fortawesome/free-brands-svg-icons';
+
+const ACCENT = '#FF7300';
+const ACCENT_RGB = '255, 115, 0';
+
+const features = [
+    {
+        num: '01',
+        title: 'Moderation',
+        items: [
+            { icon: faHammer, text: 'Admins can kick, ban, and mute members across a server.' },
+            { icon: faComments, text: 'Server-wide analytics: most used words, top talkers, total messages.' },
+            { icon: faTrash, text: 'Undo message deletions performed by any user.' },
+            { icon: faPenToSquare, text: 'See the original version of any edited message.' },
+            { icon: faBroom, text: 'Clean up channels by wiping the last N messages.' },
+        ],
+    },
+    {
+        num: '02',
+        title: 'Music',
+        items: [
+            { icon: faCirclePlay, text: 'Play tracks from links or search queries.' },
+            { icon: faPause, text: 'Pause the current track.' },
+            { icon: faPlay, text: 'Resume a paused track.' },
+            { icon: faForward, text: 'Skip to the next queued song.' },
+            { icon: faList, text: 'View the full live queue.' },
+            { icon: faVolumeLow, text: 'Adjust playback volume on the fly.' },
+        ],
+    },
+    {
+        num: '03',
+        title: 'Blackjack',
+        items: [
+            { icon: faScaleBalanced, text: 'Standard house rules.' },
+            { icon: faPeopleGroup, text: 'Player vs. Player vs. Dealer tables.' },
+            { icon: faMoneyBill, text: 'Accepts bets using virtual currency.' },
+            { icon: faRankingStar, text: 'Leaderboards and rankings across sessions.' },
+            { icon: faUikit, text: 'Rich embed UI for every command.' },
+        ],
+    },
+    {
+        num: '04',
+        title: "Texas Hold'em Poker",
+        items: [
+            { icon: faUserGroup, text: 'Play against multiple opponents at a virtual table.' },
+            { icon: faMoneyBill, text: 'Stakes are handled in virtual currency.' },
+            { icon: faRankingStar, text: 'Leaderboards and per-player rankings.' },
+            { icon: faChartSimple, text: 'Individual statistics and hand history.' },
+            { icon: faListUl, text: '(ToDo) Variants: Omaha and Seven-Card Stud.' },
+        ],
+    },
+    {
+        num: '05',
+        title: 'Quality of Life',
+        items: [
+            { icon: faLayerGroup, text: 'Server leveling system with activity-based XP.' },
+            { icon: faSquarePollVertical, text: 'User-defined polls with live tallies.' },
+            { icon: faLanguage, text: 'On-demand translation of any message.' },
+            { icon: faLink, text: 'URL shortening with a quick inline command.' },
+            { icon: faBell, text: 'Set reminders that ping you or a role.' },
+        ],
+    },
+];
+
+const FeatureCard = ({ f, index }) => {
+    const ref = useRef(null);
+    const onMove = (e) => {
+        const el = ref.current;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    };
+    return (
+        <div
+            ref={ref}
+            className="feature-card fade-up"
+            style={{ '--stagger': `${index * 90}ms` }}
+            onMouseMove={onMove}
+        >
+            <div className="fc-glow" aria-hidden />
+            <div className="fc-head">
+                <span className="fc-num">{f.num}</span>
+                <h3 className="fc-title accent">{f.title}</h3>
+            </div>
+            <ul className="fc-list">
+                {f.items.map((it, i) => (
+                    <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
+                ))}
+            </ul>
+        </div>
+    );
+};
 
 const Bot = () => {
     return (
-        <div>
+        <div
+            className="project-page"
+            style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
+        >
+            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
             <Header />
-            <div className="discord-container">
-                <div className="logo-container">
-                    <img src={discordLogo} alt="Discord Logo" className="discord-logo" />
-                </div>
-                <div className="text-container">
-                    <h1 className="bot-title">Bhima,<br /><span style={{ color: "white" }}>A Discord Bot</span></h1>
-                </div>
-            </div>
-            <div className="additional-text bot-two-paragraphs">
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Features</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faHammer} /> Moderate a server, giving admins power to kick, ban, mute members</li>
-                        <li><FontAwesomeIcon icon={faComments} />List of most used words, total messages sent,
-                            list of top users by messages sent.</li>
-                        <li><FontAwesomeIcon icon={faTrash} />Undo deletion of a message done by a user</li>
-                        <li><FontAwesomeIcon icon={faPenToSquare} />See original version of edited text</li>
-                        <li><FontAwesomeIcon icon={faBroom} />Clean up server by wiping 'x' number of messages</li>
-                    </ul>
-                </div>
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Music</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faCirclePlay} />Play</li>
-                        <li><FontAwesomeIcon icon={faPause} />Pause</li>
-                        <li><FontAwesomeIcon icon={faPlay} />Resume</li>
-                        <li><FontAwesomeIcon icon={faForward} />Skip</li>
-                        <li><FontAwesomeIcon icon={faList} />Queue</li>
-                        <li><FontAwesomeIcon icon={faVolumeLow} />Adjust Volume</li>
-                    </ul>
-                </div>
-            </div>
-            <div className="additional-text bot-two-paragraphs">
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Blackjack</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faScaleBalanced} />Standard Rules</li>
-                        <li><FontAwesomeIcon icon={faPeopleGroup} />Player vs Player vs Dealer</li>
-                        <li><FontAwesomeIcon icon={faMoneyBill} /> Accepts bets using virtual(fake) currency</li>
-                        <li><FontAwesomeIcon icon={faRankingStar} />Leaderboard and Rankings</li>
-                        <li><FontAwesomeIcon icon={faUikit} />Well Built UI using Embeds</li>
-                    </ul>
-                </div>
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Texas Hold'em Poker</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faUserGroup} />Play against others</li>
-                        <li><FontAwesomeIcon icon={faMoneyBill} />Uses virtual(fake) currency</li>
-                        <li><FontAwesomeIcon icon={faRankingStar} />Leaderboard and Rankings</li>
-                        <li><FontAwesomeIcon icon={faChartSimple} />Individual Statistics</li>
-                        <li><FontAwesomeIcon icon={faListUl} />- (ToDo) Add variants like Omaha and Seven-Card Stud</li>
-                    </ul>
-                </div>
-            </div>
 
-            <div className="additional-text bot-two-paragraphs">
-                <div className="bot-paragraph">
-                    <span class="bot-feature-title">Quality of Life</span>
-                    <ul>
-                        <li><FontAwesomeIcon icon={faLayerGroup} />Leveling system</li>
-                        <li><FontAwesomeIcon icon={faSquarePollVertical} />User defined polls</li>
-                        <li><FontAwesomeIcon icon={faLanguage} />Translation of Text</li>
-                        <li><FontAwesomeIcon icon={faLink} />Shortening URL</li>
-                        <li><FontAwesomeIcon icon={faBell} />Set a Reminder</li>
-                    </ul>
+            <section className="project-hero">
+                <div className="ph-meta">
+                    <span className="ph-tag">{'// PROJECT 01 — DISCORD BOT'}</span>
+                    <span className="ph-status">LIVE · 24/7</span>
                 </div>
-            </div>
+
+                <div className="ph-body">
+                    <div className="ph-logo-wrap">
+                        <img src={discordLogo} alt="Bhima" className="ph-logo" />
+                    </div>
+                    <div className="ph-text">
+                        <h1 className="ph-title">
+                            <span className="line">
+                                <span className="w" style={{ '--wd': '0ms' }}>Bhima</span>
+                                <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
+                            </span>
+                            <span className="line">
+                                <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
+                                <span className="w w-white" style={{ '--wd': '320ms' }}>Discord</span>{' '}
+                                <span className="w w-white" style={{ '--wd': '380ms' }}>Bot.</span>
+                            </span>
+                        </h1>
+                        <p className="ph-desc">
+                            A Discord bot running on my homelab. Moderation, music, two full casino
+                            games and a set of quality-of-life commands, all delivered through rich
+                            embeds.
+                        </p>
+                        <div className="ph-actions">
+                            <a
+                                href={process.env.REACT_APP_DISCORD_INVITE || '#'}
+                                className="ph-action primary"
+                                target={process.env.REACT_APP_DISCORD_INVITE ? '_blank' : undefined}
+                                rel="noreferrer"
+                            >
+                                <span>Invite Bhima</span>
+                                <span className="arrow">↗</span>
+                            </a>
+                            <a href="/" className="ph-action ghost">
+                                <span>Back to Home</span>
+                                <span className="arrow">←</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="project-features">
+                <div className="feature-block-head fade-up">
+                    <span className="section-tag">{'// Feature map'}</span>
+                    <h2 className="section-title">What <em>Bhima</em> can do.</h2>
+                </div>
+                <div className="feature-grid">
+                    {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
+                </div>
+            </section>
+
+            <nav className="project-nav">
+                <a href="/" className="prev">
+                    <span className="label">← Home</span>
+                    <span className="dest">Portfolio</span>
+                </a>
+                <a href="/homelab" className="next">
+                    <span className="label">Next project →</span>
+                    <span className="dest">Agni</span>
+                </a>
+            </nav>
+
             <Footer />
-        </div >
+        </div>
     );
 };
 

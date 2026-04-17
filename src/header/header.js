@@ -1,40 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import './header.css'; // Ensure this points to the correct path of your CSS file
+import './header.css';
+
+const NAV = [
+    { label: 'Home',        href: '/',         hash: null,           match: (p, h) => p === '/' && !h },
+    { label: 'Work',        href: '/#work',    hash: 'work',         match: (_, h) => h === '#work' },
+    { label: 'Apps',        href: '/#apps',    hash: 'apps',         match: (_, h) => h === '#apps' },
+    { label: 'Experiments', href: '/#experiments', hash: 'experiments', match: (_, h) => h === '#experiments' },
+    { label: 'Skills',      href: '/#skills',  hash: 'skills',       match: (_, h) => h === '#skills' },
+];
 
 const Header = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [path, setPath] = useState(
+        typeof window !== 'undefined' ? window.location.pathname : '/'
+    );
+    const [hash, setHash] = useState(
+        typeof window !== 'undefined' ? window.location.hash : ''
+    );
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsSticky(window.scrollY > 50);
+        const handleScroll = () => setIsSticky(window.scrollY > 30);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const onChange = () => {
+            setPath(window.location.pathname);
+            setHash(window.location.hash);
         };
-
-        window.addEventListener('scroll', handleScroll);
-
+        window.addEventListener('popstate', onChange);
+        window.addEventListener('hashchange', onChange);
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('popstate', onChange);
+            window.removeEventListener('hashchange', onChange);
         };
     }, []);
+
+    const close = () => setIsMobileMenuOpen(false);
+
+    const onNavClick = (e, item) => {
+        close();
+        if (!item.hash) return; // Home — let the browser navigate normally
+
+        const onHome = window.location.pathname === '/';
+        if (!onHome) return; // Let the link navigate to /#hash, the new page will handle it
+
+        e.preventDefault();
+        const el = document.getElementById(item.hash);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.location.hash !== `#${item.hash}`) {
+                window.history.pushState(null, '', `#${item.hash}`);
+                setHash(`#${item.hash}`);
+            }
+        }
+    };
 
     return (
         <header>
             <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
-                <div className="logo-box">
-                    {/* Place your logo here */}
-                </div>
-                <div className={`hamburger ${isMobileMenuOpen ? 'open' : 'closed'}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                <a href="/" className="brand" onClick={close}>
+                    <span className="brand-mark">R</span>
+                    <span className="brand-name">RAHUL<span className="brand-sep">·</span>MAHAJAN</span>
+                </a>
+
+                <div
+                    className={`hamburger ${isMobileMenuOpen ? 'open' : 'closed'}`}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
+
                 <nav className={`navbar ${isMobileMenuOpen ? 'open' : ''}`}>
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/bot">Bot</a></li>
-                        <li><a href="/homelab">Homelab</a></li>
-                        <li><a href="/drishyam">Drishyam</a></li>
-                        <li><a href="/contact">Contact</a></li>
+                        {NAV.map((item, i) => (
+                            <li key={item.href} className={item.match(path, hash) ? 'active' : ''}>
+                                <a href={item.href} onClick={(e) => onNavClick(e, item)}>
+                                    <span className="nav-num">0{i + 1}</span>
+                                    <span className="nav-label">{item.label}</span>
+                                </a>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
             </div>

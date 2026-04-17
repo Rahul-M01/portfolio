@@ -1,4 +1,17 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background: #0A0A0A;
     color: white;
+}
+
+/* Offset hash-anchored sections so they don't slide under the fixed header */
+section[id] {
+    scroll-margin-top: 90px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
 }

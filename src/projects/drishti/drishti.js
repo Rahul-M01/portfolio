@@ -1,55 +1,57 @@
 import React, { useRef } from 'react';
-import './drishyam.css';
+import './drishti.css';
 import '../project-page.css';
-import videoLogo from '../../images/video.png';
+import drishtiLogo from '../../images/drishti.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faVideo, faCloudArrowDown, faLink, faPlay,
-    faServer, faShieldHalved, faFilm, faFolderOpen,
-    faKeyboard, faWandMagicSparkles
+    faHeartPulse, faGaugeHigh, faChartLine, faServer,
+    faBell, faTriangleExclamation, faEnvelopeOpenText,
+    faDesktop, faEye, faBoxesStacked,
+    faWifi, faPlug
 } from '@fortawesome/free-solid-svg-icons';
 
-const ACCENT = '#2ff8ff';
-const ACCENT_RGB = '47, 248, 255';
+const ACCENT = '#4FD1C5';
+const ACCENT_RGB = '79, 209, 197';
 
 const features = [
     {
         num: '01',
-        title: 'Upload & Host',
+        title: 'Unified Metrics',
         items: [
-            { icon: faVideo, text: 'Drop any video file into the browser — encoded and stored instantly.' },
-            { icon: faFolderOpen, text: 'Organised library with thumbnails, durations and metadata.' },
-            { icon: faPlay, text: 'Adaptive HTML5 player, works on every modern device.' },
+            { icon: faGaugeHigh, text: 'Collects Prometheus metrics from every service on the lab.' },
+            { icon: faChartLine, text: 'Live CPU, memory, disk and request-rate graphs per service.' },
+            { icon: faServer, text: 'Single desktop dashboard — no need to juggle browser tabs.' },
+            { icon: faBoxesStacked, text: 'Group services by host, stack or tag.' },
         ],
     },
     {
         num: '02',
-        title: 'Auto-Download',
+        title: 'Alerts',
         items: [
-            { icon: faLink, text: 'Paste any video URL — Drishyam fetches it in the background.' },
-            { icon: faCloudArrowDown, text: 'Supports hundreds of sources via a yt-dlp pipeline.' },
-            { icon: faWandMagicSparkles, text: 'Automatic transcoding to a clean, portable format.' },
+            { icon: faBell, text: 'Desktop notifications when a service crosses a threshold.' },
+            { icon: faTriangleExclamation, text: 'Severity tiers — info, warning, critical — with colour coding.' },
+            { icon: faEnvelopeOpenText, text: 'Daily digest so you know what happened overnight.' },
         ],
     },
     {
         num: '03',
-        title: 'Self-Hosted',
+        title: 'Network View',
         items: [
-            { icon: faServer, text: 'Runs on my homelab — no third-party storage, no data collection.' },
-            { icon: faShieldHalved, text: 'Private by default. Authentication gated.' },
-            { icon: faFilm, text: 'Built for personal archives: videos stay yours, forever.' },
+            { icon: faWifi, text: 'Live reachability probes for every registered service.' },
+            { icon: faPlug, text: 'Automatic discovery via service labels.' },
+            { icon: faEye, text: 'Highlights services that drop off the network.' },
         ],
     },
     {
         num: '04',
-        title: 'Fast Controls',
+        title: 'Desktop-Native',
         items: [
-            { icon: faKeyboard, text: 'Full keyboard shortcuts for playback and navigation.' },
-            { icon: faPlay, text: 'One-click share links with expiry.' },
-            { icon: faFolderOpen, text: 'Tag, rename and bulk-manage from a single view.' },
+            { icon: faDesktop, text: 'Electron app — feels like part of the OS, not a browser page.' },
+            { icon: faHeartPulse, text: 'Minimal-footprint background daemon, <50MB RAM idle.' },
+            { icon: faServer, text: 'All configuration lives in a single JSON file next to the binary.' },
         ],
     },
 ];
@@ -84,7 +86,7 @@ const FeatureCard = ({ f, index }) => {
     );
 };
 
-const Drishyam = () => {
+const Drishti = () => {
     return (
         <div
             className="project-page"
@@ -95,38 +97,35 @@ const Drishyam = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 03 — VIDEO PLATFORM'}</span>
-                    <span className="ph-status">SELF-HOSTED</span>
+                    <span className="ph-tag">{'// PROJECT 07 — OBSERVABILITY'}</span>
+                    <span className="ph-status">DESKTOP · DAEMON</span>
                 </div>
 
                 <div className="ph-body">
                     <div className="ph-logo-wrap">
-                        <img src={videoLogo} alt="Drishyam" className="ph-logo" />
+                        <img src={drishtiLogo} alt="Drishti" className="ph-logo" />
                     </div>
                     <div className="ph-text">
                         <h1 className="ph-title">
                             <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Drishyam</span>
+                                <span className="w" style={{ '--wd': '0ms' }}>Drishti</span>
                                 <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
                             </span>
                             <span className="line">
                                 <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>Video</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>Platform.</span>
+                                <span className="w w-white" style={{ '--wd': '320ms' }}>Health</span>{' '}
+                                <span className="w w-white" style={{ '--wd': '380ms' }}>Monitor.</span>
                             </span>
                         </h1>
                         <p className="ph-desc">
-                            A browser-native video host built for personal archives. Upload directly,
-                            or paste a link and let Drishyam auto-download, transcode and catalogue
-                            it. Everything stays on my homelab.
+                            The watchtower for every service on the homelab. Drishti scrapes Prometheus
+                            endpoints, aggregates health signals and surfaces them in a single desktop
+                            dashboard — with native alerts when anything goes red.
                         </p>
                         <div className="ph-actions">
-                            <a
-                                href="/drishyam_home"
-                                className="ph-action primary"
-                            >
-                                <span>Visit Drishyam</span>
-                                <span className="arrow">↗</span>
+                            <a href="#features" className="ph-action primary">
+                                <span>Explore features</span>
+                                <span className="arrow">↓</span>
                             </a>
                             <a href="/" className="ph-action ghost">
                                 <span>Back to Home</span>
@@ -137,10 +136,10 @@ const Drishyam = () => {
                 </div>
             </section>
 
-            <section className="project-features">
+            <section className="project-features" id="features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// What it does'}</span>
-                    <h2 className="section-title">Built for <em>keeping things</em>.</h2>
+                    <span className="section-tag">{'// Feature map'}</span>
+                    <h2 className="section-title">What <em>Drishti</em> watches.</h2>
                 </div>
                 <div className="feature-grid">
                     {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
@@ -148,13 +147,13 @@ const Drishyam = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/homelab" className="prev">
+                <a href="/yudhishtra" className="prev">
                     <span className="label">← Previous</span>
-                    <span className="dest">Agni</span>
+                    <span className="dest">Yudhishtra</span>
                 </a>
-                <a href="/lekhak" className="next">
-                    <span className="label">Next project →</span>
-                    <span className="dest">Lekhak</span>
+                <a href="/" className="next">
+                    <span className="label">Back to →</span>
+                    <span className="dest">Home</span>
                 </a>
             </nav>
 
@@ -163,4 +162,4 @@ const Drishyam = () => {
     );
 };
 
-export default Drishyam;
+export default Drishti;
