@@ -71,7 +71,11 @@
 
 @keyframes fadeIn { to { opacity: 1; } }
 
-.page-content > header,
+.page-content > header {
+    position: relative;
+    z-index: 10;
+}
+
 .page-content > section,
 .page-content > footer {
     position: relative;

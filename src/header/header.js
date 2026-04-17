@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './header.css';
 
 const NAV = [
-    { label: 'Home',        href: '/',         hash: null,           match: (p, h) => p === '/' && !h },
-    { label: 'Work',        href: '/#work',    hash: 'work',         match: (_, h) => h === '#work' },
-    { label: 'Apps',        href: '/#apps',    hash: 'apps',         match: (_, h) => h === '#apps' },
-    { label: 'Experiments', href: '/#experiments', hash: 'experiments', match: (_, h) => h === '#experiments' },
-    { label: 'Skills',      href: '/#skills',  hash: 'skills',       match: (_, h) => h === '#skills' },
+    { label: 'Home',        href: '/',        hash: 'top',         match: (p, h) => p === '/' && !h },
+    { label: 'Work',        href: '#work',    hash: 'work',        match: (_, h) => h === '#work' },
+    { label: 'Apps',        href: '#apps',    hash: 'apps',        match: (_, h) => h === '#apps' },
+    { label: 'Experiments', href: '#experiments', hash: 'experiments', match: (_, h) => h === '#experiments' },
+    { label: 'Skills',      href: '#skills',  hash: 'skills',      match: (_, h) => h === '#skills' },
 ];
 
 const Header = () => {
@@ -42,15 +42,25 @@ const Header = () => {
 
     const onNavClick = (e, item) => {
         close();
-        if (!item.hash) return; // Home — let the browser navigate normally
-
         const onHome = window.location.pathname === '/';
-        if (!onHome) return; // Let the link navigate to /#hash, the new page will handle it
+        if (!onHome) return; // Not on home: let the browser navigate to / (Home) or follow the href
 
         e.preventDefault();
+        const headerOffset = 90;
+
+        if (item.hash === 'top') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.location.hash) {
+                window.history.pushState(null, '', '/');
+                setHash('');
+            }
+            return;
+        }
+
         const el = document.getElementById(item.hash);
         if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
             if (window.location.hash !== `#${item.hash}`) {
                 window.history.pushState(null, '', `#${item.hash}`);
                 setHash(`#${item.hash}`);

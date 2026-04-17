@@ -59,7 +59,7 @@ function App() {
             path: "/login",
             element: <LayoutWithTracker><Login /></LayoutWithTracker>,
         },
-    ]);
+    ], { basename: process.env.PUBLIC_URL || '/' });
 
     return (
         <RouterProvider router={router} />
