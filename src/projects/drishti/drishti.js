@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './drishti.css';
 import '../project-page.css';
 import drishtiLogo from '../../images/drishti.png';
@@ -127,10 +128,10 @@ const Drishti = () => {
                                 <span>Explore features</span>
                                 <span className="arrow">↓</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -147,14 +148,14 @@ const Drishti = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/yudhishtra" className="prev">
+                <Link to="/yudhishtra" className="prev">
                     <span className="label">← Previous</span>
                     <span className="dest">Yudhishtra</span>
-                </a>
-                <a href="/" className="next">
+                </Link>
+                <Link to="/" className="next">
                     <span className="label">Back to →</span>
                     <span className="dest">Home</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />

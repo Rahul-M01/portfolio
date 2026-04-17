@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './bot.css';
 import '../project-page.css';
 import discordLogo from '../../images/discord.png';
@@ -152,10 +153,10 @@ const Bot = () => {
                                 <span>Invite Bhima</span>
                                 <span className="arrow">↗</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -172,14 +173,14 @@ const Bot = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/" className="prev">
+                <Link to="/" className="prev">
                     <span className="label">← Home</span>
                     <span className="dest">Portfolio</span>
-                </a>
-                <a href="/homelab" className="next">
+                </Link>
+                <Link to="/homelab" className="next">
                     <span className="label">Next project →</span>
                     <span className="dest">Agni</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />

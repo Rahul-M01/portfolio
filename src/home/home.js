@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
@@ -128,24 +129,20 @@ const ProjectCard = ({ p, index }) => {
         el.style.setProperty('--ry', '0deg');
     };
 
-    const linkProps = p.external
-        ? { target: '_blank', rel: 'noreferrer' }
-        : {};
+    const sharedProps = {
+        ref,
+        className: 'project-card fade-up',
+        style: {
+            '--accent': p.color,
+            '--accent-rgb': p.colorRgb,
+            '--stagger': `${index * 110}ms`,
+        },
+        onMouseMove: onMove,
+        onMouseLeave: onLeave,
+    };
 
-    return (
-        <a
-            ref={ref}
-            href={p.href}
-            className="project-card fade-up"
-            style={{
-                '--accent': p.color,
-                '--accent-rgb': p.colorRgb,
-                '--stagger': `${index * 110}ms`,
-            }}
-            onMouseMove={onMove}
-            onMouseLeave={onLeave}
-            {...linkProps}
-        >
+    const body = (
+        <>
             <div className="pc-border" aria-hidden />
             <div className="pc-glow" aria-hidden />
             <div className="pc-head">
@@ -165,7 +162,21 @@ const ProjectCard = ({ p, index }) => {
                     <span className="pc-arrow">{p.external ? '↗' : '→'}</span>
                 </span>
             </div>
-        </a>
+        </>
+    );
+
+    if (p.external) {
+        return (
+            <a href={p.href} target="_blank" rel="noreferrer" {...sharedProps}>
+                {body}
+            </a>
+        );
+    }
+
+    return (
+        <Link to={p.href} {...sharedProps}>
+            {body}
+        </Link>
     );
 };
 

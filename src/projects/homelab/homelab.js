@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './homelab.css';
 import '../project-page.css';
 import homelabLogo from '../../images/homelab.png';
@@ -178,10 +179,10 @@ const Homelab = () => {
                                 <span>See the stack</span>
                                 <span className="arrow">↓</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -198,14 +199,14 @@ const Homelab = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/bot" className="prev">
+                <Link to="/bot" className="prev">
                     <span className="label">← Previous</span>
                     <span className="dest">Bhima</span>
-                </a>
-                <a href="/drishyam" className="next">
+                </Link>
+                <Link to="/drishyam" className="next">
                     <span className="label">Next project →</span>
                     <span className="dest">Drishyam</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />

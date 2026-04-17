@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './drishyam.css';
 import '../project-page.css';
 import videoLogo from '../../images/video.png';
@@ -128,10 +129,10 @@ const Drishyam = () => {
                                 <span>Visit Drishyam</span>
                                 <span className="arrow">↗</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -148,14 +149,14 @@ const Drishyam = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/homelab" className="prev">
+                <Link to="/homelab" className="prev">
                     <span className="label">← Previous</span>
                     <span className="dest">Agni</span>
-                </a>
-                <a href="/lekhak" className="next">
+                </Link>
+                <Link to="/lekhak" className="next">
                     <span className="label">Next project →</span>
                     <span className="dest">Lekhak</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './header.css';
 
 const NAV = [
@@ -71,10 +72,10 @@ const Header = () => {
     return (
         <header>
             <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
-                <a href="/" className="brand" onClick={close}>
+                <Link to="/" className="brand" onClick={close}>
                     <span className="brand-mark">R</span>
                     <span className="brand-name">RAHUL<span className="brand-sep">·</span>MAHAJAN</span>
-                </a>
+                </Link>
 
                 <div
                     className={`hamburger ${isMobileMenuOpen ? 'open' : 'closed'}`}

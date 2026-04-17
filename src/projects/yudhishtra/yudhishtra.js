@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './yudhishtra.css';
 import '../project-page.css';
 import yudhishtraLogo from '../../images/yudhishtra.png';
@@ -136,10 +137,10 @@ const Yudhishtra = () => {
                                 <span>View on GitHub</span>
                                 <span className="arrow">↗</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -156,14 +157,14 @@ const Yudhishtra = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/kubera" className="prev">
+                <Link to="/kubera" className="prev">
                     <span className="label">← Previous</span>
                     <span className="dest">Kubera</span>
-                </a>
-                <a href="/drishti" className="next">
+                </Link>
+                <Link to="/drishti" className="next">
                     <span className="label">Next project →</span>
                     <span className="dest">Drishti</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />

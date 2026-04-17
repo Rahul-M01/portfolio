@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import './lekhak.css';
 import '../project-page.css';
 import Header from '../../header/header';
@@ -126,10 +127,10 @@ const Lekhak = () => {
                                 <span>Explore features</span>
                                 <span className="arrow">↓</span>
                             </a>
-                            <a href="/" className="ph-action ghost">
+                            <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -146,14 +147,14 @@ const Lekhak = () => {
             </section>
 
             <nav className="project-nav">
-                <a href="/drishyam" className="prev">
+                <Link to="/drishyam" className="prev">
                     <span className="label">← Previous</span>
                     <span className="dest">Drishyam</span>
-                </a>
-                <a href="/kubera" className="next">
+                </Link>
+                <Link to="/kubera" className="next">
                     <span className="label">Next project →</span>
                     <span className="dest">Kubera</span>
-                </a>
+                </Link>
             </nav>
 
             <Footer />
