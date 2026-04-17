@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
@@ -195,10 +195,14 @@ const ProjectGroup = ({ id, tag, title, sub, projects, offset = 0 }) => (
 
 const Home = () => {
     const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
+    const location = useLocation();
+    const hasHashOnMount = useRef(Boolean(location.hash));
     const [word, setWord] = useState('');
-    const [stage, setStage] = useState('start');
+    const [stage, setStage] = useState(hasHashOnMount.current ? 'reveal' : 'start');
 
     useEffect(() => {
+        if (hasHashOnMount.current) return;
+
         const randomWord = words[Math.floor(Math.random() * words.length)];
         setWord(randomWord);
 
@@ -209,6 +213,18 @@ const Home = () => {
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (stage !== 'reveal' || !location.hash) return;
+        const id = location.hash.slice(1);
+        const raf = requestAnimationFrame(() => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const y = el.getBoundingClientRect().top + window.scrollY - 90;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        });
+        return () => cancelAnimationFrame(raf);
+    }, [stage, location.hash]);
 
     return (
         <main>

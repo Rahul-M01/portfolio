@@ -1,101 +1,204 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './header.css';
 
 const NAV = [
-    { label: 'Home',        href: '/',        hash: 'top',         match: (p, h) => p === '/' && !h },
-    { label: 'Work',        href: '#work',    hash: 'work',        match: (_, h) => h === '#work' },
-    { label: 'Apps',        href: '#apps',    hash: 'apps',        match: (_, h) => h === '#apps' },
-    { label: 'Experiments', href: '#experiments', hash: 'experiments', match: (_, h) => h === '#experiments' },
-    { label: 'Skills',      href: '#skills',  hash: 'skills',      match: (_, h) => h === '#skills' },
+    { label: 'Home',        key: 'top' },
+    { label: 'Work',        key: 'work' },
+    { label: 'Apps',        key: 'apps' },
+    { label: 'Experiments', key: 'experiments' },
+    { label: 'Skills',      key: 'skills' },
 ];
 
+const SECTION_IDS = NAV.filter((n) => n.key !== 'top').map((n) => n.key);
+const HEADER_OFFSET = 90;
+
 const Header = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const onHomePage = location.pathname === '/';
+
     const [isSticky, setIsSticky] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [path, setPath] = useState(
-        typeof window !== 'undefined' ? window.location.pathname : '/'
-    );
-    const [hash, setHash] = useState(
-        typeof window !== 'undefined' ? window.location.hash : ''
-    );
+    const [activeHash, setActiveHash] = useState(location.hash);
+
+    const navRef = useRef(null);
+    const indicatorRef = useRef(null);
+    const itemRefs = useRef([]);
+    const spySuspended = useRef(false);
 
     useEffect(() => {
-        const handleScroll = () => setIsSticky(window.scrollY > 30);
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+        const onScroll = () => setIsSticky(window.scrollY > 30);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    useEffect(() => setActiveHash(location.hash), [location.hash]);
+
     useEffect(() => {
-        const onChange = () => {
-            setPath(window.location.pathname);
-            setHash(window.location.hash);
+        if (!onHomePage) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (spySuspended.current) return;
+                const visible = entries
+                    .filter((e) => e.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+                if (visible.length === 0) return;
+                const topId = visible[0].target.id;
+                setActiveHash((cur) => (cur === `#${topId}` ? cur : `#${topId}`));
+            },
+            { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+        );
+
+        const onScrollTop = () => {
+            if (spySuspended.current) return;
+            if (window.scrollY < 80) setActiveHash((cur) => (cur ? '' : cur));
         };
-        window.addEventListener('popstate', onChange);
-        window.addEventListener('hashchange', onChange);
+
+        const timer = setTimeout(() => {
+            SECTION_IDS.forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) observer.observe(el);
+            });
+            onScrollTop();
+        }, 200);
+
+        window.addEventListener('scroll', onScrollTop, { passive: true });
+
         return () => {
-            window.removeEventListener('popstate', onChange);
-            window.removeEventListener('hashchange', onChange);
+            clearTimeout(timer);
+            observer.disconnect();
+            window.removeEventListener('scroll', onScrollTop);
         };
+    }, [onHomePage]);
+
+    const getActiveIndex = useCallback(() => {
+        if (!onHomePage) return -1;
+        if (!activeHash) return 0;
+        const idx = NAV.findIndex((n) => `#${n.key}` === activeHash);
+        return idx >= 0 ? idx : 0;
+    }, [onHomePage, activeHash]);
+
+    const positionIndicator = useCallback((targetEl) => {
+        if (typeof window === 'undefined' || window.innerWidth <= 900) return;
+        const nav = navRef.current;
+        const ind = indicatorRef.current;
+        if (!nav || !ind) return;
+        if (!targetEl) {
+            ind.style.opacity = '0';
+            return;
+        }
+        const navRect = nav.getBoundingClientRect();
+        const itemRect = targetEl.getBoundingClientRect();
+        ind.style.transform = `translateX(${itemRect.left - navRect.left}px)`;
+        ind.style.width = `${itemRect.width}px`;
+        ind.style.opacity = '1';
     }, []);
 
-    const close = () => setIsMobileMenuOpen(false);
+    const settleToActive = useCallback(() => {
+        const idx = getActiveIndex();
+        positionIndicator(idx >= 0 ? itemRefs.current[idx] : null);
+    }, [getActiveIndex, positionIndicator]);
+
+    useEffect(() => {
+        const raf = requestAnimationFrame(settleToActive);
+        return () => cancelAnimationFrame(raf);
+    }, [settleToActive]);
+
+    useEffect(() => {
+        const onResize = () => settleToActive();
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, [settleToActive]);
+
+    const closeMobile = useCallback(() => setIsMobileMenuOpen(false), []);
+
+    const onItemEnter = (e) => positionIndicator(e.currentTarget);
+    const onNavLeave = () => settleToActive();
+
+    const suspendSpy = () => {
+        spySuspended.current = true;
+        setTimeout(() => { spySuspended.current = false; }, 800);
+    };
+
+    const onBrandClick = (e) => {
+        closeMobile();
+        if (!onHomePage) return;
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (location.hash) navigate('/', { replace: true });
+        suspendSpy();
+    };
 
     const onNavClick = (e, item) => {
-        close();
-        const onHome = window.location.pathname === '/';
-        if (!onHome) return; // Not on home: let the browser navigate to / (Home) or follow the href
+        closeMobile();
 
-        e.preventDefault();
-        const headerOffset = 90;
-
-        if (item.hash === 'top') {
+        if (item.key === 'top') {
+            if (!onHomePage) return;
+            e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (window.location.hash) {
-                window.history.pushState(null, '', '/');
-                setHash('');
-            }
+            if (location.hash) navigate('/', { replace: true });
+            suspendSpy();
             return;
         }
 
-        const el = document.getElementById(item.hash);
-        if (el) {
-            const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-            if (window.location.hash !== `#${item.hash}`) {
-                window.history.pushState(null, '', `#${item.hash}`);
-                setHash(`#${item.hash}`);
-            }
+        if (!onHomePage) return;
+
+        e.preventDefault();
+        const el = document.getElementById(item.key);
+        if (!el) return;
+        const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        suspendSpy();
+        setActiveHash(`#${item.key}`);
+        if (location.hash !== `#${item.key}`) {
+            navigate(`/#${item.key}`, { replace: true });
         }
     };
 
     return (
         <header>
             <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
-                <Link to="/" className="brand" onClick={close}>
+                <Link to="/" className="brand" onClick={onBrandClick}>
                     <span className="brand-mark">R</span>
                     <span className="brand-name">RAHUL<span className="brand-sep">·</span>MAHAJAN</span>
                 </Link>
 
-                <div
+                <button
+                    type="button"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded={isMobileMenuOpen}
                     className={`hamburger ${isMobileMenuOpen ? 'open' : 'closed'}`}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
+                </button>
 
                 <nav className={`navbar ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <ul>
-                        {NAV.map((item, i) => (
-                            <li key={item.href} className={item.match(path, hash) ? 'active' : ''}>
-                                <a href={item.href} onClick={(e) => onNavClick(e, item)}>
-                                    <span className="nav-num">0{i + 1}</span>
-                                    <span className="nav-label">{item.label}</span>
-                                </a>
-                            </li>
-                        ))}
+                    <ul ref={navRef} onMouseLeave={onNavLeave}>
+                        <span className="nav-indicator" ref={indicatorRef} aria-hidden />
+                        {NAV.map((item, i) => {
+                            const isActive = getActiveIndex() === i;
+                            const to = item.key === 'top' ? '/' : `/#${item.key}`;
+                            return (
+                                <li key={item.key} className={isActive ? 'active' : ''}>
+                                    <Link
+                                        to={to}
+                                        ref={(el) => (itemRefs.current[i] = el)}
+                                        onClick={(e) => onNavClick(e, item)}
+                                        onMouseEnter={onItemEnter}
+                                        onFocus={onItemEnter}
+                                    >
+                                        <span className="nav-num">0{i + 1}</span>
+                                        <span className="nav-label">{item.label}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </nav>
             </div>

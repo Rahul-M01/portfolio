@@ -10,7 +10,7 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    padding: 1.1rem 2rem;
+    padding: 0.95rem 2rem;
     margin: 0 auto;
     position: fixed;
     top: 0;
@@ -19,17 +19,20 @@ header {
     background-color: rgba(10, 10, 10, 0.55);
     backdrop-filter: blur(10px) saturate(130%);
     -webkit-backdrop-filter: blur(10px) saturate(130%);
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.35s ease, backdrop-filter 0.35s ease,
+                border-color 0.35s ease, padding 0.3s ease;
     z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     isolation: isolate;
 }
 
 .header-container.sticky {
-    background-color: rgba(10, 10, 10, 0.78);
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+    padding: 0.7rem 2rem;
+    background-color: rgba(10, 10, 10, 0.82);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom-color: rgba(138, 43, 226, 0.18);
+    box-shadow: 0 10px 40px -20px rgba(0, 0, 0, 0.8);
 }
 
 /* BRAND */
@@ -39,6 +42,7 @@ header {
     gap: 0.7rem;
     text-decoration: none;
     color: #fff;
+    position: relative;
 }
 
 .brand-mark {
@@ -51,14 +55,17 @@ header {
     color: #0a0a0a;
     font-weight: 800;
     font-size: 0.95rem;
-    border-radius: 8px;
+    border-radius: 9px;
     transform: rotate(-4deg);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s ease;
     box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
+    letter-spacing: 0;
 }
 
 .brand:hover .brand-mark {
-    transform: rotate(4deg) scale(1.08);
+    transform: rotate(6deg) scale(1.1);
+    box-shadow: 0 8px 26px rgba(138, 43, 226, 0.55);
 }
 
 .brand-name {
@@ -80,62 +87,96 @@ header {
 }
 
 .navbar ul {
+    position: relative;
     list-style: none;
-    padding: 0.4rem;
+    padding: 0.35rem;
     margin: 0;
     display: flex;
-    gap: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 0.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 999px;
-    background: rgba(17, 17, 17, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(
+        180deg,
+        rgba(22, 22, 26, 0.65),
+        rgba(14, 14, 17, 0.55)
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 8px 30px -12px rgba(0, 0, 0, 0.8);
 }
 
-.navbar li { flex: 0 0 auto; }
+.navbar li {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 1;
+}
 
 .navbar a {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    padding: 0.55rem 1rem;
+    padding: 0.5rem 1rem;
     text-decoration: none;
-    color: #bfbfbf;
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
+    color: #a8a8a8;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     border-radius: 999px;
     position: relative;
-    transition: color 0.3s ease, background 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+/* SLIDING INDICATOR */
+.nav-indicator {
+    position: absolute;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    left: 0;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        180deg,
+        rgba(138, 43, 226, 0.28),
+        rgba(138, 43, 226, 0.18)
+    );
+    box-shadow:
+        inset 0 0 0 1px rgba(138, 43, 226, 0.45),
+        0 0 22px -4px rgba(138, 43, 226, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        width 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.3s ease;
+    will-change: transform, width;
 }
 
 .nav-num {
     font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: #666;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: #555;
     transition: color 0.3s ease;
 }
 
 .nav-label {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                color 0.3s ease;
 }
 
-.navbar a:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
-}
-
+.navbar a:hover { color: #ffffff; }
 .navbar a:hover .nav-num { color: blueviolet; }
-.navbar a:hover .nav-label { transform: translateX(2px); }
 
-.navbar li.active a {
-    background: rgba(138, 43, 226, 0.14);
-    color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.35);
-}
-
+.navbar li.active a { color: #ffffff; }
 .navbar li.active .nav-num { color: blueviolet; }
+
+.navbar a:focus-visible {
+    outline: 2px solid blueviolet;
+    outline-offset: 3px;
+}
 
 /* HAMBURGER */
 .hamburger {
@@ -146,6 +187,9 @@ header {
     width: 30px;
     height: 25px;
     z-index: 110;
+    background: transparent;
+    border: 0;
+    padding: 0;
 }
 
 .hamburger span {
@@ -153,6 +197,7 @@ header {
     height: 2px;
     width: 100%;
     background-color: #ffffff;
+    border-radius: 2px;
     transition: all 0.3s linear;
 }
 
@@ -168,8 +213,9 @@ header {
 
 /* MOBILE */
 @media (max-width: 900px) {
-    .header-container {
-        padding: 1rem 1.5rem;
+    .header-container,
+    .header-container.sticky {
+        padding: 0.85rem 1.25rem;
     }
 
     .hamburger { display: flex; }
@@ -178,31 +224,46 @@ header {
 
     .navbar {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 0.5rem);
         left: 1rem;
         right: 1rem;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
-        transition: max-height 0.35s ease, opacity 0.3s ease;
+        transition: max-height 0.4s ease, opacity 0.3s ease;
     }
 
     .navbar.open {
-        max-height: 420px;
+        max-height: 520px;
         opacity: 1;
     }
 
     .navbar ul {
         flex-direction: column;
         border-radius: 18px;
-        padding: 0.6rem;
+        padding: 0.55rem;
         gap: 0.3rem;
     }
 
     .navbar li { width: 100%; }
-    .navbar a { width: 100%; justify-content: space-between; padding: 0.85rem 1rem; }
+
+    .navbar li.active a {
+        background: rgba(138, 43, 226, 0.16);
+        box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.45);
+    }
+
+    .navbar a {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.85rem 1rem;
+        font-size: 0.82rem;
+    }
+
+    /* indicator is desktop-only */
+    .nav-indicator { display: none; }
 }
 
 @media (max-width: 420px) {
-    .header-container { gap: 1rem; }
+    .header-container,
+    .header-container.sticky { gap: 1rem; padding-left: 1rem; padding-right: 1rem; }
 }
