@@ -10,168 +10,132 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    padding: 1.3rem 2.5rem;
+    padding: 1.1rem 2rem;
     margin: 0 auto;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: transparent;
-    transition: background-color 0.4s ease, backdrop-filter 0.4s ease,
-                border-color 0.4s ease, padding 0.3s ease;
+    background-color: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
     z-index: 1000;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     isolation: isolate;
 }
 
 .header-container.sticky {
-    padding: 0.85rem 2.5rem;
-    background-color: rgba(10, 10, 10, 0.75);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border-bottom-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(10, 10, 10, 0.78);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 /* BRAND */
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.7rem;
     text-decoration: none;
     color: #fff;
-    position: relative;
 }
 
 .brand-mark {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    color: #fff;
-    font-family: 'Times New Roman', Georgia, serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 50%;
-    position: relative;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                border-color 0.4s ease, color 0.3s ease;
+    background: blueviolet;
+    color: #0a0a0a;
+    font-weight: 800;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transform: rotate(-4deg);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
 }
-
-.brand-mark::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1px dashed rgba(138, 43, 226, 0.35);
-    animation: brandSpin 14s linear infinite;
-    opacity: 0.6;
-}
-
-@keyframes brandSpin { to { transform: rotate(360deg); } }
 
 .brand:hover .brand-mark {
-    color: blueviolet;
-    border-color: blueviolet;
-    transform: scale(1.06);
+    transform: rotate(4deg) scale(1.08);
 }
 
 .brand-name {
     font-family: 'Courier New', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    color: #ededed;
-    line-height: 1.3;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    color: #eaeaea;
 }
 
 .brand-sep {
     color: blueviolet;
-    margin: 0 0.35em;
+    margin: 0 0.25em;
 }
 
 /* NAVBAR */
-.navbar { display: flex; justify-content: flex-end; }
-
-.navbar ul {
-    position: relative;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.navbar {
     display: flex;
-    gap: 2.2rem;
-    align-items: center;
+    justify-content: flex-end;
 }
 
-.navbar li { flex: 0 0 auto; position: relative; }
+.navbar ul {
+    list-style: none;
+    padding: 0.4rem;
+    margin: 0;
+    display: flex;
+    gap: 0.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(17, 17, 17, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.navbar li { flex: 0 0 auto; }
 
 .navbar a {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.45rem;
-    padding: 0.45rem 0.1rem;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 1rem;
     text-decoration: none;
-    color: #9a9a9a;
-    font-size: 0.76rem;
-    letter-spacing: 0.22em;
+    color: #bfbfbf;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-weight: 500;
+    border-radius: 999px;
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, background 0.3s ease;
 }
 
 .nav-num {
     font-family: 'Courier New', monospace;
-    font-size: 0.62rem;
+    font-size: 0.65rem;
     letter-spacing: 0.2em;
-    color: #555;
-    transition: color 0.35s ease;
-}
-
-.nav-label {
-    position: relative;
-    display: inline-block;
+    color: #666;
     transition: color 0.3s ease;
 }
 
-/* SLIDING UNDERLINE */
-.nav-indicator {
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    height: 1.5px;
-    width: 0;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        blueviolet 20%,
-        blueviolet 80%,
-        transparent 100%
-    );
-    box-shadow: 0 0 12px rgba(138, 43, 226, 0.7);
-    opacity: 0;
-    pointer-events: none;
-    transition:
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.3s ease;
-    will-change: transform, width;
+.nav-label {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.navbar a:hover { color: #ffffff; }
+.navbar a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.04);
+}
+
 .navbar a:hover .nav-num { color: blueviolet; }
+.navbar a:hover .nav-label { transform: translateX(2px); }
 
-.navbar li.active a { color: #ffffff; }
-.navbar li.active .nav-num { color: blueviolet; }
-
-.navbar a:focus-visible {
-    outline: 2px solid blueviolet;
-    outline-offset: 6px;
-    border-radius: 3px;
+.navbar li.active a {
+    background: rgba(138, 43, 226, 0.14);
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.35);
 }
+
+.navbar li.active .nav-num { color: blueviolet; }
 
 /* HAMBURGER */
 .hamburger {
@@ -179,24 +143,18 @@ header {
     cursor: pointer;
     flex-direction: column;
     justify-content: space-around;
-    width: 28px;
-    height: 22px;
+    width: 30px;
+    height: 25px;
     z-index: 110;
-    background: transparent;
-    border: 0;
-    padding: 0;
 }
 
 .hamburger span {
     display: block;
-    height: 1.5px;
+    height: 2px;
     width: 100%;
     background-color: #ffffff;
-    border-radius: 2px;
     transition: all 0.3s linear;
 }
-
-.hamburger.closed span:nth-child(2) { width: 70%; margin-left: auto; }
 
 .hamburger.open span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -205,74 +163,46 @@ header {
 .hamburger.open span:nth-child(2) { opacity: 0; }
 
 .hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -5px);
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
 /* MOBILE */
 @media (max-width: 900px) {
-    .header-container,
-    .header-container.sticky {
-        padding: 0.85rem 1.25rem;
+    .header-container {
+        padding: 1rem 1.5rem;
     }
 
     .hamburger { display: flex; }
+
     .brand-name { display: none; }
 
     .navbar {
         position: absolute;
-        top: calc(100% + 0.5rem);
+        top: 100%;
         left: 1rem;
         right: 1rem;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
-        transition: max-height 0.4s ease, opacity 0.3s ease;
+        transition: max-height 0.35s ease, opacity 0.3s ease;
     }
 
     .navbar.open {
-        max-height: 520px;
+        max-height: 420px;
         opacity: 1;
     }
 
     .navbar ul {
         flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 0.75rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        background: rgba(14, 14, 14, 0.92);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 0.6rem;
+        gap: 0.3rem;
     }
 
-    .navbar li {
-        width: 100%;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-    .navbar li:last-child { border-bottom: 0; }
-
-    .navbar a {
-        width: 100%;
-        justify-content: space-between;
-        padding: 0.95rem 1.25rem;
-        font-size: 0.8rem;
-    }
-
-    .navbar li.active a {
-        color: blueviolet;
-        background: rgba(138, 43, 226, 0.08);
-    }
-
-    /* indicator is desktop-only */
-    .nav-indicator { display: none; }
+    .navbar li { width: 100%; }
+    .navbar a { width: 100%; justify-content: space-between; padding: 0.85rem 1rem; }
 }
 
 @media (max-width: 420px) {
-    .header-container,
-    .header-container.sticky {
-        gap: 1rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
+    .header-container { gap: 1rem; }
 }

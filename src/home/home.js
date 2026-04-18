@@ -193,22 +193,27 @@ const ProjectGroup = ({ id, tag, title, sub, projects, offset = 0 }) => (
     </section>
 );
 
+let introPlayed = false;
+
 const Home = () => {
     const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
     const location = useLocation();
-    const hasHashOnMount = useRef(Boolean(location.hash));
+    const skipIntro = useRef(introPlayed || Boolean(location.hash));
     const [word, setWord] = useState('');
-    const [stage, setStage] = useState(hasHashOnMount.current ? 'reveal' : 'start');
+    const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'start');
 
     useEffect(() => {
-        if (hasHashOnMount.current) return;
+        if (skipIntro.current) return;
 
         const randomWord = words[Math.floor(Math.random() * words.length)];
         setWord(randomWord);
 
         const t1 = setTimeout(() => setStage('drop'), 500);
         const t2 = setTimeout(() => setStage('zoom'), 1000);
-        const t3 = setTimeout(() => setStage('reveal'), 2000);
+        const t3 = setTimeout(() => {
+            setStage('reveal');
+            introPlayed = true;
+        }, 2000);
 
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
         // eslint-disable-next-line react-hooks/exhaustive-deps
