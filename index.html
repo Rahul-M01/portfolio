@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="description" content="Projects by Rahul Mahajan." />
+    <meta name="author" content="Rahul Mahajan" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rahul Mahajan" />
+    <meta property="og:description" content="Projects by Rahul Mahajan." />
+    <meta property="og:url" content="https://rahul-m01.github.io/portfolio/" />
+    <meta property="og:image" content="https://rahul-m01.github.io/portfolio/logo512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://rahul-m01.github.io/portfolio/" />
+    <link rel="icon" href="%BASE_URL%favicon.ico" />
+    <link rel="apple-touch-icon" href="%BASE_URL%logo192.png" />
+    <link rel="manifest" href="%BASE_URL%manifest.json" />
+    <title>Rahul Mahajan</title>
+    <script>
+      (function restoreGitHubPagesRoute(location) {
+        if (location.search[1] !== '/') return;
+        var decoded = location.search.slice(1).split('&').map(function (segment) {
+          return segment.replace(/~and~/g, '&');
+        }).join('?');
+        window.history.replaceState(null, '', location.pathname.slice(0, -1) + decoded + location.hash);
+      }(window.location));
+    </script>
+  </head>
+  <body>
+    <noscript>JavaScript is required.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
