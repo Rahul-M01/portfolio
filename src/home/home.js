@@ -1,331 +1,486 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
 import Chrome from '../common/Chrome';
-import discordLogo from '../images/discord.png';
-import homelabLogo from '../images/homelab.png';
-import videoLogo from '../images/video.png';
-import drishtiLogo from '../images/drishti.png';
-import yudhishtraLogo from '../images/yudhishtra.png';
 
-const services = [
+const projects = [
     {
+        code: 'P-01',
         title: 'Bhima',
-        tag: 'Discord Bot',
-        desc: 'Moderation, music, poker, blackjack, leveling, polls, translation and live analytics. Runs 24/7 on the homelab.',
+        type: 'Discord bot',
+        description: 'Discord bot with moderation, music, games, polls and utilities.',
         href: '/bot',
-        color: '#FF7300',
-        colorRgb: '255, 115, 0',
-        img: discordLogo,
         stack: ['Node.js', 'Discord.js', 'SQL'],
+        accent: '#ff7448',
+        visual: 'chat',
     },
     {
+        code: 'P-02',
         title: 'Agni',
-        tag: 'Homelab Setup',
-        desc: 'Self-hosted personal cloud, media server and networking stack — Nextcloud, Plex and secure remote access.',
+        type: 'Homelab',
+        description: 'My homelab setup for storage, media, networking and remote access.',
         href: '/homelab',
-        color: '#FF4500',
-        colorRgb: '255, 69, 0',
-        img: homelabLogo,
         stack: ['Docker', 'Nginx', 'Linux'],
+        accent: '#f4b14b',
+        visual: 'network',
     },
     {
+        code: 'P-03',
         title: 'Drishyam',
-        tag: 'Video Platform',
-        desc: 'Browser-native video host that also auto-downloads content from a pasted link — built for quick personal archives.',
+        type: 'Web app',
+        description: 'Saves videos from links to a searchable local library.',
         href: '/drishyam',
-        color: '#2ff8ff',
-        colorRgb: '47, 248, 255',
-        img: videoLogo,
-        stack: ['React', 'FFmpeg', 'Node'],
+        stack: ['React', 'Java', 'FFmpeg'],
+        accent: '#44c8d8',
+        visual: 'video',
     },
-];
-
-const desktopApps = [
     {
+        code: 'P-04',
         title: 'Lekhak',
-        tag: 'Productivity App',
-        desc: 'Privacy-first desktop tasks, rich notes and scheduled reminders — local SQLite, system tray, dark & light themes.',
+        type: 'Desktop app',
+        description: 'Desktop notes, tasks and reminders stored locally.',
         href: '/lekhak',
-        color: '#E8E4D8',
-        colorRgb: '232, 228, 216',
-        mono: 'ल',
-        stack: ['Electron', 'React 19', 'Tailwind', 'SQLite'],
+        stack: ['Electron', 'React', 'SQLite'],
+        accent: '#d9bd84',
+        visual: 'notes',
     },
     {
+        code: 'P-05',
         title: 'Kubera',
-        tag: 'Finance Tracker',
-        desc: 'Personal Monzo finance dashboard — balances, spend analytics, category budgets, recurring detection. Stays on your machine.',
+        type: 'Desktop app',
+        description: 'Monzo spending, budget and recurring-payment dashboard.',
         href: '/kubera',
-        color: '#F5C518',
-        colorRgb: '245, 197, 24',
-        mono: '₹',
         stack: ['Electron', 'Express', 'SQLite'],
+        accent: '#b8df62',
+        visual: 'ledger',
     },
     {
+        code: 'P-06',
         title: 'Yudhishtra',
-        tag: 'Code Auditor',
-        desc: 'Offline AI analyser for local git repos — scans for vulnerabilities, generates tests, suggests features. Powered by Ollama.',
+        type: 'Desktop app',
+        description: 'Local repository scanner and test generator using Ollama.',
         href: '/yudhishtra',
-        color: '#6B7BFF',
-        colorRgb: '107, 123, 255',
-        img: yudhishtraLogo,
-        stack: ['Electron', 'Vite', 'Ollama'],
+        stack: ['Electron', 'TypeScript', 'Ollama'],
+        accent: '#9e8dff',
+        visual: 'audit',
     },
     {
+        code: 'P-07',
         title: 'Drishti',
-        tag: 'Health Monitor',
-        desc: 'Cross-project health monitor — collects Prometheus metrics from every service on the lab into one desktop dashboard.',
+        type: 'Desktop app',
+        description: 'Prometheus dashboard for my homelab services.',
         href: '/drishti',
-        color: '#4FD1C5',
-        colorRgb: '79, 209, 197',
-        img: drishtiLogo,
         stack: ['Electron', 'Express', 'Prometheus'],
+        accent: '#54d49a',
+        visual: 'telemetry',
     },
-];
-
-const experiments = [
     {
+        code: 'P-08',
         title: 'Simulation',
-        tag: 'Web Experiment',
-        desc: 'Interactive browser simulation — physics, particles and playful maths. Hosted on GitHub Pages.',
+        type: 'Browser experiment',
+        description: 'Browser experiments with particles, physics and maths.',
         href: 'https://rahul-m01.github.io/simulation/',
-        external: true,
-        color: '#FF2D87',
-        colorRgb: '255, 45, 135',
-        mono: '∿',
         stack: ['JavaScript', 'Canvas', 'WebGL'],
+        accent: '#ef78ab',
+        visual: 'particles',
+        external: true,
     },
 ];
 
-const skills = [
-    'Python', 'Java', 'C', 'JavaScript', 'TypeScript', 'React',
-    'Node.js', 'Electron', 'Django', 'SQLite', 'Docker', 'Linux', 'Git',
+const particles = [
+    [10, 18, 1.1], [21, 73, .7], [31, 38, 1.35], [42, 84, .85],
+    [50, 16, .65], [58, 57, 1.2], [69, 29, .9], [78, 77, 1.4],
+    [88, 45, .72], [16, 49, .95], [37, 65, .62], [62, 88, .8],
+    [82, 14, 1.05], [93, 69, .58],
 ];
 
-const ProjectCard = ({ p, index }) => {
-    const ref = useRef(null);
-
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const mx = e.clientX - r.left;
-        const my = e.clientY - r.top;
-        el.style.setProperty('--mx', `${mx}px`);
-        el.style.setProperty('--my', `${my}px`);
-        const rx = ((my / r.height) - 0.5) * -6;
-        const ry = ((mx / r.width) - 0.5) * 6;
-        el.style.setProperty('--rx', `${rx}deg`);
-        el.style.setProperty('--ry', `${ry}deg`);
-    };
-
-    const onLeave = () => {
-        const el = ref.current;
-        if (!el) return;
-        el.style.setProperty('--rx', '0deg');
-        el.style.setProperty('--ry', '0deg');
-    };
-
-    const sharedProps = {
-        ref,
-        className: 'project-card fade-up',
-        style: {
-            '--accent': p.color,
-            '--accent-rgb': p.colorRgb,
-            '--stagger': `${index * 110}ms`,
-        },
-        onMouseMove: onMove,
-        onMouseLeave: onLeave,
-    };
-
-    const body = (
-        <>
-            <div className="pc-border" aria-hidden />
-            <div className="pc-glow" aria-hidden />
-            <div className="pc-head">
-                {p.img
-                    ? <img src={p.img} alt="" className="pc-logo" />
-                    : <span className="pc-mono" aria-hidden>{p.mono}</span>}
-                <span className="pc-tag">{p.tag}</span>
-            </div>
-            <h3 className="pc-title">{p.title}</h3>
-            <p className="pc-desc">{p.desc}</p>
-            <div className="pc-foot">
-                <div className="pc-stack">
-                    {p.stack.map((s) => <span key={s} className="pc-chip">{s}</span>)}
+const ProjectVisual = ({ project }) => {
+    switch (project.visual) {
+    case 'chat':
+        return (
+            <div className="visual-chat" aria-hidden="true">
+                <div className="chat-rail">
+                    <span className="rail-mark active" />
+                    <span className="rail-mark" />
+                    <span className="rail-mark" />
+                    <span className="rail-mark" />
                 </div>
-                <span className="pc-cta">
-                    <span>{p.external ? 'Open' : 'Explore'}</span>
-                    <span className="pc-arrow">{p.external ? '↗' : '→'}</span>
-                </span>
+                <div className="chat-feed">
+                    <div className="chat-line">
+                        <span className="chat-avatar">B</span>
+                        <div><b>BHIMA / MOD</b><i>message deleted · #general</i></div>
+                        <time>20:14</time>
+                    </div>
+                    <div className="chat-line">
+                        <span className="chat-avatar alt">R</span>
+                        <div><b>RAHUL</b><i>/play evening mix</i></div>
+                        <time>20:15</time>
+                    </div>
+                    <div className="chat-line live">
+                        <span className="chat-avatar">B</span>
+                        <div><b>BHIMA / MUSIC</b><i>queue · 12 tracks</i></div>
+                        <span className="typing"><i /><i /><i /></span>
+                    </div>
+                    <div className="command-line"><span>/</span><i>type a command</i><b /></div>
+                </div>
             </div>
+        );
+    case 'network':
+        return (
+            <div className="visual-network" aria-hidden="true">
+                <svg viewBox="0 0 640 340" preserveAspectRatio="none">
+                    <path d="M96 166 L231 82 L374 129 L529 55" />
+                    <path d="M96 166 L256 264 L374 129 L532 246" />
+                    <path d="M231 82 L256 264" />
+                </svg>
+                <span className="network-node node-a"><b>GW</b><i>gateway</i></span>
+                <span className="network-node node-b"><b>PX</b><i>proxy</i></span>
+                <span className="network-node node-c core"><b>AG</b><i>core</i></span>
+                <span className="network-node node-d"><b>FS</b><i>storage</i></span>
+                <span className="network-node node-e"><b>MX</b><i>media</i></span>
+                <span className="network-packet packet-a" />
+                <span className="network-packet packet-b" />
+            </div>
+        );
+    case 'video':
+        return (
+            <div className="visual-video" aria-hidden="true">
+                <div className="video-frame">
+                    <span className="frame-index">FRAME / 0842</span>
+                    <button type="button" tabIndex="-1" aria-hidden="true">▶</button>
+                    <div className="video-caption"><b>LOCAL ARCHIVE</b><i>Untitled capture · 18:42</i></div>
+                </div>
+                <div className="video-timeline">
+                    <span className="timeline-time">06:18</span>
+                    <div className="timeline-track"><i /><b /></div>
+                    <span className="timeline-time">18:42</span>
+                </div>
+                <div className="frame-strip">{[1, 2, 3, 4, 5].map((frame) => <span key={frame}><i>{frame}</i></span>)}</div>
+            </div>
+        );
+    case 'notes':
+        return (
+            <div className="visual-notes" aria-hidden="true">
+                <div className="note-shadow" />
+                <article className="note-sheet">
+                    <header><span>19 / 07</span><i>LEKHAK</i></header>
+                    <h4>Saturday</h4>
+                    <p>3 tasks</p>
+                    <ul>
+                        <li className="done"><span />Sort the archive</li>
+                        <li><span />Write down the idea</li>
+                        <li><span />Set the reminder</li>
+                    </ul>
+                    <footer>LOCAL NOTE · 0041</footer>
+                </article>
+                <div className="note-tab">PINNED</div>
+            </div>
+        );
+    case 'ledger':
+        return (
+            <div className="visual-ledger" aria-hidden="true">
+                <div className="ledger-top">
+                    <span><i>MONTH / JUL</i><b>£1,284.60</b></span>
+                    <span><i>CHANGE</i><b className="positive">− 8.4%</b></span>
+                </div>
+                <svg className="ledger-chart" viewBox="0 0 620 220" preserveAspectRatio="none">
+                    <path className="chart-axis" d="M0 182 H620 M0 122 H620 M0 62 H620" />
+                    <polyline points="0,166 48,151 92,158 138,112 186,126 233,76 280,98 330,65 380,88 430,44 480,70 530,38 620,52" />
+                    <circle cx="620" cy="52" r="5" />
+                </svg>
+                <div className="ledger-rows">
+                    <span><i>01</i><b>Home</b><em>£402</em></span>
+                    <span><i>02</i><b>Food</b><em>£218</em></span>
+                    <span><i>03</i><b>Travel</b><em>£164</em></span>
+                </div>
+            </div>
+        );
+    case 'audit':
+        return (
+            <div className="visual-audit" aria-hidden="true">
+                <header><span>repository / current</span><i>LOCAL SCAN</i></header>
+                <div className="code-window">
+                    <span><i>18</i><b className="code-dim">const</b> result = await inspect(source);</span>
+                    <span className="removed"><i>19</i><b>−</b> return result.data;</span>
+                    <span className="added"><i>19</i><b>+</b> return validate(result.data);</span>
+                    <span><i>20</i><b className="code-dim">if</b> (!result.ok) throw error;</span>
+                    <span><i>21</i><b className="code-dim">export</b> default result;</span>
+                    <div className="scan-beam" />
+                </div>
+                <footer><span>1 suggestion</span><i>YUDHISHTRA / AUDIT</i></footer>
+            </div>
+        );
+    case 'telemetry':
+        return (
+            <div className="visual-telemetry" aria-hidden="true">
+                <div className="telemetry-head"><span>HOME / SERVICES</span><i>7 CONNECTED</i></div>
+                <svg viewBox="0 0 620 180" preserveAspectRatio="none">
+                    <path className="telemetry-axis" d="M0 42 H620 M0 90 H620 M0 138 H620" />
+                    <polyline points="0,112 35,105 70,118 104,72 139,90 174,84 209,92 244,38 279,71 314,66 349,112 384,98 419,103 454,62 489,77 524,48 559,69 594,41 620,51" />
+                </svg>
+                <div className="service-bars">
+                    {[42, 67, 28, 82, 54, 73, 36].map((height, index) => (
+                        <span key={height} style={{ '--bar': `${height}%` }}><i>0{index + 1}</i><b /></span>
+                    ))}
+                </div>
+            </div>
+        );
+    case 'particles':
+        return (
+            <div className="visual-particles" aria-hidden="true">
+                <svg viewBox="0 0 640 360" preserveAspectRatio="none">
+                    <path d="M64 276 C138 76 246 315 332 116 S511 55 587 222" />
+                    <path d="M39 168 C166 271 218 45 367 217 S536 307 612 118" />
+                </svg>
+                {particles.map(([x, y, scale], index) => (
+                    <span
+                        key={`${x}-${y}`}
+                        style={{ '--x': `${x}%`, '--y': `${y}%`, '--scale': scale, '--delay': `${index * -0.23}s` }}
+                    />
+                ))}
+                <div className="particle-readout"><i>X 42.18</i><i>Y 08.73</i><b>SIM / 024</b></div>
+            </div>
+        );
+    default:
+        return null;
+    }
+};
+
+const AmbientField = ({ accent, projectIndex }) => {
+    const canvasRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (/jsdom/i.test(navigator.userAgent)) return undefined;
+        const context = canvas?.getContext('2d');
+        if (!canvas || !context) return undefined;
+
+        const rgb = [
+            parseInt(accent.slice(1, 3), 16),
+            parseInt(accent.slice(3, 5), 16),
+            parseInt(accent.slice(5, 7), 16),
+        ];
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const pointer = { x: window.innerWidth * .68, y: window.innerHeight * .42 };
+        let width = 0;
+        let height = 0;
+        let frame = 0;
+        let points = [];
+
+        const resize = () => {
+            const ratio = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.round(width * ratio);
+            canvas.height = Math.round(height * ratio);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+            points = Array.from({ length: 52 }, (_, index) => {
+                const seed = index * 91.7 + projectIndex * 47.3;
+                return {
+                    x: ((Math.sin(seed) + 1) / 2) * width,
+                    y: ((Math.cos(seed * .71) + 1) / 2) * height,
+                    radius: 1 + (index % 4) * .45,
+                    speed: .08 + (index % 5) * .025,
+                    phase: seed,
+                };
+            });
+        };
+
+        const trackPointer = (event) => {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+        };
+
+        const draw = (time = 0) => {
+            context.clearRect(0, 0, width, height);
+            const seconds = time * .001;
+
+            points.forEach((point, index) => {
+                const driftX = reducedMotion ? 0 : Math.sin(seconds * point.speed + point.phase) * 18;
+                const driftY = reducedMotion ? 0 : Math.cos(seconds * point.speed * .82 + point.phase) * 14;
+                const x = point.x + driftX;
+                const y = point.y + driftY;
+                const pointerDistance = Math.hypot(pointer.x - x, pointer.y - y);
+                const pointerPull = Math.max(0, 1 - pointerDistance / 260);
+                const px = x + (pointer.x - x) * pointerPull * .045;
+                const py = y + (pointer.y - y) * pointerPull * .045;
+
+                context.beginPath();
+                context.arc(px, py, point.radius + pointerPull * 1.8, 0, Math.PI * 2);
+                context.fillStyle = `rgba(${rgb.join(',')},${.08 + pointerPull * .22})`;
+                context.fill();
+
+                for (let otherIndex = index + 1; otherIndex < points.length; otherIndex += 1) {
+                    const other = points[otherIndex];
+                    const ox = other.x + (reducedMotion ? 0 : Math.sin(seconds * other.speed + other.phase) * 18);
+                    const oy = other.y + (reducedMotion ? 0 : Math.cos(seconds * other.speed * .82 + other.phase) * 14);
+                    const distance = Math.hypot(ox - px, oy - py);
+
+                    if (distance < 118) {
+                        context.beginPath();
+                        context.moveTo(px, py);
+                        context.lineTo(ox, oy);
+                        context.strokeStyle = `rgba(${rgb.join(',')},${(1 - distance / 118) * .045})`;
+                        context.lineWidth = .7;
+                        context.stroke();
+                    }
+                }
+            });
+
+            if (!reducedMotion) frame = window.requestAnimationFrame(draw);
+        };
+
+        resize();
+        draw();
+        window.addEventListener('resize', resize);
+        window.addEventListener('pointermove', trackPointer, { passive: true });
+
+        return () => {
+            window.cancelAnimationFrame(frame);
+            window.removeEventListener('resize', resize);
+            window.removeEventListener('pointermove', trackPointer);
+        };
+    }, [accent, projectIndex]);
+
+    return <canvas ref={canvasRef} className="ambient-field" aria-hidden="true" />;
+};
+
+const ProjectLink = ({ project, index, active, onActivate }) => {
+    const content = (
+        <>
+            <span className="project-number">{String(index + 1).padStart(2, '0')}</span>
+            <span className="project-name">{project.title}</span>
+            <span className="project-kind">{project.type}</span>
+            <span className="project-arrow" aria-hidden="true">{project.external ? '↗' : '→'}</span>
         </>
     );
 
-    if (p.external) {
-        return (
-            <a href={p.href} target="_blank" rel="noreferrer" {...sharedProps}>
-                {body}
-            </a>
-        );
+    const props = {
+        className: `project-link${active ? ' active' : ''}`,
+        onMouseEnter: onActivate,
+        onFocus: onActivate,
+        onTouchStart: onActivate,
+        style: { '--project-accent': project.accent },
+        'aria-current': active ? 'true' : undefined,
+    };
+
+    if (project.external) {
+        return <a href={project.href} target="_blank" rel="noreferrer" {...props}>{content}</a>;
     }
 
-    return (
-        <Link to={p.href} {...sharedProps}>
-            {body}
-        </Link>
-    );
+    return <Link to={project.href} {...props}>{content}</Link>;
 };
 
-const ProjectGroup = ({ id, tag, title, sub, projects, offset = 0 }) => (
-    <section className="work" id={id}>
-        <div className="section-head fade-up">
-            <span className="section-tag">{tag}</span>
-            <h2 className="section-title" dangerouslySetInnerHTML={{ __html: title }} />
-            {sub && <p className="section-sub">{sub}</p>}
-        </div>
-        <div className="projects-grid">
-            {projects.map((p, i) => <ProjectCard key={p.title} p={p} index={i + offset} />)}
-        </div>
-    </section>
-);
+const StageLink = ({ project }) => {
+    const content = (
+        <>
+            <span>Open</span>
+            <span aria-hidden="true">{project.external ? '↗' : '→'}</span>
+        </>
+    );
 
-let introPlayed = false;
+    if (project.external) {
+        return <a className="stage-link" href={project.href} target="_blank" rel="noreferrer">{content}</a>;
+    }
+
+    return <Link className="stage-link" to={project.href}>{content}</Link>;
+};
 
 const Home = () => {
-    const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
-    const location = useLocation();
-    const skipIntro = useRef(introPlayed || Boolean(location.hash));
-    const [word, setWord] = useState('');
-    const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'start');
-
-    useEffect(() => {
-        if (skipIntro.current) return;
-
-        const randomWord = words[Math.floor(Math.random() * words.length)];
-        setWord(randomWord);
-
-        const t1 = setTimeout(() => setStage('drop'), 500);
-        const t2 = setTimeout(() => setStage('zoom'), 1000);
-        const t3 = setTimeout(() => {
-            setStage('reveal');
-            introPlayed = true;
-        }, 2000);
-
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        if (stage !== 'reveal' || !location.hash) return;
-        const id = location.hash.slice(1);
-        const raf = requestAnimationFrame(() => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const y = el.getBoundingClientRect().top + window.scrollY - 90;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        });
-        return () => cancelAnimationFrame(raf);
-    }, [stage, location.hash]);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const activeProject = projects[activeIndex];
+    const updateTilt = (event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - .5;
+        const y = (event.clientY - bounds.top) / bounds.height - .5;
+        event.currentTarget.style.setProperty('--tilt-x', `${y * -3.4}deg`);
+        event.currentTarget.style.setProperty('--tilt-y', `${x * 4.6}deg`);
+    };
+    const resetTilt = (event) => {
+        event.currentTarget.style.setProperty('--tilt-x', '0deg');
+        event.currentTarget.style.setProperty('--tilt-y', '0deg');
+    };
 
     return (
-        <main>
-            <div className="app">
-                {(stage === 'start' || stage === 'drop') && <div className="hello-text">{word}</div>}
-                {stage === 'drop' && <div className="drop"></div>}
-                {stage === 'zoom' && <div className="hello-text zoom">{word}</div>}
-                {stage === 'reveal' &&
-                    <div className="page-content">
-                        <Chrome />
-                        <Header />
+        <main id="main-content" className="app">
+            <Chrome />
+            <Header />
 
-                        <section className="hero">
-                            <div className="hero-eyebrow">
-                                <span className="eyebrow-dot" />
-                                <span>AVAILABLE FOR WORK · PORTFOLIO / 2026</span>
-                            </div>
+            <div className="home-shell" style={{ '--accent': activeProject.accent }}>
+                <AmbientField accent={activeProject.accent} projectIndex={activeIndex} />
 
-                            <h1 className="title">
-                                <span className="line">
-                                    <span className="w" style={{ '--wd': '0ms' }}>Full</span>{' '}
-                                    <span className="w" style={{ '--wd': '80ms' }}>Stack</span>{' '}
-                                    <span className="w amp" style={{ '--wd': '160ms' }}>&amp;</span>
-                                </span>
-                                <span className="line">
-                                    <span className="w w-white" style={{ '--wd': '280ms' }}>Software</span>{' '}
-                                    <span className="w w-white" style={{ '--wd': '360ms' }}>Developer</span>
-                                </span>
-                            </h1>
+                <aside className="identity-rail" id="about" aria-labelledby="page-title">
+                    <div className="identity-copy">
+                        <h1 id="page-title">Rahul <br />Mahajan</h1>
+                        <p>Projects</p>
+                    </div>
+                    <a className="identity-github" href="https://github.com/Rahul-M01" target="_blank" rel="noreferrer">GitHub ↗</a>
+                </aside>
 
-                            <p className="home-text">
-                                Hi there — welcome to my site. I'm a software developer with 2&nbsp;years
-                                of professional experience, and a <em>BSc&nbsp;in&nbsp;Computer&nbsp;Applications</em> from DCU.
-                                I build across web, desktop and infrastructure — every project on this site is
-                                shipped and self-hosted by me.
-                            </p>
+                <section className="project-index" id="projects" aria-labelledby="projects-title">
+                    <div className="index-heading">
+                        <h2 id="projects-title">Projects</h2>
+                        <span className="project-count">
+                            {String(activeIndex + 1).padStart(2, '0')} / 08
+                        </span>
+                    </div>
 
-                            <div className="hero-actions">
-                                <a href="#work" className="cta cta-primary">
-                                    <span className="cta-text">See my work</span>
-                                    <span className="cta-arrow">↓</span>
-                                </a>
-                            </div>
+                    <div className="project-list">
+                        {projects.map((project, index) => (
+                            <ProjectLink
+                                project={project}
+                                index={index}
+                                active={index === activeIndex}
+                                onActivate={() => setActiveIndex(index)}
+                                key={project.title}
+                            />
+                        ))}
+                    </div>
+                </section>
 
-                            <div className="hero-scroll" aria-hidden>
-                                <span className="hero-scroll-label">SCROLL</span>
-                                <span className="hero-scroll-line" />
-                            </div>
-                        </section>
+                <section
+                    className="project-stage"
+                    aria-live="polite"
+                    aria-label={`${activeProject.title} project preview`}
+                    onPointerMove={updateTilt}
+                    onPointerLeave={resetTilt}
+                >
+                    <div className="stage-frame">
+                        <header className="stage-header">
+                            <span>{activeProject.code}</span>
+                            <span className="stage-signal" aria-hidden="true"><i /><i /><i /></span>
+                            <span>{activeProject.type}</span>
+                        </header>
 
-                        <ProjectGroup
-                            id="work"
-                            tag="// Live services"
-                            title="Things I've <em>built</em> and host."
-                            sub="Running on my homelab right now. Click a card for the full breakdown."
-                            projects={services}
-                        />
+                        <div className="stage-title">
+                            <h3>{activeProject.title}</h3>
+                            <span className="stage-code">{activeProject.code.replace('P-', '')}</span>
+                        </div>
+                        <span className="stage-ghost" aria-hidden="true">{activeProject.title}</span>
 
-                        <ProjectGroup
-                            id="apps"
-                            tag="// Desktop apps"
-                            title="Offline-first <em>tools</em>."
-                            sub="Native apps I use daily. Local data, no accounts, no cloud sync."
-                            projects={desktopApps}
-                            offset={services.length}
-                        />
+                        <div className="stage-visual" key={activeProject.title}>
+                            <ProjectVisual project={activeProject} />
+                        </div>
 
-                        <ProjectGroup
-                            id="experiments"
-                            tag="// Experiments"
-                            title="Fun <em>side quests</em>."
-                            sub="Smaller things. Browser demos, visualisations, half-projects."
-                            projects={experiments}
-                            offset={services.length + desktopApps.length}
-                        />
-
-                        <section className="skills" id="skills">
-                            <div className="section-head fade-up">
-                                <span className="section-tag">{'// Toolbelt'}</span>
-                                <h2 className="section-title">Languages &amp; <em>stack.</em></h2>
-                            </div>
-                            <div className="skill-marquee fade-up">
-                                <div className="marquee-track">
-                                    {[...skills, ...skills, ...skills].map((s, i) => (
-                                        <span className="skill-pill" key={`${s}-${i}`}>
-                                            <span className="pill-star">✦</span>
-                                            {s}
-                                        </span>
-                                    ))}
+                        <footer className="stage-footer">
+                            <div>
+                                <p>{activeProject.description}</p>
+                                <div className="stage-stack">
+                                    {activeProject.stack.map((item) => <span key={item}>{item}</span>)}
                                 </div>
                             </div>
-                        </section>
-
-                        <Footer />
-                    </div>}
+                            <StageLink project={activeProject} />
+                        </footer>
+                    </div>
+                </section>
             </div>
+
+            <Footer />
         </main>
     );
 };

@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './yudhishtra.css';
 import '../project-page.css';
-import yudhishtraLogo from '../../images/yudhishtra.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
@@ -113,7 +112,7 @@ const Yudhishtra = () => {
 
                 <div className="ph-body">
                     <div className="ph-logo-wrap">
-                        <img src={yudhishtraLogo} alt="Yudhishtra" className="ph-logo" />
+                        <span className="ph-mono" aria-hidden="true">Y</span>
                     </div>
                     <div className="ph-text">
                         <h1 className="ph-title">

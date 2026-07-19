@@ -11,7 +11,12 @@ function LayoutWithTracker({ children }) {
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }, [pathname, hash]);
 
-    return <>{children}</>;
+    return (
+        <>
+            <a className="skip-link" href="#main-content">Skip to content</a>
+            {children}
+        </>
+    );
 }
 
 export default LayoutWithTracker;

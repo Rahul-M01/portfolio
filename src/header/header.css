@@ -1,208 +1,117 @@
-header {
-    width: 100%;
-    padding: 0;
-    position: relative;
+.site-header {
+    position: fixed;
+    inset: 0 0 auto;
     z-index: 1000;
+    border-bottom: 1px solid #262b2d;
+    background: rgba(8, 10, 11, .93);
+    backdrop-filter: blur(18px);
 }
 
 .header-container {
+    width: min(calc(100% - 2rem), 1580px);
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    padding: 1.1rem 2rem;
     margin: 0 auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(10, 10, 10, 0.55);
-    backdrop-filter: blur(10px) saturate(130%);
-    -webkit-backdrop-filter: blur(10px) saturate(130%);
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    isolation: isolate;
+    padding: 0 1rem;
+    border-right: 1px solid #262b2d;
+    border-left: 1px solid #262b2d;
 }
 
-.header-container.sticky {
-    background-color: rgba(10, 10, 10, 0.78);
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-/* BRAND */
 .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    text-decoration: none;
-    color: #fff;
-}
-
-.brand-mark {
-    width: 34px;
-    height: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: blueviolet;
-    color: #0a0a0a;
-    font-weight: 800;
-    font-size: 0.95rem;
-    border-radius: 8px;
-    transform: rotate(-4deg);
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
-}
-
-.brand:hover .brand-mark {
-    transform: rotate(4deg) scale(1.08);
-}
-
-.brand-name {
-    font-family: 'Courier New', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
-    color: #eaeaea;
-}
-
-.brand-sep {
-    color: blueviolet;
-    margin: 0 0.25em;
-}
-
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.navbar ul {
-    list-style: none;
-    padding: 0.4rem;
-    margin: 0;
-    display: flex;
-    gap: 0.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 999px;
-    background: rgba(17, 17, 17, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.navbar li { flex: 0 0 auto; }
-
-.navbar a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.55rem 1rem;
-    text-decoration: none;
-    color: #bfbfbf;
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border-radius: 999px;
     position: relative;
-    transition: color 0.3s ease, background 0.3s ease;
+    padding-left: 1rem;
+    color: #e9e6de;
+    font-family: 'IBM Plex Mono', Consolas, monospace;
+    font-size: .66rem;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
-.nav-num {
-    font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: #666;
-    transition: color 0.3s ease;
+.brand::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    background: #ff7448;
+    content: '';
+    transform: translateY(-50%) rotate(45deg);
 }
 
-.nav-label {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+.site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
 }
 
-.navbar a:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
+.site-header nav a {
+    color: #7f8785;
+    font-family: 'IBM Plex Mono', Consolas, monospace;
+    font-size: .58rem;
+    letter-spacing: .05em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 160ms ease;
 }
 
-.navbar a:hover .nav-num { color: blueviolet; }
-.navbar a:hover .nav-label { transform: translateX(2px); }
-
-.navbar li.active a {
-    background: rgba(138, 43, 226, 0.14);
-    color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.35);
+.site-header nav a:hover {
+    color: #f2eee5;
 }
 
-.navbar li.active .nav-num { color: blueviolet; }
+.site-header nav a:focus-visible,
+.brand:focus-visible,
+.menu-button:focus-visible {
+    outline: 1px solid #ff7448;
+    outline-offset: 5px;
+}
 
-/* HAMBURGER */
-.hamburger {
+.menu-button {
     display: none;
-    cursor: pointer;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    z-index: 110;
+    padding: .45rem .6rem;
+    border: 1px solid #343a3c;
+    background: #101415;
+    color: #b7bdbb;
+    font-family: 'IBM Plex Mono', Consolas, monospace;
+    font-size: .58rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
 }
 
-.hamburger span {
-    display: block;
-    height: 2px;
-    width: 100%;
-    background-color: #ffffff;
-    transition: all 0.3s linear;
-}
-
-.hamburger.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.open span:nth-child(2) { opacity: 0; }
-
-.hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
+@media (max-width: 720px) {
     .header-container {
-        padding: 1rem 1.5rem;
+        width: 100%;
+        height: 58px;
+        border: 0;
     }
 
-    .hamburger { display: flex; }
+    .menu-button {
+        display: block;
+    }
 
-    .brand-name { display: none; }
-
-    .navbar {
+    .site-header nav {
         position: absolute;
-        top: 100%;
-        left: 1rem;
-        right: 1rem;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transition: max-height 0.35s ease, opacity 0.3s ease;
+        top: 58px;
+        right: 0;
+        left: 0;
+        display: none;
+        align-items: stretch;
+        padding: .6rem 1rem 1rem;
+        border-bottom: 1px solid #343a3c;
+        background: #0b0e0f;
     }
 
-    .navbar.open {
-        max-height: 420px;
-        opacity: 1;
+    .site-header nav.open {
+        display: grid;
     }
 
-    .navbar ul {
-        flex-direction: column;
-        border-radius: 18px;
-        padding: 0.6rem;
-        gap: 0.3rem;
+    .site-header nav a {
+        padding: .9rem .2rem;
+        border-bottom: 1px solid #262b2d;
+        font-size: .68rem;
     }
-
-    .navbar li { width: 100%; }
-    .navbar a { width: 100%; justify-content: space-between; padding: 0.85rem 1rem; }
-}
-
-@media (max-width: 420px) {
-    .header-container { gap: 1rem; }
 }
