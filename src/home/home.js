@@ -91,8 +91,6 @@ const experiments = [
     },
 ];
 
-const allProjects = [...services, ...desktopApps, ...experiments];
-
 const elsewhere = [
     {
         title: 'Gravitational-wave analysis',
@@ -136,69 +134,9 @@ const finePointer = () =>
     window.matchMedia('(pointer: fine)').matches;
 
 /* ---------------------------------------------------------
-   Cursor-tracked preview panel
-   --------------------------------------------------------- */
-const Preview = ({ active }) => {
-    const wrapRef = useRef(null);
-    const stateRef = useRef({ x: 0, y: 0, tx: 0, ty: 0, raf: 0, on: false });
-
-    useEffect(() => {
-        if (!finePointer() || reduceMotion()) return;
-        const s = stateRef.current;
-        s.x = window.innerWidth * 0.7;
-        s.y = window.innerHeight * 0.5;
-        s.tx = s.x;
-        s.ty = s.y;
-
-        const onMove = (e) => { s.tx = e.clientX; s.ty = e.clientY; };
-
-        const loop = () => {
-            s.x += (s.tx - s.x) * 0.12;
-            s.y += (s.ty - s.y) * 0.12;
-            const el = wrapRef.current;
-            if (el) {
-                const skew = Math.max(-8, Math.min(8, (s.tx - s.x) * 0.35));
-                el.style.transform =
-                    `translate3d(${s.x}px, ${s.y}px, 0) translate(-50%, -50%) rotate(${skew * 0.35}deg) skewX(${skew * 0.2}deg)`;
-            }
-            s.raf = requestAnimationFrame(loop);
-        };
-
-        window.addEventListener('mousemove', onMove, { passive: true });
-        s.raf = requestAnimationFrame(loop);
-
-        return () => {
-            window.removeEventListener('mousemove', onMove);
-            cancelAnimationFrame(s.raf);
-        };
-    }, []);
-
-    return (
-        <div
-            ref={wrapRef}
-            className={`preview ${active ? 'on' : ''}`}
-            aria-hidden
-        >
-            {allProjects.map((p) => (
-                <div
-                    key={p.title}
-                    className={`preview-panel ${active === p.title ? 'show' : ''}`}
-                    style={{ '--hue': p.hue }}
-                >
-                    {p.img
-                        ? <img src={p.img} alt="" />
-                        : <span className="preview-glyph">{p.mono}</span>}
-                    <span className="preview-name">{p.title}</span>
-                </div>
-            ))}
-        </div>
-    );
-};
-
-/* ---------------------------------------------------------
    Project row
    --------------------------------------------------------- */
-const ProjectRow = ({ p, num, onEnter, onLeave }) => {
+const ProjectRow = ({ p, num }) => {
     const ref = useRef(null);
     const arrowRef = useRef(null);
     const magnet = useRef({ tx: 0, ty: 0, cx: 0, cy: 0, raf: 0, live: false });
@@ -283,8 +221,7 @@ const ProjectRow = ({ p, num, onEnter, onLeave }) => {
         ref,
         className: 'project-row fade-up',
         style: { '--hue': p.hue },
-        onMouseEnter: () => onEnter(p.title),
-        onMouseLeave: () => { releaseMagnet(); onLeave(); },
+        onMouseLeave: releaseMagnet,
         onMouseMove: onMove,
     };
 
@@ -294,7 +231,7 @@ const ProjectRow = ({ p, num, onEnter, onLeave }) => {
     return <Link to={p.href} {...props}>{inner}</Link>;
 };
 
-const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1, onEnter, onLeave }) => (
+const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1 }) => (
     <section className="work" id={id}>
         <div className="work-head fade-up">
             <span className="work-numeral">{numeral}</span>
@@ -303,13 +240,7 @@ const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1, onEnter, o
         </div>
         <div className="project-list">
             {projects.map((p, i) => (
-                <ProjectRow
-                    key={p.title}
-                    p={p}
-                    num={String(start + i).padStart(2, '0')}
-                    onEnter={onEnter}
-                    onLeave={onLeave}
-                />
+                <ProjectRow key={p.title} p={p} num={String(start + i).padStart(2, '0')} />
             ))}
         </div>
     </section>
@@ -329,105 +260,49 @@ const RevealName = ({ text, delay = 0, italic = false }) => (
 );
 
 /* ---------------------------------------------------------
-   Pinned hero stage.
-
-   One rAF-driven timeline owns everything that reacts to scroll
-   across the hero: the variable-font axes, the compress-and-dock
-   transform, and the fade of the surrounding chrome. Running it
-   from a single handler avoids two listeners fighting over the
-   same elements.
+   Hero name: Fraunces variable axes open on load, then thin
+   slightly as the hero scrolls away. No pinning.
    --------------------------------------------------------- */
 const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
-const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, progressRef, stage }) => {
+const useHeroName = (nameRef, stage) => {
     useEffect(() => {
         if (stage !== 'reveal') return;
-
-        const track = trackRef.current;
-        const pin = pinRef.current;
         const name = nameRef.current;
-        const top = topRef.current;
-        if (!track || !pin || !name) return;
+        if (!name) return;
 
         const chars = Array.from(name.querySelectorAll('.rn-char'));
+        if (!chars.length) return;
+
         const isItalic = (el) => Boolean(el.closest('.rn-italic'));
         const setAxes = (el, opsz, wght) => {
             el.style.fontVariationSettings =
                 `"opsz" ${opsz.toFixed(1)}, "wght" ${Math.round(wght * (isItalic(el) ? 0.62 : 1))}`;
         };
 
-        const OPSZ_HI = 144, OPSZ_LO = 46;
-        const WGHT_HI = 520, WGHT_LO = 260;
-        const END_SCALE = 0.3;
+        const OPSZ_HI = 144, OPSZ_LO = 70;
+        const WGHT_HI = 520, WGHT_LO = 330;
 
-        // Static fallback: no pinning, no timeline.
-        const staticLayout = () => {
-            track.classList.add('is-static');
+        if (reduceMotion()) {
             chars.forEach((c) => setAxes(c, OPSZ_HI, 440));
-            name.style.transform = '';
-            progressRef.current = 0;
-        };
-
-        if (reduceMotion() || !window.matchMedia('(min-width: 901px)').matches) {
-            staticLayout();
             return;
         }
 
-        track.classList.remove('is-static');
-
-        // Where the name should end up: roughly the header brand slot.
-        let dock = { x: 0, y: 0 };
-        const measure = () => {
-            const prev = name.style.transform;
-            name.style.transform = 'none';
-            const r = name.getBoundingClientRect();
-            const pinRect = pin.getBoundingClientRect();
-            // target: left gutter of the pin, just below the top bar
-            const targetX = pinRect.left + parseFloat(getComputedStyle(pin).paddingLeft || '0');
-            const targetY = pinRect.top + 26;
-            dock = { x: targetX - r.left, y: targetY - r.top };
-            name.style.transform = prev;
-        };
-
-        let raf = 0;
         let introDone = false;
+        let scrollRaf = 0;
 
-        const apply = () => {
-            raf = 0;
-            const span = Math.max(1, track.offsetHeight - window.innerHeight);
-            const p = clamp01(-track.getBoundingClientRect().top / span);
-            const e = easeInOut(p);
-
-            const scale = 1 - (1 - END_SCALE) * e;
-            name.style.transform =
-                `translate3d(${(dock.x * e).toFixed(2)}px, ${(dock.y * e).toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-            name.style.letterSpacing = `${(-0.045 - 0.012 * e).toFixed(4)}em`;
-
-            if (introDone) {
-                const opsz = OPSZ_HI - (OPSZ_HI - OPSZ_LO) * e;
-                const wght = WGHT_HI - (WGHT_HI - WGHT_LO) * e;
-                chars.forEach((c) => setAxes(c, opsz, wght));
-            }
-
-            if (top) {
-                top.style.opacity = String(clamp01(1 - p * 2.4));
-                top.style.transform = `translate3d(0, ${(-18 * e).toFixed(1)}px, 0)`;
-            }
-            pin.style.setProperty('--stage', e.toFixed(4));
-            progressRef.current = p;
+        const applyScroll = () => {
+            scrollRaf = 0;
+            if (!introDone) return;
+            const y = clamp01(window.scrollY / (window.innerHeight * 0.9));
+            setAxesAll(OPSZ_HI - (OPSZ_HI - OPSZ_LO) * y, WGHT_HI - (WGHT_HI - WGHT_LO) * y);
         };
+        const setAxesAll = (o, w) => chars.forEach((c) => setAxes(c, o, w));
+        const onScroll = () => { if (!scrollRaf) scrollRaf = requestAnimationFrame(applyScroll); };
 
-        const onScroll = () => {
-            if (!raf) raf = requestAnimationFrame(apply);
-        };
-        const onResize = () => { measure(); onScroll(); };
-
-        // Character intro: optical size and weight open up, staggered.
         const INTRO = 900, STEP = 42;
         const t0 = performance.now();
-        let introRaf = 0;
-        const intro = (now) => {
+        let raf = requestAnimationFrame(function intro(now) {
             const elapsed = now - t0;
             let done = true;
             chars.forEach((c, i) => {
@@ -436,30 +311,20 @@ const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, progressRef, stage })
                 const k = 1 - Math.pow(1 - local, 3);
                 setAxes(c, 12 + (OPSZ_HI - 12) * k, 220 + (WGHT_HI - 220) * k);
             });
-            if (!done) {
-                introRaf = requestAnimationFrame(intro);
-            } else {
+            if (!done) raf = requestAnimationFrame(intro);
+            else {
                 introDone = true;
-                apply();
+                applyScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
             }
-        };
-
-        measure();
-        apply();
-        introRaf = requestAnimationFrame(intro);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onResize);
+        });
 
         return () => {
             cancelAnimationFrame(raf);
-            cancelAnimationFrame(introRaf);
+            if (scrollRaf) cancelAnimationFrame(scrollRaf);
             window.removeEventListener('scroll', onScroll);
-            window.removeEventListener('resize', onResize);
-            name.style.transform = '';
-            name.style.letterSpacing = '';
-            if (top) { top.style.opacity = ''; top.style.transform = ''; }
         };
-    }, [trackRef, pinRef, nameRef, topRef, progressRef, stage]);
+    }, [nameRef, stage]);
 };
 
 /* ---------------------------------------------------------
@@ -474,7 +339,7 @@ const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, progressRef, stage })
 
    Skipped entirely on touch and under reduced motion.
    --------------------------------------------------------- */
-const HeroSpace = ({ progressRef }) => {
+const HeroSpace = () => {
     const wrapRef = useRef(null);
     const canvasRef = useRef(null);
 
@@ -491,6 +356,13 @@ const HeroSpace = ({ progressRef }) => {
 
         let W = 0, H = 0, raf = 0, last = 0, visible = true;
         let mx = 0, my = 0, cx = 0, cy = 0;
+        let progress = 0;
+
+        const readProgress = () => {
+            const r = wrap.getBoundingClientRect();
+            const span = Math.max(1, r.height);
+            progress = Math.max(0, Math.min(1, -r.top / span));
+        };
 
         let stars = [];
         const LAYERS = [
@@ -645,7 +517,8 @@ const HeroSpace = ({ progressRef }) => {
             }
 
             drawWaves(now, ox * 40, oy * 40);
-            drawRocket(now, progressRef.current || 0);
+            readProgress();
+            drawRocket(now, progress);
         };
 
         const onMouse = (e) => {
@@ -672,7 +545,7 @@ const HeroSpace = ({ progressRef }) => {
             window.removeEventListener('resize', resize);
             window.removeEventListener('mousemove', onMouse);
         };
-    }, [progressRef]);
+    }, []);
 
     return (
         <div className="hero-field" ref={wrapRef} aria-hidden>
@@ -718,17 +591,9 @@ const Home = () => {
     const location = useLocation();
     const skipIntro = useRef(introPlayed || Boolean(location.hash));
     const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'launch');
-    const [active, setActive] = useState(null);
     const nameRef = useRef(null);
-    const trackRef = useRef(null);
-    const pinRef = useRef(null);
-    const topRef = useRef(null);
-    const progressRef = useRef(0);
 
-    useHeroStage({ trackRef, pinRef, nameRef, topRef, progressRef, stage });
-
-    const onEnter = useCallback((t) => setActive(t), []);
-    const onLeave = useCallback(() => setActive(null), []);
+    useHeroName(nameRef, stage);
 
     const finishIntro = useCallback(() => {
         introPlayed = true;
@@ -758,15 +623,13 @@ const Home = () => {
             <div className="app">
                 {stage === 'launch' && <LaunchOverlay onSkip={finishIntro} />}
                 {stage === 'reveal' &&
-                    <div className={`page-content ${active ? 'dimmed' : ''}`}>
+                    <div className="page-content">
                         <Chrome />
                         <Header />
-                        <Preview active={active} />
 
-                        <div className="hero-track" ref={trackRef}>
-                        <section className="hero" ref={pinRef}>
-                            <HeroSpace progressRef={progressRef} />
-                            <div className="hero-top" ref={topRef}>
+                        <section className="hero">
+                            <HeroSpace />
+                            <div className="hero-top">
                                 <span className="hero-avail">
                                     <span className="avail-dot" />
                                     Open to work
@@ -798,40 +661,17 @@ const Home = () => {
                             </div>
 
                         </section>
-                        </div>
-
-                        <section className="hero-after">
-                            <div className="hero-index">
-                                <a href="#work" className="index-link">
-                                    <span className="index-n">01</span>
-                                    <span className="index-l">Live services</span>
-                                    <span className="index-c">3</span>
-                                </a>
-                                <a href="#apps" className="index-link">
-                                    <span className="index-n">02</span>
-                                    <span className="index-l">Desktop apps</span>
-                                    <span className="index-c">4</span>
-                                </a>
-                                <a href="#experiments" className="index-link">
-                                    <span className="index-n">03</span>
-                                    <span className="index-l">Experiments</span>
-                                    <span className="index-c">1</span>
-                                </a>
-                            </div>
-                        </section>
 
                         <ProjectGroup
                             id="work" numeral="I" title="Live services"
                             sub="Deployed on my homelab and running right now."
                             projects={services} start={1}
-                            onEnter={onEnter} onLeave={onLeave}
                         />
 
                         <ProjectGroup
                             id="apps" numeral="II" title="Desktop apps"
                             sub="Local-first tools I use daily. No accounts, no cloud."
                             projects={desktopApps} start={services.length + 1}
-                            onEnter={onEnter} onLeave={onLeave}
                         />
 
                         <ProjectGroup
@@ -839,7 +679,6 @@ const Home = () => {
                             sub="Smaller browser builds."
                             projects={experiments}
                             start={services.length + desktopApps.length + 1}
-                            onEnter={onEnter} onLeave={onLeave}
                         />
 
                         <section className="work" id="elsewhere">

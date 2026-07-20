@@ -188,7 +188,6 @@
     display: block;
     width: 100%;
     height: 100%;
-    opacity: calc(1 - var(--stage, 0) * 0.65);
 }
 
 .hero > *:not(.hero-field) {
@@ -196,42 +195,11 @@
     z-index: 1;
 }
 
-/* Scroll track: its extra height is the timeline the pinned hero plays across. */
-.hero-track {
-    position: relative;
-    height: 175vh;
-}
-
-.hero-track.is-static { height: auto; }
-
 .hero {
-    position: sticky;
-    top: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: var(--hero-top-pad);
-    padding-bottom: 4rem;
-    overflow: hidden;
-}
-
-.hero-track.is-static .hero {
     position: relative;
-    min-height: 0;
-    display: block;
     padding-top: var(--hero-top-pad);
     padding-bottom: 5rem;
-    overflow: visible;
-}
-
-/* Content that resumes normal flow once the stage has played out. */
-.hero-after {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 4rem 2rem;
-    position: relative;
-    z-index: 2;
+    overflow: hidden;
 }
 
 .hero-top {
@@ -283,8 +251,6 @@
 
 /* Oversized name, per-character reveal */
 .title {
-    transform-origin: 0 50%;
-    will-change: transform;
     font-family: var(--font-display);
     font-size: clamp(3.6rem, 15vw, 13rem);
     line-height: 0.84;
@@ -317,7 +283,7 @@
 @keyframes charUp { to { transform: translateY(0) rotate(0); } }
 
 .hero-meta {
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
     border-top: 1px solid var(--line);
     opacity: 0;
     animation: fadeSlide 0.8s 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -330,7 +296,6 @@
     align-items: baseline;
     padding: 1.15rem 0;
     border-bottom: 1px solid var(--line);
-    opacity: calc(1 - var(--stage, 0) * 1.7);
 }
 
 .meta-label {
@@ -355,57 +320,6 @@
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: none; }
 }
-
-.hero-index {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--line);
-}
-
-.index-link {
-    display: grid;
-    grid-template-columns: 3.5rem minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 1.15rem 0.5rem 1.15rem 0;
-    border-bottom: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--fg-muted);
-    position: relative;
-    overflow: hidden;
-    transition: color 0.25s ease, padding-left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.index-link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.035);
-    transform: scaleY(0);
-    transform-origin: 50% 100%;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.index-link:hover { color: var(--fg); padding-left: 1rem; }
-.index-link:hover::before { transform: scaleY(1); }
-.index-link > * { position: relative; }
-
-.index-n,
-.index-c {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--fg-faint);
-}
-
-.index-l {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-}
-
-.index-link:hover .index-n { color: var(--accent); }
 
 /* =========================================================
    SECTION HEADS
@@ -659,13 +573,6 @@
 
 .project-row:hover .row-arrow { color: var(--hue, var(--accent)); }
 
-/* dim the rest of the page while a row is hovered */
-.page-content.dimmed .project-row:not(:hover) .row-title-in,
-.page-content.dimmed .project-row:not(:hover) .row-desc,
-.page-content.dimmed .project-row:not(:hover) .row-tag {
-    opacity: 0.4;
-}
-
 .project-row .row-title-in,
 .project-row .row-desc,
 .project-row .row-tag {
@@ -675,74 +582,6 @@
 /* =========================================================
    CURSOR-TRACKED PREVIEW
    ========================================================= */
-.preview {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 220px;
-    pointer-events: none;
-    z-index: 60;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    will-change: transform;
-}
-
-.preview.on { opacity: 1; }
-
-.preview-panel {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.9rem;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: #0c0c0f;
-    opacity: 0;
-    transform: scale(0.94);
-    transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
-}
-
-@supports (background: color-mix(in srgb, red 10%, transparent)) {
-    .preview-panel {
-        border-color: color-mix(in srgb, var(--hue) 38%, transparent);
-        background:
-            radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--hue) 18%, transparent), transparent 70%),
-            #0c0c0f;
-    }
-}
-
-.preview-panel.show { opacity: 1; transform: scale(1); }
-
-.preview-panel img {
-    width: 78px;
-    height: 78px;
-    object-fit: contain;
-}
-
-.preview-glyph {
-    font-family: var(--font-display);
-    font-size: 3.4rem;
-    font-weight: 400;
-    line-height: 1;
-    color: var(--hue);
-}
-
-.preview-name {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-}
-
-@media (pointer: coarse), (max-width: 900px) {
-    .preview { display: none; }
-}
 
 /* =========================================================
    SKILLS
@@ -848,19 +687,6 @@
    RESPONSIVE
    ========================================================= */
 @media (max-width: 900px) {
-    .hero-track { height: auto; }
-
-    .hero {
-        position: relative;
-        min-height: 0;
-        display: block;
-        padding-top: 12vh;
-        padding-bottom: 4rem;
-        overflow: visible;
-    }
-
-    .meta-row { opacity: 1; }
-    .hero-after { padding: 0 2rem 2rem; }
 
     .hero, .work, .skills { padding-left: 2rem; padding-right: 2rem; }
 
@@ -895,14 +721,13 @@
 
 @media (max-width: 640px) {
     .hero, .work, .skills { padding-left: 1.35rem; padding-right: 1.35rem; }
-    .hero-after { padding: 0 1.35rem 2rem; }
     .hero { padding-top: 12vh; padding-bottom: 4rem; }
     .work { padding-top: 5rem; }
     .skills { padding-top: 5rem; padding-bottom: 5rem; }
     .meta-body { font-size: 1.05rem; }
     .vmarquee { padding: 1.6rem 0; }
 
-    .project-row, .index-link {
+    .project-row {
         grid-template-columns: 2.25rem minmax(0, 1fr) 1.5rem;
         gap: 0.6rem 1rem;
     }
