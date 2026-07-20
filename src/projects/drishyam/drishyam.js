@@ -21,7 +21,7 @@ const features = [
         num: '01',
         title: 'Upload & Host',
         items: [
-            { icon: faVideo, text: 'Drop any video file into the browser — encoded and stored instantly.' },
+            { icon: faVideo, text: 'Drop any video file into the browser and it gets encoded and stored straight away.' },
             { icon: faFolderOpen, text: 'Organised library with thumbnails, durations and metadata.' },
             { icon: faPlay, text: 'Adaptive HTML5 player, works on every modern device.' },
         ],
@@ -30,7 +30,7 @@ const features = [
         num: '02',
         title: 'Auto-Download',
         items: [
-            { icon: faLink, text: 'Paste any video URL — Drishyam fetches it in the background.' },
+            { icon: faLink, text: 'Paste any video URL and Drishyam fetches it in the background.' },
             { icon: faCloudArrowDown, text: 'Supports hundreds of sources via a yt-dlp pipeline.' },
             { icon: faWandMagicSparkles, text: 'Automatic transcoding to a clean, portable format.' },
         ],
@@ -39,7 +39,7 @@ const features = [
         num: '03',
         title: 'Self-Hosted',
         items: [
-            { icon: faServer, text: 'Runs on my homelab — no third-party storage, no data collection.' },
+            { icon: faServer, text: 'Runs on my homelab. No third-party storage, no data collection.' },
             { icon: faShieldHalved, text: 'Private by default. Authentication gated.' },
             { icon: faFilm, text: 'Built for personal archives: videos stay yours, forever.' },
         ],
@@ -96,7 +96,7 @@ const Drishyam = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 03 — VIDEO PLATFORM'}</span>
+                    <span className="ph-tag">{'PROJECT 03 / VIDEO PLATFORM'}</span>
                     <span className="ph-status">SELF-HOSTED</span>
                 </div>
 

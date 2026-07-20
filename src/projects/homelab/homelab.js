@@ -21,14 +21,14 @@ const services = [
     {
         num: '01',
         title: 'Indra',
-        subtitle: 'NextCloud — Personal Cloud',
+        subtitle: 'NextCloud / Personal Cloud',
         accentRgb: '135, 206, 235',
         status: 'LIVE',
         href: process.env.REACT_APP_INDRA_URL || null,
         items: [
             { icon: faCloud, text: 'Self-hosted Nextcloud for documents, notes, and calendar sync.' },
-            { icon: faLock, text: 'End-to-end encrypted — data never leaves the homelab unencrypted.' },
-            { icon: faLaptopFile, text: 'Native clients on phone, tablet, desktop — plus browser access anywhere.' },
+            { icon: faLock, text: 'End-to-end encrypted, so data never leaves the homelab in the clear.' },
+            { icon: faLaptopFile, text: 'Native clients on phone, tablet and desktop, plus browser access anywhere.' },
             { icon: faUsersGear, text: 'Fine-grained sharing, versioning, and trash recovery.' },
         ],
     },
@@ -41,7 +41,7 @@ const services = [
         href: process.env.REACT_APP_PLEX_URL || null,
         items: [
             { icon: faFilm, text: 'Centralised library for movies, TV, music, and photos.' },
-            { icon: faGlobe, text: 'Stream to any device, anywhere — phones, consoles, TVs.' },
+            { icon: faGlobe, text: 'Stream to phones, consoles and TVs from anywhere.' },
             { icon: faFolderTree, text: 'Automatic metadata scraping and folder organisation.' },
             { icon: faClosedCaptioning, text: 'Subtitle sync, hardware transcoding, and multi-user profiles.' },
         ],
@@ -68,8 +68,8 @@ const services = [
         href: null,
         items: [
             { icon: faHouseChimney, text: 'Single control plane for every smart device in the house.' },
-            { icon: faLightbulb, text: 'Scenes and automations — lights, climate, blinds.' },
-            { icon: faPlug, text: 'Local-first — works even when the internet is down.' },
+            { icon: faLightbulb, text: 'Scenes and automations for lights, climate and blinds.' },
+            { icon: faPlug, text: 'Local-first, so it works even when the internet is down.' },
             { icon: faRobot, text: 'Voice-assistant integration, no cloud dependency.' },
         ],
     },
@@ -149,7 +149,7 @@ const Homelab = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 02 — HOMELAB'}</span>
+                    <span className="ph-tag">{'PROJECT 02 / HOMELAB'}</span>
                     <span className="ph-status">SELF-HOSTED · DOCKER</span>
                 </div>
 

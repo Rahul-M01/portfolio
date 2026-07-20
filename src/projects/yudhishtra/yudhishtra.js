@@ -24,7 +24,7 @@ const features = [
         items: [
             { icon: faCodeBranch, text: 'Finds every local git repo with unpushed commits or no remote configured.' },
             { icon: faFolderTree, text: 'One-click drill into repo state: branches, diffs, staged changes.' },
-            { icon: faCircleExclamation, text: 'Surfaces "things you forgot" — WIP branches, stashed work, orphan tags.' },
+            { icon: faCircleExclamation, text: 'Surfaces the things you forgot: WIP branches, stashed work, orphan tags.' },
         ],
     },
     {
@@ -32,7 +32,7 @@ const features = [
         title: 'Security Scanner',
         items: [
             { icon: faShieldHalved, text: 'Scans code for vulnerabilities before anything leaves the machine.' },
-            { icon: faBugSlash, text: 'Categorised by severity — critical, high, medium, low.' },
+            { icon: faBugSlash, text: 'Categorised by severity: critical, high, medium, low.' },
             { icon: faTriangleExclamation, text: 'Explains each finding with remediation suggestions.' },
         ],
     },
@@ -42,7 +42,7 @@ const features = [
         items: [
             { icon: faVial, text: 'Auto-generates tests using your project\'s existing test runner.' },
             { icon: faCheckDouble, text: 'Runs the tests locally and reports failures inline.' },
-            { icon: faTerminal, text: 'Works with npm, pytest, go test, cargo — whatever\'s already wired up.' },
+            { icon: faTerminal, text: 'Works with npm, pytest, go test or cargo, whatever\'s already wired up.' },
         ],
     },
     {
@@ -58,9 +58,9 @@ const features = [
         num: '05',
         title: 'Fully Offline',
         items: [
-            { icon: faDesktop, text: 'Runs entirely on your machine via Ollama — no API keys, no internet calls.' },
+            { icon: faDesktop, text: 'Runs entirely on your machine via Ollama. No API keys, no internet calls.' },
             { icon: faNetworkWired, text: 'Your code never leaves the box. Safe for work, safe for secrets.' },
-            { icon: faTerminal, text: 'Model-agnostic — swap between deepseek-coder, qwen, llama as needed.' },
+            { icon: faTerminal, text: 'Model-agnostic, so you can swap between deepseek-coder, qwen and llama.' },
         ],
     },
 ];
@@ -106,7 +106,7 @@ const Yudhishtra = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 06 — CODE AUDITOR'}</span>
+                    <span className="ph-tag">{'PROJECT 06 / CODE AUDITOR'}</span>
                     <span className="ph-status">OFFLINE · OLLAMA</span>
                 </div>
 
@@ -128,7 +128,7 @@ const Yudhishtra = () => {
                         </h1>
                         <p className="ph-desc">
                             A desktop app for reviewing local git repos before you push. Vulnerability
-                            scanning, test generation and next-step suggestions — all running through
+                            scanning, test generation and next-step suggestions, all running through
                             Ollama on your own machine. Your code never leaves the box.
                         </p>
                         <div className="ph-actions">

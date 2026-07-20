@@ -118,7 +118,7 @@ const Bot = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 01 — DISCORD BOT'}</span>
+                    <span className="ph-tag">{'PROJECT 01 / DISCORD BOT'}</span>
                     <span className="ph-status">LIVE · 24/7</span>
                 </div>
 

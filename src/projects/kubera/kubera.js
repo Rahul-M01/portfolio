@@ -42,7 +42,7 @@ const features = [
         title: 'Budgets',
         items: [
             { icon: faBullseye, text: 'Set a monthly cap per category. Watch the bar fill up.' },
-            { icon: faArrowsRotate, text: 'Recurring transactions flagged automatically — rent, subs, bills.' },
+            { icon: faArrowsRotate, text: 'Recurring transactions like rent, subscriptions and bills flagged automatically.' },
             { icon: faRotate, text: 'Rollover rules for categories that vary month to month.' },
         ],
     },
@@ -50,9 +50,9 @@ const features = [
         num: '04',
         title: 'Stays Private',
         items: [
-            { icon: faLock, text: 'OAuth credentials stored locally — never leave the machine.' },
+            { icon: faLock, text: 'OAuth credentials stored locally and never sent anywhere.' },
             { icon: faDatabase, text: 'SQL.js database in your OS user-data directory. Fully portable.' },
-            { icon: faServer, text: 'Local Express server on port 3000 — no third-party backend.' },
+            { icon: faServer, text: 'Local Express server on port 3000, no third-party backend.' },
         ],
     },
 ];
@@ -98,7 +98,7 @@ const Kubera = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 05 — FINANCE'}</span>
+                    <span className="ph-tag">{'PROJECT 05 / FINANCE'}</span>
                     <span className="ph-status">OPEN BANKING · LOCAL-ONLY</span>
                 </div>
 

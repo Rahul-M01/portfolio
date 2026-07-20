@@ -22,7 +22,7 @@ const features = [
         items: [
             { icon: faListCheck, text: 'Quick-capture to-dos with low / medium / high priority tags.' },
             { icon: faCalendarDay, text: 'Calendar-aware due dates and overdue badges.' },
-            { icon: faFlag, text: 'Status filters — open, done, snoozed — all in the sidebar.' },
+            { icon: faFlag, text: 'Status filters for open, done and snoozed, all in the sidebar.' },
             { icon: faFilter, text: 'Keyword search across every task in your history.' },
         ],
     },
@@ -33,7 +33,7 @@ const features = [
             { icon: faNoteSticky, text: 'Minimalist note editor built for writing, not formatting wars.' },
             { icon: faThumbtack, text: 'Pin notes to keep recurring references one click away.' },
             { icon: faMagnifyingGlass, text: 'Instant full-text search across every note.' },
-            { icon: faFloppyDisk, text: 'Auto-save on every keystroke — no "save" button to forget.' },
+            { icon: faFloppyDisk, text: 'Auto-save on every keystroke, so there is no save button to forget.' },
         ],
     },
     {
@@ -42,7 +42,7 @@ const features = [
         items: [
             { icon: faBell, text: 'Native OS notifications for one-off or recurring events.' },
             { icon: faArrowsRotate, text: 'Daily, weekly or monthly repeats with flexible rules.' },
-            { icon: faWindowRestore, text: 'System tray persistence — closing the window doesn\'t stop alerts.' },
+            { icon: faWindowRestore, text: 'System tray persistence, so closing the window doesn\'t stop alerts.' },
         ],
     },
     {
@@ -97,7 +97,7 @@ const Lekhak = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 04 — PRODUCTIVITY'}</span>
+                    <span className="ph-tag">{'PROJECT 04 / PRODUCTIVITY'}</span>
                     <span className="ph-status">DESKTOP · WINDOWS</span>
                 </div>
 

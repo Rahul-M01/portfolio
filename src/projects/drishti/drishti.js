@@ -24,7 +24,7 @@ const features = [
         items: [
             { icon: faGaugeHigh, text: 'Collects Prometheus metrics from every service on the lab.' },
             { icon: faChartLine, text: 'Live CPU, memory, disk and request-rate graphs per service.' },
-            { icon: faServer, text: 'Single desktop dashboard — no need to juggle browser tabs.' },
+            { icon: faServer, text: 'One desktop dashboard instead of a pile of browser tabs.' },
             { icon: faBoxesStacked, text: 'Group services by host, stack or tag.' },
         ],
     },
@@ -33,7 +33,7 @@ const features = [
         title: 'Alerts',
         items: [
             { icon: faBell, text: 'Desktop notifications when a service crosses a threshold.' },
-            { icon: faTriangleExclamation, text: 'Severity tiers — info, warning, critical — with colour coding.' },
+            { icon: faTriangleExclamation, text: 'Severity tiers (info, warning, critical) with colour coding.' },
             { icon: faEnvelopeOpenText, text: 'Daily digest so you know what happened overnight.' },
         ],
     },
@@ -50,7 +50,7 @@ const features = [
         num: '04',
         title: 'Desktop-Native',
         items: [
-            { icon: faDesktop, text: 'Electron app — feels like part of the OS, not a browser page.' },
+            { icon: faDesktop, text: 'Electron app, so it behaves like part of the OS rather than a browser page.' },
             { icon: faHeartPulse, text: 'Minimal-footprint background daemon, <50MB RAM idle.' },
             { icon: faServer, text: 'All configuration lives in a single JSON file next to the binary.' },
         ],
@@ -98,7 +98,7 @@ const Drishti = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 07 — OBSERVABILITY'}</span>
+                    <span className="ph-tag">{'PROJECT 07 / OBSERVABILITY'}</span>
                     <span className="ph-status">DESKTOP · DAEMON</span>
                 </div>
 

@@ -270,7 +270,7 @@ const ProjectGroup = ({ id, title, sub, projects, start = 1, onEnter, onLeave })
 );
 
 /* ---------------------------------------------------------
-   Hero name — per character reveal
+   Hero name, per character reveal
    --------------------------------------------------------- */
 const RevealName = ({ text, delay = 0 }) => (
     <span className="rn-line">
