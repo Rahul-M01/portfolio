@@ -5,6 +5,7 @@ import '../project-page.css';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCodeBranch, faFolderTree, faCircleExclamation,
@@ -132,12 +133,16 @@ const Yudhishtra = () => {
                             Ollama on your own machine. Your code never leaves the box.
                         </p>
                         <div className="ph-actions">
-                            <a href="https://github.com/Rahul-M01/yudhishtra" target="_blank" rel="noreferrer" className="ph-action primary">
-                                <span>View on GitHub</span>
+                            <a href={LINKS.yudhishtra.download} target="_blank" rel="noreferrer" className="ph-action primary">
+                                <span>Download for desktop</span>
+                                <span className="arrow">↓</span>
+                            </a>
+                            <a href={LINKS.yudhishtra.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
+                                <span>Source</span>
                                 <span className="arrow">↗</span>
                             </a>
                             <Link to="/" className="ph-action ghost">
-                                <span>Back to Home</span>
+                                <span>Back to index</span>
                                 <span className="arrow">←</span>
                             </Link>
                         </div>

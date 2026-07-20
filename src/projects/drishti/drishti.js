@@ -6,6 +6,7 @@ import drishtiLogo from '../../images/drishti.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHeartPulse, faGaugeHigh, faChartLine, faServer,
@@ -124,12 +125,16 @@ const Drishti = () => {
                             desktop dashboard, with native alerts when something goes red.
                         </p>
                         <div className="ph-actions">
-                            <a href="#features" className="ph-action primary">
-                                <span>Explore features</span>
+                            <a href={LINKS.drishti.download} target="_blank" rel="noreferrer" className="ph-action primary">
+                                <span>Download for desktop</span>
                                 <span className="arrow">↓</span>
                             </a>
+                            <a href={LINKS.drishti.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
+                                <span>Source</span>
+                                <span className="arrow">↗</span>
+                            </a>
                             <Link to="/" className="ph-action ghost">
-                                <span>Back to Home</span>
+                                <span>Back to index</span>
                                 <span className="arrow">←</span>
                             </Link>
                         </div>

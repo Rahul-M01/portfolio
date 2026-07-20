@@ -5,6 +5,7 @@ import '../project-page.css';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faWallet, faCreditCard, faMagnifyingGlass, faTags,
@@ -125,12 +126,16 @@ const Kubera = () => {
                             tokens never leave the machine.
                         </p>
                         <div className="ph-actions">
-                            <a href="#features" className="ph-action primary">
-                                <span>Explore features</span>
+                            <a href={LINKS.kubera.download} target="_blank" rel="noreferrer" className="ph-action primary">
+                                <span>Download for desktop</span>
                                 <span className="arrow">↓</span>
                             </a>
+                            <a href={LINKS.kubera.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
+                                <span>Source</span>
+                                <span className="arrow">↗</span>
+                            </a>
                             <Link to="/" className="ph-action ghost">
-                                <span>Back to Home</span>
+                                <span>Back to index</span>
                                 <span className="arrow">←</span>
                             </Link>
                         </div>

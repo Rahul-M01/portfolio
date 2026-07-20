@@ -1,0 +1,61 @@
+# Drop this into each Electron repo at .github/workflows/release.yml
+#
+# What it does: on a version tag (v1.0.0), builds installers for Windows,
+# macOS and Linux and publishes them to that repo's GitHub Releases page.
+# Cost is zero on a public repo. Releases have no download limit, so the
+# download buttons on the portfolio can point straight at /releases/latest.
+#
+# Usage:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+#
+# COST WARNING: Actions minutes are unlimited only on PUBLIC repos. On a
+# private repo you get 2000 min/month and macOS bills at 10x, so a private
+# repo should drop the macos-latest entry from the matrix below.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: win
+          - os: macos-latest
+            platform: mac
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Remove this step if the repo has no test script.
+      - name: Test
+        run: npm test --if-present
+
+      - name: Build and publish
+        run: npx electron-builder --${{ matrix.platform }} --publish always
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

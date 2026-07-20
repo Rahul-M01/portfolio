@@ -6,6 +6,7 @@ import discordLogo from '../../images/discord.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow,
@@ -144,17 +145,23 @@ const Bot = () => {
                             embeds.
                         </p>
                         <div className="ph-actions">
-                            <a
-                                href={process.env.REACT_APP_DISCORD_INVITE || '#'}
-                                className="ph-action primary"
-                                target={process.env.REACT_APP_DISCORD_INVITE ? '_blank' : undefined}
-                                rel="noreferrer"
-                            >
-                                <span>Invite Bhima</span>
+                            {LINKS.bhima.invite && (
+                                <a
+                                    href={LINKS.bhima.invite}
+                                    className="ph-action primary"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <span>Add to your server</span>
+                                    <span className="arrow">↗</span>
+                                </a>
+                            )}
+                            <a href={LINKS.bhima.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
+                                <span>Source</span>
                                 <span className="arrow">↗</span>
                             </a>
                             <Link to="/" className="ph-action ghost">
-                                <span>Back to Home</span>
+                                <span>Back to index</span>
                                 <span className="arrow">←</span>
                             </Link>
                         </div>
