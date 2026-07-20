@@ -12,31 +12,25 @@ import drishtiLogo from '../images/drishti.png';
 const services = [
     {
         title: 'Bhima',
-        tag: 'Discord Bot',
+        tag: 'Discord bot',
         desc: 'Moderation, music, poker, blackjack, leveling, polls, translation and live analytics. Runs 24/7 on the homelab.',
         href: '/bot',
-        color: '#FF7300',
-        colorRgb: '255, 115, 0',
         img: discordLogo,
         stack: ['Node.js', 'Discord.js', 'SQL'],
     },
     {
         title: 'Agni',
-        tag: 'Homelab Setup',
+        tag: 'Homelab',
         desc: 'Self-hosted personal cloud, media server and networking stack — Nextcloud, Plex and secure remote access.',
         href: '/homelab',
-        color: '#FF4500',
-        colorRgb: '255, 69, 0',
         img: homelabLogo,
         stack: ['Docker', 'Nginx', 'Linux'],
     },
     {
         title: 'Drishyam',
-        tag: 'Video Platform',
-        desc: 'Browser-native video host that also auto-downloads content from a pasted link — built for quick personal archives.',
+        tag: 'Video platform',
+        desc: 'Browser-native video host that also auto-downloads content from a pasted link. Built for quick personal archives.',
         href: '/drishyam',
-        color: '#2ff8ff',
-        colorRgb: '47, 248, 255',
         img: videoLogo,
         stack: ['React', 'FFmpeg', 'Node'],
     },
@@ -45,41 +39,33 @@ const services = [
 const desktopApps = [
     {
         title: 'Lekhak',
-        tag: 'Productivity App',
-        desc: 'Privacy-first desktop tasks, rich notes and scheduled reminders — local SQLite, system tray, dark & light themes.',
+        tag: 'Notes & tasks',
+        desc: 'Privacy-first desktop tasks, rich notes and scheduled reminders. Local SQLite, system tray, dark and light themes.',
         href: '/lekhak',
-        color: '#E8E4D8',
-        colorRgb: '232, 228, 216',
         mono: 'ल',
         stack: ['Electron', 'React 19', 'Tailwind', 'SQLite'],
     },
     {
         title: 'Kubera',
-        tag: 'Finance Tracker',
-        desc: 'Personal Monzo finance dashboard — balances, spend analytics, category budgets, recurring detection. Stays on your machine.',
+        tag: 'Finance tracker',
+        desc: 'Monzo dashboard with balances, spend analytics, category budgets and recurring payment detection. Stays on your machine.',
         href: '/kubera',
-        color: '#F5C518',
-        colorRgb: '245, 197, 24',
         mono: '₹',
         stack: ['Electron', 'Express', 'SQLite'],
     },
     {
         title: 'Yudhishtra',
-        tag: 'Code Auditor',
-        desc: 'Offline AI analyser for local git repos — scans for vulnerabilities, generates tests, suggests features. Powered by Ollama.',
+        tag: 'Code auditor',
+        desc: 'Offline analyser for local git repos. Scans for vulnerabilities, generates tests and suggests next steps via Ollama.',
         href: '/yudhishtra',
-        color: '#6B7BFF',
-        colorRgb: '107, 123, 255',
         mono: 'यु',
         stack: ['Electron', 'Vite', 'Ollama'],
     },
     {
         title: 'Drishti',
-        tag: 'Health Monitor',
-        desc: 'Cross-project health monitor — collects Prometheus metrics from every service on the lab into one desktop dashboard.',
+        tag: 'Health monitor',
+        desc: 'Collects Prometheus metrics from every service on the lab into a single desktop dashboard.',
         href: '/drishti',
-        color: '#4FD1C5',
-        colorRgb: '79, 209, 197',
         img: drishtiLogo,
         stack: ['Electron', 'Express', 'Prometheus'],
     },
@@ -88,12 +74,10 @@ const desktopApps = [
 const experiments = [
     {
         title: 'Simulation',
-        tag: 'Web Experiment',
-        desc: 'Interactive browser simulation — physics, particles and playful maths. Hosted on GitHub Pages.',
+        tag: 'Browser demo',
+        desc: 'Interactive simulation with physics, particles and playful maths. Hosted on GitHub Pages.',
         href: 'https://rahul-m01.github.io/simulation/',
         external: true,
-        color: '#FF2D87',
-        colorRgb: '255, 45, 135',
         mono: '∿',
         stack: ['JavaScript', 'Canvas', 'WebGL'],
     },
@@ -104,90 +88,51 @@ const skills = [
     'Node.js', 'Electron', 'Django', 'SQLite', 'Docker', 'Linux', 'Git',
 ];
 
-const ProjectCard = ({ p, index }) => {
-    const ref = useRef(null);
-
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const mx = e.clientX - r.left;
-        const my = e.clientY - r.top;
-        el.style.setProperty('--mx', `${mx}px`);
-        el.style.setProperty('--my', `${my}px`);
-        const rx = ((my / r.height) - 0.5) * -2.5;
-        const ry = ((mx / r.width) - 0.5) * 2.5;
-        el.style.setProperty('--rx', `${rx}deg`);
-        el.style.setProperty('--ry', `${ry}deg`);
-    };
-
-    const onLeave = () => {
-        const el = ref.current;
-        if (!el) return;
-        el.style.setProperty('--rx', '0deg');
-        el.style.setProperty('--ry', '0deg');
-    };
-
-    const sharedProps = {
-        ref,
-        className: 'project-card fade-up',
-        style: {
-            '--accent': p.color,
-            '--accent-rgb': p.colorRgb,
-            '--stagger': `${index * 110}ms`,
-        },
-        onMouseMove: onMove,
-        onMouseLeave: onLeave,
-    };
-
-    const body = (
+const ProjectRow = ({ p, num }) => {
+    const inner = (
         <>
-            <div className="pc-border" aria-hidden />
-            <div className="pc-glow" aria-hidden />
-            <div className="pc-head">
-                {p.img
-                    ? <img src={p.img} alt="" className="pc-logo" />
-                    : <span className="pc-mono" aria-hidden>{p.mono}</span>}
-                <span className="pc-tag">{p.tag}</span>
-            </div>
-            <h3 className="pc-title">{p.title}</h3>
-            <p className="pc-desc">{p.desc}</p>
-            <div className="pc-foot">
-                <div className="pc-stack">
-                    {p.stack.map((s) => <span key={s} className="pc-chip">{s}</span>)}
-                </div>
-                <span className="pc-cta">
-                    <span>{p.external ? 'Open site' : 'View project'}</span>
-                    <span className="pc-arrow">{p.external ? '↗' : '→'}</span>
+            <span className="row-num">{num}</span>
+
+            <span className="row-main">
+                <span className="row-titleline">
+                    <span className="row-title">{p.title}</span>
+                    <span className="row-tag">{p.tag}</span>
                 </span>
-            </div>
+                <span className="row-desc">{p.desc}</span>
+                <span className="row-stack">
+                    {p.stack.map((s) => <span key={s} className="row-chip">{s}</span>)}
+                </span>
+            </span>
+
+            <span className="row-end">
+                <span className="row-mark" aria-hidden>
+                    {p.img
+                        ? <img src={p.img} alt="" />
+                        : <span className="row-glyph">{p.mono}</span>}
+                </span>
+                <span className="row-arrow" aria-hidden>{p.external ? '↗' : '→'}</span>
+            </span>
         </>
     );
 
-    if (p.external) {
-        return (
-            <a href={p.href} target="_blank" rel="noreferrer" {...sharedProps}>
-                {body}
-            </a>
-        );
-    }
+    const cls = 'project-row fade-up';
 
-    return (
-        <Link to={p.href} {...sharedProps}>
-            {body}
-        </Link>
-    );
+    if (p.external) {
+        return <a href={p.href} target="_blank" rel="noreferrer" className={cls}>{inner}</a>;
+    }
+    return <Link to={p.href} className={cls}>{inner}</Link>;
 };
 
-const ProjectGroup = ({ id, tag, title, sub, projects, offset = 0 }) => (
+const ProjectGroup = ({ id, title, sub, projects, start = 1 }) => (
     <section className="work" id={id}>
-        <div className="section-head fade-up">
-            <span className="section-tag">{tag}</span>
-            <h2 className="section-title">{title}</h2>
-            {sub && <p className="section-sub">{sub}</p>}
+        <div className="work-head fade-up">
+            <h2 className="work-title">{title}</h2>
+            <p className="work-sub">{sub}</p>
         </div>
-        <div className="projects-grid">
-            {projects.map((p, i) => <ProjectCard key={p.title} p={p} index={i + offset} />)}
+        <div className="project-list">
+            {projects.map((p, i) => (
+                <ProjectRow key={p.title} p={p} num={String(start + i).padStart(2, '0')} />
+            ))}
         </div>
     </section>
 );
@@ -242,79 +187,75 @@ const Home = () => {
                         <Header />
 
                         <section className="hero">
-                            <p className="hero-kicker">Rahul Mahajan — software developer</p>
-
                             <h1 className="title">
                                 <span className="line">
-                                    <span className="w" style={{ '--wd': '0ms' }}>I</span>{' '}
-                                    <span className="w" style={{ '--wd': '60ms' }}>build</span>{' '}
-                                    <span className="w" style={{ '--wd': '120ms' }}>and</span>{' '}
-                                    <span className="w" style={{ '--wd': '180ms' }}>host</span>
-                                </span>
-                                <span className="line">
-                                    <span className="w w-accent" style={{ '--wd': '300ms' }}>my</span>{' '}
-                                    <span className="w w-accent" style={{ '--wd': '360ms' }}>own</span>{' '}
-                                    <span className="w w-accent" style={{ '--wd': '420ms' }}>software.</span>
+                                    <span className="w" style={{ '--wd': '0ms' }}>Rahul</span>{' '}
+                                    <span className="w" style={{ '--wd': '70ms' }}>Mahajan</span>
                                 </span>
                             </h1>
 
-                            <p className="home-text">
-                                Two years of professional experience, BSc in Computer Applications
-                                from DCU. Web apps, desktop tools and the homelab they all run on —
-                                everything below is built and maintained by me.
-                            </p>
-
-                            <div className="hero-actions">
-                                <a href="#work" className="cta cta-primary">
-                                    <span className="cta-text">View projects</span>
-                                    <span className="cta-arrow">↓</span>
-                                </a>
+                            <div className="hero-meta">
+                                <p className="hero-role">Software developer</p>
+                                <p className="home-text">
+                                    Two years professional experience, BSc in Computer Applications
+                                    from DCU. Web apps, desktop tools, and the homelab they run on.
+                                    Everything below is built and hosted by me.
+                                </p>
                             </div>
 
-                            <div className="hero-scroll" aria-hidden>
-                                <span className="hero-scroll-label">SCROLL</span>
-                                <span className="hero-scroll-line" />
+                            <div className="hero-rule" aria-hidden />
+
+                            <div className="hero-index">
+                                <a href="#work" className="index-link">
+                                    <span className="index-n">01</span>
+                                    <span className="index-l">Live services</span>
+                                    <span className="index-c">3</span>
+                                </a>
+                                <a href="#apps" className="index-link">
+                                    <span className="index-n">02</span>
+                                    <span className="index-l">Desktop apps</span>
+                                    <span className="index-c">4</span>
+                                </a>
+                                <a href="#experiments" className="index-link">
+                                    <span className="index-n">03</span>
+                                    <span className="index-l">Experiments</span>
+                                    <span className="index-c">1</span>
+                                </a>
                             </div>
                         </section>
 
                         <ProjectGroup
                             id="work"
-                            tag="Live services"
-                            title="Running on the homelab."
-                            sub="Deployed and self-hosted, up right now. Open a card for the full breakdown."
+                            title="Live services"
+                            sub="Deployed on my homelab and running right now."
                             projects={services}
+                            start={1}
                         />
 
                         <ProjectGroup
                             id="apps"
-                            tag="Desktop apps"
-                            title="Local-first tools."
-                            sub="Native apps I use daily. Your data stays on your machine — no accounts, no cloud."
+                            title="Desktop apps"
+                            sub="Local-first tools I use daily. No accounts, no cloud."
                             projects={desktopApps}
-                            offset={services.length}
+                            start={services.length + 1}
                         />
 
                         <ProjectGroup
                             id="experiments"
-                            tag="Experiments"
-                            title="Smaller builds."
-                            sub="Browser demos and visualisations."
+                            title="Experiments"
+                            sub="Smaller browser builds."
                             projects={experiments}
-                            offset={services.length + desktopApps.length}
+                            start={services.length + desktopApps.length + 1}
                         />
 
                         <section className="skills" id="skills">
-                            <div className="section-head fade-up">
-                                <span className="section-tag">Stack</span>
-                                <h2 className="section-title">Languages &amp; tools.</h2>
+                            <div className="work-head fade-up">
+                                <h2 className="work-title">Stack</h2>
+                                <p className="work-sub">Languages and tools I reach for.</p>
                             </div>
-                            <div className="skill-marquee fade-up">
-                                <div className="marquee-track">
-                                    {[...skills, ...skills, ...skills].map((s, i) => (
-                                        <span className="skill-pill" key={`${s}-${i}`}>{s}</span>
-                                    ))}
-                                </div>
-                            </div>
+                            <ul className="skill-list fade-up">
+                                {skills.map((s) => <li key={s}>{s}</li>)}
+                            </ul>
                         </section>
 
                         <Footer />

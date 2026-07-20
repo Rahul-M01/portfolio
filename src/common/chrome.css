@@ -1,34 +1,14 @@
-.aurora {
-    position: fixed;
-    inset: -15%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(45vmax 35vmax at 15% 10%, rgba(var(--page-a, 139, 92, 246), 0.28), transparent 60%),
-        radial-gradient(35vmax 30vmax at 90% 25%, rgba(var(--page-b, 47, 248, 255), 0.12), transparent 60%),
-        radial-gradient(45vmax 45vmax at 75% 95%, rgba(var(--page-a, 139, 92, 246), 0.14), transparent 60%),
-        radial-gradient(35vmax 35vmax at 10% 90%, rgba(var(--page-b, 47, 248, 255), 0.10), transparent 60%);
-    filter: blur(10px);
-    animation: aurora 22s ease-in-out infinite alternate;
-}
-
-@keyframes aurora {
-    0%   { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(2%, -2%) rotate(2deg); }
-}
-
-.grid-lines {
+/* Single restrained wash — no animated blobs, no grid overlay */
+.page-wash {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 0%, transparent 70%);
-            mask-image: radial-gradient(ellipse at 50% 20%, #000 0%, transparent 70%);
-    opacity: 0.7;
+    background: radial-gradient(
+        70vmax 50vmax at 78% -10%,
+        rgba(var(--page-a, 139, 92, 246), 0.10),
+        transparent 62%
+    );
 }
 
 .fade-up {
@@ -69,19 +49,19 @@
 }
 
 .cursor-ring {
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border-color 0.25s ease;
 }
 
 .cursor-ring.hov {
-    width: 56px;
-    height: 56px;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #fff;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.9);
 }
 
 @media (pointer: coarse), (max-width: 900px) {
@@ -94,8 +74,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgb(var(--page-a, 139, 92, 246)), rgb(var(--page-b, 47, 248, 255)));
+    height: 1px;
+    background: rgb(var(--page-a, 139, 92, 246));
     transform: scaleX(0);
     transform-origin: 0 50%;
     z-index: 9000;
@@ -105,24 +85,24 @@
 .section-tag {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: rgb(var(--page-a, 139, 92, 246));
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    color: var(--fg-faint);
     text-transform: uppercase;
 }
 
 .section-title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.2vw, 3.2rem);
-    letter-spacing: -0.025em;
-    font-weight: 700;
-    line-height: 1.05;
-    margin: 0.6rem 0 0.6rem;
-    color: #fff;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0.8rem 0 0;
+    color: var(--fg);
 }
 
 .section-title em {
     font-style: normal;
-    font-weight: 700;
-    color: rgb(var(--page-a, 139, 92, 246));
+    font-weight: 500;
+    color: var(--accent);
 }

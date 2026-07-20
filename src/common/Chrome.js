@@ -54,7 +54,7 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
             raf = requestAnimationFrame(loop);
         };
 
-        const isInteractive = (t) => t && t.closest && t.closest('a, button, .project-card, .feature-card, .skill-pill');
+        const isInteractive = (t) => t && t.closest && t.closest('a, button, .project-row, .feature-card');
         const onOver = (e) => { if (isInteractive(e.target)) ring.classList.add('hov'); };
         const onOut = (e) => { if (!isInteractive(e.relatedTarget)) ring.classList.remove('hov'); };
 
@@ -92,12 +92,7 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
         };
     }, []);
 
-    return (
-        <>
-            <div className="aurora" aria-hidden />
-            <div className="grid-lines" aria-hidden />
-        </>
-    );
+    return <div className="page-wash" aria-hidden />;
 };
 
 export default Chrome;
