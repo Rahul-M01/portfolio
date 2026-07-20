@@ -21,7 +21,7 @@ const features = [
         num: '01',
         title: 'Live Balances',
         items: [
-            { icon: faWallet, text: 'Current balance and today\'s spend pulled straight from Monzo.' },
+            { icon: faWallet, text: 'Current balance and today\'s spend pulled straight from the bank API.' },
             { icon: faCreditCard, text: 'Full transaction history with merchant names and categories.' },
             { icon: faMagnifyingGlass, text: 'Search and filter by merchant, amount, category or date.' },
             { icon: faTags, text: 'Auto-categorisation with manual overrides that stick.' },
@@ -99,7 +99,7 @@ const Kubera = () => {
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 05 — FINANCE'}</span>
-                    <span className="ph-status">MONZO · LOCAL-ONLY</span>
+                    <span className="ph-status">OPEN BANKING · LOCAL-ONLY</span>
                 </div>
 
                 <div className="ph-body">
@@ -119,10 +119,10 @@ const Kubera = () => {
                             </span>
                         </h1>
                         <p className="ph-desc">
-                            A personal finance dashboard for Monzo users. Live balances, transaction
-                            search, category analytics, budgets and recurring-spend detection — all
-                            running locally on an Electron + Express stack. Your tokens never leave
-                            the machine.
+                            A finance dashboard built on an open banking API. Live balances,
+                            transaction search, category analytics, budgets and recurring-spend
+                            detection, all running locally on an Electron and Express stack. Your
+                            tokens never leave the machine.
                         </p>
                         <div className="ph-actions">
                             <a href="#features" className="ph-action primary">

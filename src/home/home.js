@@ -52,7 +52,7 @@ const desktopApps = [
     {
         title: 'Kubera',
         tag: 'Finance tracker',
-        desc: 'Monzo dashboard with balances, spend analytics, category budgets and recurring payment detection. Stays on your machine.',
+        desc: 'Open banking dashboard with balances, spend analytics, category budgets and recurring payment detection. Stays on your machine.',
         href: '/kubera',
         mono: '₹',
         hue: '#f5c518',
@@ -104,7 +104,7 @@ const elsewhere = [
     },
     {
         title: 'AI game development',
-        note: 'Won two international competitions hosted by Jabali AI.',
+        note: 'Won two international AI game-development competitions.',
     },
 ];
 
@@ -366,11 +366,11 @@ const Home = () => {
                             <div className="hero-meta">
                                 <p className="hero-role">Software developer</p>
                                 <p className="home-text">
-                                    I spent two years at General Motors building full-stack features
-                                    in Angular, Spring Boot and PostgreSQL, and writing the test
-                                    automation around them. Now I'm finishing an MSc in Data Intensive
-                                    Astrophysics at Cardiff, using machine learning on
-                                    gravitational-wave data. Everything below is built and hosted by me.
+                                    Two years of professional experience building full-stack features
+                                    in Angular, Spring Boot and PostgreSQL, and the test automation
+                                    around them. Currently finishing an MSc in Data Intensive
+                                    Astrophysics, applying machine learning to gravitational-wave
+                                    data. Everything below is built and hosted by me.
                                 </p>
                             </div>
 
