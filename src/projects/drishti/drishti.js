@@ -119,9 +119,9 @@ const Drishti = () => {
                             </span>
                         </h1>
                         <p className="ph-desc">
-                            The watchtower for every service on the homelab. Drishti scrapes Prometheus
-                            endpoints, aggregates health signals and surfaces them in a single desktop
-                            dashboard — with native alerts when anything goes red.
+                            Health monitoring for every service on the homelab. Drishti scrapes
+                            Prometheus endpoints, aggregates the health signals and puts them in one
+                            desktop dashboard, with native alerts when something goes red.
                         </p>
                         <div className="ph-actions">
                             <a href="#features" className="ph-action primary">

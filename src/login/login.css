@@ -71,3 +71,9 @@ label{
     box-shadow: 0 0 10px #4C8BF5, 0 0 20px #4C8BF5;
     transform: scale(1.05);
 }
+
+.login-error {
+    color: #f87171;
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+}

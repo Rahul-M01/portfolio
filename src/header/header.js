@@ -4,10 +4,10 @@ import './header.css';
 
 const NAV = [
     { label: 'Home',        key: 'top' },
-    { label: 'Work',        key: 'work' },
+    { label: 'Services',    key: 'work' },
     { label: 'Apps',        key: 'apps' },
     { label: 'Experiments', key: 'experiments' },
-    { label: 'Skills',      key: 'skills' },
+    { label: 'Stack',       key: 'skills' },
 ];
 
 const SECTION_IDS = NAV.filter((n) => n.key !== 'top').map((n) => n.key);

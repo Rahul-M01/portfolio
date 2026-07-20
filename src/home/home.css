@@ -251,51 +251,6 @@
 .index-link:hover .index-n { color: var(--accent); }
 
 /* =========================================================
-   VELOCITY MARQUEE
-   ========================================================= */
-.vmarquee {
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-    padding: 2.4rem 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    margin: 2rem 0 0;
-    background: rgba(255, 255, 255, 0.015);
-}
-
-.vmarquee-track {
-    display: flex;
-    width: max-content;
-    will-change: transform;
-}
-
-.vmarquee-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 2.5rem;
-    padding-right: 2.5rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 4.5vw, 3.6rem);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    white-space: nowrap;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.28);
-}
-
-.vmarquee-item:nth-child(even) {
-    color: var(--fg);
-    -webkit-text-stroke: 0;
-}
-
-.vmarquee-dot {
-    font-size: 0.9rem;
-    color: var(--accent);
-    -webkit-text-stroke: 0;
-}
-
-/* =========================================================
    SECTION HEADS
    ========================================================= */
 .work,
@@ -583,28 +538,75 @@
 /* =========================================================
    SKILLS
    ========================================================= */
-.skill-list {
-    list-style: none;
+/* Elsewhere — unlinked work */
+.else-list { border-top: 1px solid var(--line); }
+
+.else-row {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.else-title {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--fg);
     margin: 0;
-    padding: 2rem 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 2.25rem;
+}
+
+.else-note {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+    margin: 0;
+    max-width: 56ch;
+}
+
+.skill-groups {
     border-top: 1px solid var(--line);
 }
 
-.skill-list li {
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    letter-spacing: 0.02em;
-    color: var(--fg-muted);
-    transition: color 0.25s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.skill-group {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
 }
 
-.skill-list li:hover {
-    color: var(--fg);
-    transform: translateY(-3px);
+.skill-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin: 0;
 }
+
+.skill-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+}
+
+.skill-list li {
+    font-size: 0.98rem;
+    letter-spacing: 0.01em;
+    color: var(--fg-muted);
+    transition: color 0.25s ease;
+}
+
+.skill-list li:hover { color: var(--fg); }
 
 /* =========================================================
    LEGACY
@@ -638,7 +640,7 @@
    ========================================================= */
 @media (max-width: 900px) {
     .hero, .work, .skills { padding-left: 2rem; padding-right: 2rem; }
-    .hero-meta, .work-head { grid-template-columns: 1fr; gap: 0.75rem; }
+    .hero-meta, .work-head, .skill-group { grid-template-columns: 1fr; gap: 0.75rem; }
     .hero-role { margin-top: 0; }
     .work-sub { max-width: none; }
 }

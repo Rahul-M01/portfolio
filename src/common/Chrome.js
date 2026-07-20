@@ -30,57 +30,6 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
     }, []);
 
     useEffect(() => {
-        if (window.matchMedia('(pointer: coarse)').matches) return;
-
-        const ring = document.createElement('div');
-        ring.className = 'cursor-ring';
-        const dot = document.createElement('div');
-        dot.className = 'cursor-dot';
-        document.body.appendChild(ring);
-        document.body.appendChild(dot);
-
-        let x = window.innerWidth / 2;
-        let y = window.innerHeight / 2;
-        let rx = x;
-        let ry = y;
-        let raf;
-
-        const onMove = (e) => { x = e.clientX; y = e.clientY; };
-        const loop = () => {
-            dot.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-            rx += (x - rx) * 0.16;
-            ry += (y - ry) * 0.16;
-            ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-            raf = requestAnimationFrame(loop);
-        };
-
-        const isInteractive = (t) => t && t.closest && t.closest('a, button, .feature-card');
-        const isRow = (t) => t && t.closest && t.closest('.project-row');
-        const onOver = (e) => {
-            if (isRow(e.target)) { ring.classList.add('hidden'); return; }
-            if (isInteractive(e.target)) ring.classList.add('hov');
-        };
-        const onOut = (e) => {
-            if (!isRow(e.relatedTarget)) ring.classList.remove('hidden');
-            if (!isInteractive(e.relatedTarget)) ring.classList.remove('hov');
-        };
-
-        window.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseover', onOver);
-        document.addEventListener('mouseout', onOut);
-        loop();
-
-        return () => {
-            cancelAnimationFrame(raf);
-            window.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseover', onOver);
-            document.removeEventListener('mouseout', onOut);
-            ring.remove();
-            dot.remove();
-        };
-    }, []);
-
-    useEffect(() => {
         const bar = document.createElement('div');
         bar.className = 'scroll-bar';
         document.body.appendChild(bar);

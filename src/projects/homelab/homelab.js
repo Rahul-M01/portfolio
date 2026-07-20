@@ -150,7 +150,7 @@ const Homelab = () => {
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 02 — HOMELAB'}</span>
-                    <span className="ph-status">ONLINE · UPTIME 99.9%</span>
+                    <span className="ph-status">SELF-HOSTED · DOCKER</span>
                 </div>
 
                 <div className="ph-body">
@@ -170,9 +170,9 @@ const Homelab = () => {
                             </span>
                         </h1>
                         <p className="ph-desc">
-                            My self-hosted personal cloud — a stack of services running in Docker on
-                            a Linux box at home. Storage, media, monitoring and automation, all on
-                            infrastructure I own end-to-end.
+                            My self-hosted personal cloud. A stack of services running in Docker on
+                            a Linux box at home, covering storage, media, monitoring and automation.
+                            I own and maintain the whole thing.
                         </p>
                         <div className="ph-actions">
                             <a href="#stack" className="ph-action primary">

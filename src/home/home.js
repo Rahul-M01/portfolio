@@ -65,7 +65,7 @@ const desktopApps = [
         href: '/yudhishtra',
         mono: 'यु',
         hue: '#6b7bff',
-        stack: ['Electron', 'Vite', 'Ollama'],
+        stack: ['Electron', 'React', 'TypeScript', 'SQLite', 'Ollama'],
     },
     {
         title: 'Drishti',
@@ -93,9 +93,38 @@ const experiments = [
 
 const allProjects = [...services, ...desktopApps, ...experiments];
 
-const skills = [
-    'Python', 'Java', 'C', 'JavaScript', 'TypeScript', 'React',
-    'Node.js', 'Electron', 'Django', 'SQLite', 'Docker', 'Linux', 'Git',
+const elsewhere = [
+    {
+        title: 'Gravitational-wave analysis',
+        note: 'MSc thesis. Machine-learning methods for binary black-hole and neutron-star data.',
+    },
+    {
+        title: 'Stock-market analysis pipeline',
+        note: '20 years of market data, 30+ engineered indicators, walk-forward validation.',
+    },
+    {
+        title: 'AI game development',
+        note: 'Won two international competitions hosted by Jabali AI.',
+    },
+];
+
+const skillGroups = [
+    {
+        label: 'Languages',
+        items: ['Python', 'Java', 'TypeScript', 'JavaScript', 'C++', 'C', 'Go'],
+    },
+    {
+        label: 'Frameworks',
+        items: ['Spring Boot', 'Angular', 'React', 'Django', 'Electron'],
+    },
+    {
+        label: 'Data',
+        items: ['PostgreSQL', 'MySQL', 'SQLite', 'NumPy', 'Pandas', 'scikit-learn', 'TensorFlow'],
+    },
+    {
+        label: 'Infra & testing',
+        items: ['Docker', 'Kubernetes', 'Azure Pipelines', 'Selenium', 'Playwright', 'Cucumber', 'Git', 'Linux'],
+    },
 ];
 
 const reduceMotion = () =>
@@ -241,62 +270,6 @@ const ProjectGroup = ({ id, title, sub, projects, start = 1, onEnter, onLeave })
 );
 
 /* ---------------------------------------------------------
-   Scroll-velocity marquee
-   --------------------------------------------------------- */
-const VelocityMarquee = ({ items }) => {
-    const trackRef = useRef(null);
-
-    useEffect(() => {
-        if (reduceMotion()) return;
-        let offset = 0;
-        let last = window.scrollY;
-        let vel = 0;
-        let raf;
-
-        const onScroll = () => {
-            vel += (window.scrollY - last) * 0.35;
-            last = window.scrollY;
-        };
-
-        const loop = () => {
-            vel *= 0.92;
-            offset -= 0.55 + vel * 0.12;
-            const el = trackRef.current;
-            if (el) {
-                const w = el.scrollWidth / 2;
-                if (w > 0) {
-                    if (offset <= -w) offset += w;
-                    if (offset > 0) offset -= w;
-                    el.style.transform = `translate3d(${offset}px, 0, 0) skewX(${Math.max(-10, Math.min(10, vel * 0.25))}deg)`;
-                }
-            }
-            raf = requestAnimationFrame(loop);
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        raf = requestAnimationFrame(loop);
-        return () => {
-            window.removeEventListener('scroll', onScroll);
-            cancelAnimationFrame(raf);
-        };
-    }, []);
-
-    const line = [...items, ...items];
-
-    return (
-        <div className="vmarquee" aria-hidden>
-            <div className="vmarquee-track" ref={trackRef}>
-                {line.map((t, i) => (
-                    <span className="vmarquee-item" key={i}>
-                        {t}<span className="vmarquee-dot">✳</span>
-                    </span>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-/* ---------------------------------------------------------
    Hero name — per character reveal
    --------------------------------------------------------- */
 const RevealName = ({ text, delay = 0 }) => (
@@ -382,7 +355,7 @@ const Home = () => {
                                     <span className="avail-dot" />
                                     Open to work
                                 </span>
-                                <span className="hero-loc">Dublin, IE</span>
+                                <span className="hero-loc">Cardiff, UK</span>
                             </div>
 
                             <h1 className="title">
@@ -393,9 +366,11 @@ const Home = () => {
                             <div className="hero-meta">
                                 <p className="hero-role">Software developer</p>
                                 <p className="home-text">
-                                    Two years professional experience, BSc in Computer Applications
-                                    from DCU. Web apps, desktop tools, and the homelab they run on.
-                                    Everything below is built and hosted by me.
+                                    I spent two years at General Motors building full-stack features
+                                    in Angular, Spring Boot and PostgreSQL, and writing the test
+                                    automation around them. Now I'm finishing an MSc in Data Intensive
+                                    Astrophysics at Cardiff, using machine learning on
+                                    gravitational-wave data. Everything below is built and hosted by me.
                                 </p>
                             </div>
 
@@ -417,10 +392,6 @@ const Home = () => {
                                 </a>
                             </div>
                         </section>
-
-                        <VelocityMarquee
-                            items={['Self-hosted', 'Full stack', 'Desktop apps', 'Homelab', 'Open to work']}
-                        />
 
                         <ProjectGroup
                             id="work" title="Live services"
@@ -444,16 +415,36 @@ const Home = () => {
                             onEnter={onEnter} onLeave={onLeave}
                         />
 
+                        <section className="work" id="elsewhere">
+                            <div className="work-head fade-up">
+                                <h2 className="work-title">Elsewhere</h2>
+                                <p className="work-sub">Work that doesn't have a page here.</p>
+                            </div>
+                            <div className="else-list">
+                                {elsewhere.map((e) => (
+                                    <div className="else-row fade-up" key={e.title}>
+                                        <h3 className="else-title">{e.title}</h3>
+                                        <p className="else-note">{e.note}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
                         <section className="skills" id="skills">
                             <div className="work-head fade-up">
                                 <h2 className="work-title">Stack</h2>
-                                <p className="work-sub">Languages and tools I reach for.</p>
+                                <p className="work-sub">What I work in.</p>
                             </div>
-                            <ul className="skill-list fade-up">
-                                {skills.map((s, i) => (
-                                    <li key={s} style={{ '--sd': `${i * 45}ms` }}>{s}</li>
+                            <div className="skill-groups">
+                                {skillGroups.map((g) => (
+                                    <div className="skill-group fade-up" key={g.label}>
+                                        <h3 className="skill-label">{g.label}</h3>
+                                        <ul className="skill-list">
+                                            {g.items.map((s) => <li key={s}>{s}</li>)}
+                                        </ul>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </section>
 
                         <Footer />

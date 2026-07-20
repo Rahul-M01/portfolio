@@ -51,53 +51,6 @@
     .fade-up { opacity: 1; transform: none; }
 }
 
-/* Custom cursor */
-.cursor-dot,
-.cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: difference;
-}
-
-.cursor-dot {
-    width: 6px;
-    height: 6px;
-    background: #fff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.cursor-ring {
-    width: 26px;
-    height: 26px;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-}
-
-.cursor-ring.hov {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.9);
-}
-
-/* the preview panel replaces the ring over project rows */
-.cursor-ring.hidden {
-    width: 0;
-    height: 0;
-    opacity: 0;
-    border-color: transparent;
-}
-
-@media (pointer: coarse), (max-width: 900px) {
-    .cursor-dot, .cursor-ring { display: none; }
-}
-
 /* Scroll progress */
 .scroll-bar {
     position: fixed;

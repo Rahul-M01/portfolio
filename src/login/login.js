@@ -2,57 +2,83 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './login.css'
 
+// Configured at build time. Without it the form refuses to submit rather than
+// posting credentials to a hardcoded localhost endpoint.
+const AUTH_URL = process.env.REACT_APP_AUTH_URL;
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+
+    if (!AUTH_URL) {
+      setError("Sign-in isn't available on this deployment.");
+      return;
+    }
+
+    setBusy(true);
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
+      const response = await fetch(AUTH_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ username, password }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
         navigate("/drishyam_home");
       } else {
-        alert("Invalid username or password.");
+        setError("Invalid username or password.");
       }
     } catch (err) {
-      console.error("Login error:", err);
+      setError("Couldn't reach the server. Try again.");
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
     <div className="login-card">
-        <div className="login-card-content">
-            <span class="login-title">Login</span>
-            <form class="login-form" onSubmit={handleLogin}>
-                    <label for="username">Username</label>
-                    <input
-                      class="username"
-                      type="text"
-                      placeholder="Username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
+      <div className="login-card-content">
+        <span className="login-title">Login</span>
+        <form className="login-form" onSubmit={handleLogin}>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            className="username"
+            type="text"
+            autoComplete="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-                    <label for="password">Password</label>
-                    <input
-                      class="username"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button type="submit" className="login-button">Login</button>
-            </form>
-        </div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            className="username"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {error && <p className="login-error" role="alert">{error}</p>}
+
+          <button type="submit" className="login-button" disabled={busy}>
+            {busy ? "Signing in…" : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
