@@ -149,7 +149,7 @@ const Homelab = () => {
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 02 — HOMELAB'}</span>
+                    <span className="ph-tag">{'PROJECT 02 — HOMELAB'}</span>
                     <span className="ph-status">ONLINE · UPTIME 99.9%</span>
                 </div>
 
@@ -190,7 +190,7 @@ const Homelab = () => {
 
             <section className="project-features" id="stack">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// Stack'}</span>
+                    <span className="section-tag">{'Stack'}</span>
                     <h2 className="section-title">Services on <em>Agni</em>.</h2>
                 </div>
                 <div className="feature-grid">

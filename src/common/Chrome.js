@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './chrome.css';
 
-const Chrome = ({ pageA = '138, 43, 226', pageB = '47, 248, 255' }) => {
+const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
     useEffect(() => {
         const root = document.documentElement;
         root.style.setProperty('--page-a', pageA);

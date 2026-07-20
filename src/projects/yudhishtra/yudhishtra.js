@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './yudhishtra.css';
 import '../project-page.css';
-import yudhishtraLogo from '../../images/yudhishtra.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
@@ -102,18 +101,18 @@ const Yudhishtra = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
+            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 06 — CODE AUDITOR'}</span>
+                    <span className="ph-tag">{'PROJECT 06 — CODE AUDITOR'}</span>
                     <span className="ph-status">OFFLINE · OLLAMA</span>
                 </div>
 
                 <div className="ph-body">
                     <div className="ph-logo-wrap">
-                        <img src={yudhishtraLogo} alt="Yudhishtra" className="ph-logo" />
+                        <span className="ph-mono" aria-hidden>यु</span>
                     </div>
                     <div className="ph-text">
                         <h1 className="ph-title">
@@ -148,7 +147,7 @@ const Yudhishtra = () => {
 
             <section className="project-features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// Feature map'}</span>
+                    <span className="section-tag">{'Feature map'}</span>
                     <h2 className="section-title">What <em>Yudhishtra</em> does.</h2>
                 </div>
                 <div className="feature-grid">

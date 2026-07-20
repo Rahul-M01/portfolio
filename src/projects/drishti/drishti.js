@@ -93,12 +93,12 @@ const Drishti = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
+            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 07 — OBSERVABILITY'}</span>
+                    <span className="ph-tag">{'PROJECT 07 — OBSERVABILITY'}</span>
                     <span className="ph-status">DESKTOP · DAEMON</span>
                 </div>
 
@@ -139,7 +139,7 @@ const Drishti = () => {
 
             <section className="project-features" id="features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// Feature map'}</span>
+                    <span className="section-tag">{'Feature map'}</span>
                     <h2 className="section-title">What <em>Drishti</em> watches.</h2>
                 </div>
                 <div className="feature-grid">

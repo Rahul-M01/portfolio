@@ -109,7 +109,7 @@ const Header = () => {
             <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
                 <Link to="/" className="brand" onClick={onBrandClick}>
                     <span className="brand-mark">R</span>
-                    <span className="brand-name">RAHUL<span className="brand-sep">·</span>MAHAJAN</span>
+                    <span className="brand-name">Rahul Mahajan</span>
                 </Link>
 
                 <button
@@ -131,7 +131,6 @@ const Header = () => {
                             return (
                                 <li key={item.key} className={activeIndex === i ? 'active' : ''}>
                                     <Link to={to} onClick={(e) => onNavClick(e, item)}>
-                                        <span className="nav-num">0{i + 1}</span>
                                         <span className="nav-label">{item.label}</span>
                                     </Link>
                                 </li>

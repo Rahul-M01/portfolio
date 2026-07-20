@@ -93,12 +93,12 @@ const Kubera = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
+            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 05 — FINANCE'}</span>
+                    <span className="ph-tag">{'PROJECT 05 — FINANCE'}</span>
                     <span className="ph-status">MONZO · LOCAL-ONLY</span>
                 </div>
 
@@ -140,7 +140,7 @@ const Kubera = () => {
 
             <section className="project-features" id="features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// Feature map'}</span>
+                    <span className="section-tag">{'Feature map'}</span>
                     <h2 className="section-title">What <em>Kubera</em> tracks.</h2>
                 </div>
                 <div className="feature-grid">

@@ -6,13 +6,15 @@ import './Footer.css';
 const Footer = () => {
     return (
         <footer className="social-footer">
-            <a href={process.env.REACT_APP_LINKEDIN_URL} className="icon linkedIn" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faLinkedin} />
-            </a>
-
-            <a href={process.env.REACT_APP_GITHUB_URL} className="icon github" target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faGithub} />
-            </a>
+            <p className="footer-note">© {new Date().getFullYear()} Rahul Mahajan · Built and self-hosted by me</p>
+            <div className="footer-links">
+                <a href={process.env.REACT_APP_GITHUB_URL} className="icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <FontAwesomeIcon icon={faGithub} />
+                </a>
+                <a href={process.env.REACT_APP_LINKEDIN_URL} className="icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <FontAwesomeIcon icon={faLinkedin} />
+                </a>
+            </div>
         </footer>
     );
 };

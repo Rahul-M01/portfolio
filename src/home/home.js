@@ -8,7 +8,6 @@ import discordLogo from '../images/discord.png';
 import homelabLogo from '../images/homelab.png';
 import videoLogo from '../images/video.png';
 import drishtiLogo from '../images/drishti.png';
-import yudhishtraLogo from '../images/yudhishtra.png';
 
 const services = [
     {
@@ -71,7 +70,7 @@ const desktopApps = [
         href: '/yudhishtra',
         color: '#6B7BFF',
         colorRgb: '107, 123, 255',
-        img: yudhishtraLogo,
+        mono: 'यु',
         stack: ['Electron', 'Vite', 'Ollama'],
     },
     {
@@ -116,8 +115,8 @@ const ProjectCard = ({ p, index }) => {
         const my = e.clientY - r.top;
         el.style.setProperty('--mx', `${mx}px`);
         el.style.setProperty('--my', `${my}px`);
-        const rx = ((my / r.height) - 0.5) * -6;
-        const ry = ((mx / r.width) - 0.5) * 6;
+        const rx = ((my / r.height) - 0.5) * -2.5;
+        const ry = ((mx / r.width) - 0.5) * 2.5;
         el.style.setProperty('--rx', `${rx}deg`);
         el.style.setProperty('--ry', `${ry}deg`);
     };
@@ -158,7 +157,7 @@ const ProjectCard = ({ p, index }) => {
                     {p.stack.map((s) => <span key={s} className="pc-chip">{s}</span>)}
                 </div>
                 <span className="pc-cta">
-                    <span>{p.external ? 'Open' : 'Explore'}</span>
+                    <span>{p.external ? 'Open site' : 'View project'}</span>
                     <span className="pc-arrow">{p.external ? '↗' : '→'}</span>
                 </span>
             </div>
@@ -184,7 +183,7 @@ const ProjectGroup = ({ id, tag, title, sub, projects, offset = 0 }) => (
     <section className="work" id={id}>
         <div className="section-head fade-up">
             <span className="section-tag">{tag}</span>
-            <h2 className="section-title" dangerouslySetInnerHTML={{ __html: title }} />
+            <h2 className="section-title">{title}</h2>
             {sub && <p className="section-sub">{sub}</p>}
         </div>
         <div className="projects-grid">
@@ -243,33 +242,31 @@ const Home = () => {
                         <Header />
 
                         <section className="hero">
-                            <div className="hero-eyebrow">
-                                <span className="eyebrow-dot" />
-                                <span>AVAILABLE FOR WORK · PORTFOLIO / 2026</span>
-                            </div>
+                            <p className="hero-kicker">Rahul Mahajan — software developer</p>
 
                             <h1 className="title">
                                 <span className="line">
-                                    <span className="w" style={{ '--wd': '0ms' }}>Full</span>{' '}
-                                    <span className="w" style={{ '--wd': '80ms' }}>Stack</span>{' '}
-                                    <span className="w amp" style={{ '--wd': '160ms' }}>&amp;</span>
+                                    <span className="w" style={{ '--wd': '0ms' }}>I</span>{' '}
+                                    <span className="w" style={{ '--wd': '60ms' }}>build</span>{' '}
+                                    <span className="w" style={{ '--wd': '120ms' }}>and</span>{' '}
+                                    <span className="w" style={{ '--wd': '180ms' }}>host</span>
                                 </span>
                                 <span className="line">
-                                    <span className="w w-white" style={{ '--wd': '280ms' }}>Software</span>{' '}
-                                    <span className="w w-white" style={{ '--wd': '360ms' }}>Developer</span>
+                                    <span className="w w-accent" style={{ '--wd': '300ms' }}>my</span>{' '}
+                                    <span className="w w-accent" style={{ '--wd': '360ms' }}>own</span>{' '}
+                                    <span className="w w-accent" style={{ '--wd': '420ms' }}>software.</span>
                                 </span>
                             </h1>
 
                             <p className="home-text">
-                                Hi there — welcome to my site. I'm a software developer with 2&nbsp;years
-                                of professional experience, and a <em>BSc&nbsp;in&nbsp;Computer&nbsp;Applications</em> from DCU.
-                                I build across web, desktop and infrastructure — every project on this site is
-                                shipped and self-hosted by me.
+                                Two years of professional experience, BSc in Computer Applications
+                                from DCU. Web apps, desktop tools and the homelab they all run on —
+                                everything below is built and maintained by me.
                             </p>
 
                             <div className="hero-actions">
                                 <a href="#work" className="cta cta-primary">
-                                    <span className="cta-text">See my work</span>
+                                    <span className="cta-text">View projects</span>
                                     <span className="cta-arrow">↓</span>
                                 </a>
                             </div>
@@ -282,42 +279,39 @@ const Home = () => {
 
                         <ProjectGroup
                             id="work"
-                            tag="// Live services"
-                            title="Things I've <em>built</em> and host."
-                            sub="Running on my homelab right now. Click a card for the full breakdown."
+                            tag="Live services"
+                            title="Running on the homelab."
+                            sub="Deployed and self-hosted, up right now. Open a card for the full breakdown."
                             projects={services}
                         />
 
                         <ProjectGroup
                             id="apps"
-                            tag="// Desktop apps"
-                            title="Offline-first <em>tools</em>."
-                            sub="Native apps I use daily. Local data, no accounts, no cloud sync."
+                            tag="Desktop apps"
+                            title="Local-first tools."
+                            sub="Native apps I use daily. Your data stays on your machine — no accounts, no cloud."
                             projects={desktopApps}
                             offset={services.length}
                         />
 
                         <ProjectGroup
                             id="experiments"
-                            tag="// Experiments"
-                            title="Fun <em>side quests</em>."
-                            sub="Smaller things. Browser demos, visualisations, half-projects."
+                            tag="Experiments"
+                            title="Smaller builds."
+                            sub="Browser demos and visualisations."
                             projects={experiments}
                             offset={services.length + desktopApps.length}
                         />
 
                         <section className="skills" id="skills">
                             <div className="section-head fade-up">
-                                <span className="section-tag">{'// Toolbelt'}</span>
-                                <h2 className="section-title">Languages &amp; <em>stack.</em></h2>
+                                <span className="section-tag">Stack</span>
+                                <h2 className="section-title">Languages &amp; tools.</h2>
                             </div>
                             <div className="skill-marquee fade-up">
                                 <div className="marquee-track">
                                     {[...skills, ...skills, ...skills].map((s, i) => (
-                                        <span className="skill-pill" key={`${s}-${i}`}>
-                                            <span className="pill-star">✦</span>
-                                            {s}
-                                        </span>
+                                        <span className="skill-pill" key={`${s}-${i}`}>{s}</span>
                                     ))}
                                 </div>
                             </div>

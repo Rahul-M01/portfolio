@@ -47,30 +47,26 @@ header {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: blueviolet;
+    background: var(--accent);
     color: #0a0a0a;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-weight: 700;
     font-size: 0.95rem;
-    border-radius: 8px;
-    transform: rotate(-4deg);
+    border-radius: 10px;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
+    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.3);
 }
 
 .brand:hover .brand-mark {
-    transform: rotate(4deg) scale(1.08);
+    transform: scale(1.06);
 }
 
 .brand-name {
-    font-family: 'Courier New', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     color: #eaeaea;
-}
-
-.brand-sep {
-    color: blueviolet;
-    margin: 0 0.25em;
 }
 
 /* NAVBAR */
@@ -97,45 +93,27 @@ header {
 .navbar a {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.55rem 1rem;
+    padding: 0.55rem 1.05rem;
     text-decoration: none;
     color: #bfbfbf;
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     border-radius: 999px;
     position: relative;
     transition: color 0.3s ease, background 0.3s ease;
 }
 
-.nav-num {
-    font-family: 'Courier New', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: #666;
-    transition: color 0.3s ease;
-}
-
-.nav-label {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 .navbar a:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
 }
-
-.navbar a:hover .nav-num { color: blueviolet; }
-.navbar a:hover .nav-label { transform: translateX(2px); }
 
 .navbar li.active a {
-    background: rgba(138, 43, 226, 0.14);
+    background: rgba(var(--accent-rgb), 0.14);
     color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(138, 43, 226, 0.35);
+    box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.35);
 }
-
-.navbar li.active .nav-num { color: blueviolet; }
 
 /* HAMBURGER */
 .hamburger {

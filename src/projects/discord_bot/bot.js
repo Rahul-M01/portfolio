@@ -113,12 +113,12 @@ const Bot = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
+            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 01 — DISCORD BOT'}</span>
+                    <span className="ph-tag">{'PROJECT 01 — DISCORD BOT'}</span>
                     <span className="ph-status">LIVE · 24/7</span>
                 </div>
 
@@ -164,7 +164,7 @@ const Bot = () => {
 
             <section className="project-features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// Feature map'}</span>
+                    <span className="section-tag">{'Feature map'}</span>
                     <h2 className="section-title">What <em>Bhima</em> can do.</h2>
                 </div>
                 <div className="feature-grid">

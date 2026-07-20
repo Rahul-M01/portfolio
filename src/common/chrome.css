@@ -4,9 +4,9 @@
     z-index: 0;
     pointer-events: none;
     background:
-        radial-gradient(45vmax 35vmax at 15% 10%, rgba(var(--page-a, 138, 43, 226), 0.28), transparent 60%),
+        radial-gradient(45vmax 35vmax at 15% 10%, rgba(var(--page-a, 139, 92, 246), 0.28), transparent 60%),
         radial-gradient(35vmax 30vmax at 90% 25%, rgba(var(--page-b, 47, 248, 255), 0.12), transparent 60%),
-        radial-gradient(45vmax 45vmax at 75% 95%, rgba(var(--page-a, 138, 43, 226), 0.14), transparent 60%),
+        radial-gradient(45vmax 45vmax at 75% 95%, rgba(var(--page-a, 139, 92, 246), 0.14), transparent 60%),
         radial-gradient(35vmax 35vmax at 10% 90%, rgba(var(--page-b, 47, 248, 255), 0.10), transparent 60%);
     filter: blur(10px);
     animation: aurora 22s ease-in-out infinite alternate;
@@ -95,7 +95,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, rgb(var(--page-a, 138, 43, 226)), rgb(var(--page-b, 47, 248, 255)));
+    background: linear-gradient(90deg, rgb(var(--page-a, 139, 92, 246)), rgb(var(--page-b, 47, 248, 255)));
     transform: scaleX(0);
     transform-origin: 0 50%;
     z-index: 9000;
@@ -104,25 +104,25 @@
 
 .section-tag {
     display: inline-block;
-    font-family: 'Courier New', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
-    color: rgb(var(--page-a, 138, 43, 226));
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgb(var(--page-a, 139, 92, 246));
     text-transform: uppercase;
 }
 
 .section-title {
+    font-family: var(--font-display);
     font-size: clamp(2rem, 4.2vw, 3.2rem);
     letter-spacing: -0.025em;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.05;
     margin: 0.6rem 0 0.6rem;
     color: #fff;
 }
 
 .section-title em {
-    font-style: italic;
-    font-weight: 400;
-    font-family: 'Times New Roman', Georgia, serif;
-    color: rgb(var(--page-a, 138, 43, 226));
+    font-style: normal;
+    font-weight: 700;
+    color: rgb(var(--page-a, 139, 92, 246));
 }

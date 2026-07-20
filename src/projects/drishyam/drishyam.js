@@ -91,12 +91,12 @@ const Drishyam = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="138, 43, 226" />
+            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
-                    <span className="ph-tag">{'// PROJECT 03 — VIDEO PLATFORM'}</span>
+                    <span className="ph-tag">{'PROJECT 03 — VIDEO PLATFORM'}</span>
                     <span className="ph-status">SELF-HOSTED</span>
                 </div>
 
@@ -140,7 +140,7 @@ const Drishyam = () => {
 
             <section className="project-features">
                 <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'// What it does'}</span>
+                    <span className="section-tag">{'What it does'}</span>
                     <h2 className="section-title">Built for <em>keeping things</em>.</h2>
                 </div>
                 <div className="feature-grid">
