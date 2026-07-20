@@ -6,7 +6,6 @@ import homelabLogo from '../../images/homelab.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
-import { clientConfig } from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCloud, faLock, faLaptopFile, faUsersGear,
@@ -25,7 +24,7 @@ const services = [
         subtitle: 'NextCloud — Personal Cloud',
         accentRgb: '135, 206, 235',
         status: 'LIVE',
-        href: clientConfig.indraUrl || null,
+        href: process.env.REACT_APP_INDRA_URL || null,
         items: [
             { icon: faCloud, text: 'Self-hosted Nextcloud for documents, notes, and calendar sync.' },
             { icon: faLock, text: 'End-to-end encrypted — data never leaves the homelab unencrypted.' },
@@ -39,7 +38,7 @@ const services = [
         subtitle: 'Media Server',
         accentRgb: '229, 160, 13',
         status: 'LIVE',
-        href: clientConfig.plexUrl || null,
+        href: process.env.REACT_APP_PLEX_URL || null,
         items: [
             { icon: faFilm, text: 'Centralised library for movies, TV, music, and photos.' },
             { icon: faGlobe, text: 'Stream to any device, anywhere — phones, consoles, TVs.' },

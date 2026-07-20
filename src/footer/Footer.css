@@ -1,64 +1,59 @@
-.site-footer {
-    width: 100%;
-    border-top: 1px solid #262b2d;
-    background: #080a0b;
-    color: #626a69;
-}
-
-.footer-inner {
-    width: min(calc(100% - 2rem), 1580px);
-    min-height: 86px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 2rem;
-    margin: 0 auto;
-    padding: 0 1rem;
-    border-right: 1px solid #262b2d;
-    border-left: 1px solid #262b2d;
-}
-
-.footer-inner p,
-.footer-links a {
-    font-family: 'IBM Plex Mono', Consolas, monospace;
-    font-size: .54rem;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-}
-
-.footer-inner p {
-    margin: 0;
-}
-
-.footer-inner p:last-child {
-    text-align: right;
-}
-
-.footer-links {
+.social-footer {
     display: flex;
-    gap: 1.5rem;
+    justify-content: space-around;
+    align-items: center;
+    background: #0A0A0A;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 10px;
+    padding: 2rem;
+    flex-wrap: wrap;
 }
 
-.footer-links a {
-    color: #8b9391;
-    text-underline-offset: 4px;
+.icon {
+    color: white;
+    margin: 15px;
+    font-size: 3rem;
+    transition: color 0.3s ease;
+    padding: 1rem 2rem 1rem;
+    box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-.footer-links a:hover {
-    color: #f2eee5;
+/* Social icon hover styles */
+.twitter:hover {
+    color: #1DA1F2;
 }
 
-@media (max-width: 600px) {
-    .footer-inner {
-        width: 100%;
-        min-height: 120px;
-        grid-template-columns: 1fr auto;
-        gap: .75rem 2rem;
-        border: 0;
+.instagram:hover {
+    color: #C13584;
+}
+
+.github:hover {
+    color: #494949;
+}
+
+.discord:hover {
+    color: #5865F2;
+}
+
+.linkedIn:hover {
+    color: #0A66C2;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .social-footer {
+        justify-content: center;
+        padding: 1rem;
+        padding-bottom: 1.5rem;
     }
 
-    .footer-inner p:last-child {
-        grid-column: 1 / -1;
-        text-align: left;
+    .icon {
+        font-size: 2rem;
+        padding: 0.5rem 1rem;
+        margin: 5px;
     }
 }

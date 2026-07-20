@@ -5,23 +5,23 @@ function usePageTracker() {
     const location = useLocation();
 
     useEffect(() => {
-        const trackingUrl = import.meta.env.VITE_TRACKING_URL;
-        if (!trackingUrl) return;
+        console.log(location);
+        const trackPageView = () => {
+            fetch('http://localhost:5000/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    path: location.pathname,
+                }),
+            }).then(response => response.text())
+                .then(message => console.log(message))
+                .catch(err => console.error('Error tracking page:', err));
+        };
 
-        const controller = new AbortController();
-        fetch(trackingUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ path: location.pathname }),
-            signal: controller.signal,
-        }).catch(() => {
-            // Analytics must never interrupt navigation.
-        });
-
-        return () => controller.abort();
-    }, [location.pathname]);
+        trackPageView();
+    }, [location]);
 
     return null;
 }

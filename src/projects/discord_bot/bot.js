@@ -6,7 +6,6 @@ import discordLogo from '../../images/discord.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
-import { clientConfig } from '../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faHammer, faComments, faPlay, faPause, faForward, faList, faVolumeLow,
@@ -145,22 +144,15 @@ const Bot = () => {
                             embeds.
                         </p>
                         <div className="ph-actions">
-                            {clientConfig.discordInvite ? (
-                                <a
-                                    href={clientConfig.discordInvite}
-                                    className="ph-action primary"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <span>Invite Bhima</span>
-                                    <span className="arrow">↗</span>
-                                </a>
-                            ) : (
-                                <span className="ph-action primary" aria-disabled="true">
-                                    <span>Private deployment</span>
-                                    <span className="arrow">•</span>
-                                </span>
-                            )}
+                            <a
+                                href={process.env.REACT_APP_DISCORD_INVITE || '#'}
+                                className="ph-action primary"
+                                target={process.env.REACT_APP_DISCORD_INVITE ? '_blank' : undefined}
+                                rel="noreferrer"
+                            >
+                                <span>Invite Bhima</span>
+                                <span className="arrow">↗</span>
+                            </a>
                             <Link to="/" className="ph-action ghost">
                                 <span>Back to Home</span>
                                 <span className="arrow">←</span>

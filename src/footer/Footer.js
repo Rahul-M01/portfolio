@@ -1,24 +1,20 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import './Footer.css';
-import { clientConfig } from '../config';
 
-const Footer = () => (
-    <footer className="site-footer">
-        <div className="footer-inner">
-            <p>Rahul Mahajan</p>
-            <div className="footer-links">
-                <a href={clientConfig.githubUrl || 'https://github.com/Rahul-M01'} target="_blank" rel="noopener noreferrer">
-                    GitHub
-                </a>
-                {clientConfig.linkedinUrl && (
-                    <a href={clientConfig.linkedinUrl} target="_blank" rel="noopener noreferrer">
-                        LinkedIn
-                    </a>
-                )}
-            </div>
-            <p>© {new Date().getFullYear()}</p>
-        </div>
-    </footer>
-);
+const Footer = () => {
+    return (
+        <footer className="social-footer">
+            <a href={process.env.REACT_APP_LINKEDIN_URL} className="icon linkedIn" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faLinkedin} />
+            </a>
+
+            <a href={process.env.REACT_APP_GITHUB_URL} className="icon github" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faGithub} />
+            </a>
+        </footer>
+    );
+};
 
 export default Footer;
