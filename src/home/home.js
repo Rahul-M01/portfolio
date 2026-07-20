@@ -221,9 +221,10 @@ const ProjectRow = ({ p, num, onEnter, onLeave }) => {
                     <span className="row-tag">{p.tag}</span>
                 </span>
                 <span className="row-desc">{p.desc}</span>
-                <span className="row-stack">
-                    {p.stack.map((s) => <span key={s} className="row-chip">{s}</span>)}
-                </span>
+            </span>
+
+            <span className="row-stack">
+                {p.stack.map((s) => <span key={s} className="row-chip">{s}</span>)}
             </span>
 
             <span className="row-end">
@@ -249,9 +250,10 @@ const ProjectRow = ({ p, num, onEnter, onLeave }) => {
     return <Link to={p.href} {...props}>{inner}</Link>;
 };
 
-const ProjectGroup = ({ id, title, sub, projects, start = 1, onEnter, onLeave }) => (
+const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1, onEnter, onLeave }) => (
     <section className="work" id={id}>
         <div className="work-head fade-up">
+            <span className="work-numeral">{numeral}</span>
             <h2 className="work-title">{title}</h2>
             <p className="work-sub">{sub}</p>
         </div>
@@ -272,14 +274,21 @@ const ProjectGroup = ({ id, title, sub, projects, start = 1, onEnter, onLeave })
 /* ---------------------------------------------------------
    Hero name, per character reveal
    --------------------------------------------------------- */
-const RevealName = ({ text, delay = 0 }) => (
-    <span className="rn-line">
+const RevealName = ({ text, delay = 0, italic = false }) => (
+    <span className={`rn-line ${italic ? 'rn-italic' : ''}`}>
         {text.split('').map((ch, i) => (
             <span className="rn-char" key={i} style={{ '--cd': `${delay + i * 34}ms` }}>
                 {ch === ' ' ? ' ' : ch}
             </span>
         ))}
     </span>
+);
+
+const MetaRow = ({ label, children }) => (
+    <div className="meta-row">
+        <span className="meta-label">{label}</span>
+        <p className="meta-body">{children}</p>
+    </div>
 );
 
 let introPlayed = false;
@@ -360,18 +369,25 @@ const Home = () => {
 
                             <h1 className="title">
                                 <RevealName text="Rahul" delay={0} />
-                                <RevealName text="Mahajan" delay={260} />
+                                <RevealName text="Mahajan." delay={260} italic />
                             </h1>
 
                             <div className="hero-meta">
-                                <p className="hero-role">Software developer</p>
-                                <p className="home-text">
+                                <MetaRow label="Role">
+                                    Software developer
+                                </MetaRow>
+                                <MetaRow label="At present">
                                     Two years of professional experience building full-stack features
                                     in Angular, Spring Boot and PostgreSQL, and the test automation
-                                    around them. Currently finishing an MSc in Data Intensive
-                                    Astrophysics, applying machine learning to gravitational-wave
-                                    data. Everything below is built and hosted by me.
-                                </p>
+                                    around them.
+                                </MetaRow>
+                                <MetaRow label="Studying">
+                                    Finishing an MSc in Data Intensive Astrophysics, applying machine
+                                    learning to gravitational-wave data.
+                                </MetaRow>
+                                <MetaRow label="Colophon">
+                                    Everything below is <span className="meta-hl">built and hosted by me</span>.
+                                </MetaRow>
                             </div>
 
                             <div className="hero-index">
@@ -394,21 +410,21 @@ const Home = () => {
                         </section>
 
                         <ProjectGroup
-                            id="work" title="Live services"
+                            id="work" numeral="I" title="Live services"
                             sub="Deployed on my homelab and running right now."
                             projects={services} start={1}
                             onEnter={onEnter} onLeave={onLeave}
                         />
 
                         <ProjectGroup
-                            id="apps" title="Desktop apps"
+                            id="apps" numeral="II" title="Desktop apps"
                             sub="Local-first tools I use daily. No accounts, no cloud."
                             projects={desktopApps} start={services.length + 1}
                             onEnter={onEnter} onLeave={onLeave}
                         />
 
                         <ProjectGroup
-                            id="experiments" title="Experiments"
+                            id="experiments" numeral="III" title="Experiments"
                             sub="Smaller browser builds."
                             projects={experiments}
                             start={services.length + desktopApps.length + 1}
@@ -417,6 +433,7 @@ const Home = () => {
 
                         <section className="work" id="elsewhere">
                             <div className="work-head fade-up">
+                                <span className="work-numeral">IV</span>
                                 <h2 className="work-title">Elsewhere</h2>
                                 <p className="work-sub">Work that doesn't have a page here.</p>
                             </div>
@@ -432,6 +449,7 @@ const Home = () => {
 
                         <section className="skills" id="skills">
                             <div className="work-head fade-up">
+                                <span className="work-numeral">V</span>
                                 <h2 className="work-title">Stack</h2>
                                 <p className="work-sub">What I work in.</p>
                             </div>

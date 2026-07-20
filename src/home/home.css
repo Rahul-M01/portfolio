@@ -25,7 +25,7 @@
     position: relative;
     z-index: 1;
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: -0.03em;
 }
 
@@ -139,14 +139,21 @@
 /* Oversized name, per-character reveal */
 .title {
     font-family: var(--font-display);
-    font-size: clamp(3.6rem, 15vw, 12.5rem);
-    line-height: 0.82;
-    letter-spacing: -0.055em;
-    font-weight: 500;
-    margin: 0 0 3rem;
+    font-size: clamp(3.6rem, 15vw, 13rem);
+    line-height: 0.84;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    margin: 0 0 3.5rem;
     padding: 0;
     color: var(--fg);
     opacity: var(--so, 1);
+    margin-left: -0.045em;
+}
+
+.rn-italic {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--fg);
 }
 
 .rn-line {
@@ -165,36 +172,42 @@
 @keyframes charUp { to { transform: translateY(0) rotate(0); } }
 
 .hero-meta {
-    display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
-    gap: 2rem;
-    align-items: start;
     margin-bottom: 4rem;
+    border-top: 1px solid var(--line);
     opacity: 0;
     animation: fadeSlide 0.8s 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: none; }
+.meta-row {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: baseline;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--line);
 }
 
-.hero-role {
+.meta-label {
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--fg-faint);
-    margin: 0.4rem 0 0;
 }
 
-.home-text {
+.meta-body {
     font-size: 1.15rem;
-    line-height: 1.65;
-    max-width: 46ch;
-    color: var(--fg-muted);
+    line-height: 1.55;
+    color: var(--fg);
     margin: 0;
-    padding: 0;
+    max-width: 58ch;
+}
+
+.meta-hl { color: var(--accent); }
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
 }
 
 .hero-index {
@@ -243,8 +256,8 @@
 
 .index-l {
     font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 400;
     letter-spacing: -0.01em;
 }
 
@@ -264,10 +277,19 @@
 
 .work-head {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
+    grid-template-columns: 3.5rem 200px minmax(0, 1fr);
     gap: 2rem;
     align-items: baseline;
     margin-bottom: 3rem;
+}
+
+.work-numeral {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.02em;
 }
 
 .work-title {
@@ -283,7 +305,7 @@
 .work-sub {
     font-family: var(--font-display);
     font-size: clamp(1.4rem, 2.6vw, 2rem);
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: -0.025em;
     line-height: 1.25;
     color: var(--fg);
@@ -298,8 +320,8 @@
 
 .project-row {
     display: grid;
-    grid-template-columns: 3.5rem minmax(0, 1fr) auto;
-    gap: 1rem 1.5rem;
+    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 15rem) 2rem;
+    gap: 1rem 2rem;
     align-items: start;
     padding: 2.4rem 0.5rem 2.4rem 0;
     border-bottom: 1px solid var(--line);
@@ -383,10 +405,10 @@
     display: inline-block;
     overflow: hidden;
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 3.6vw, 2.9rem);
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    line-height: 1.06;
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
 }
 
 .row-title-in,
@@ -424,14 +446,24 @@
     margin-bottom: 1rem;
 }
 
-.row-stack { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+.row-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    padding-top: 0.7rem;
+    text-align: right;
+}
 
 .row-chip {
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     color: var(--fg-faint);
+    transition: color 0.3s ease;
 }
+
+.project-row:hover .row-chip { color: var(--fg-muted); }
 
 .row-end {
     display: flex;
@@ -518,7 +550,7 @@
 .preview-glyph {
     font-family: var(--font-display);
     font-size: 3.4rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1;
     color: var(--hue);
 }
@@ -552,8 +584,8 @@
 
 .else-title {
     font-family: var(--font-display);
-    font-size: 1.02rem;
-    font-weight: 500;
+    font-size: 1.08rem;
+    font-weight: 400;
     letter-spacing: -0.015em;
     color: var(--fg);
     margin: 0;
@@ -640,9 +672,34 @@
    ========================================================= */
 @media (max-width: 900px) {
     .hero, .work, .skills { padding-left: 2rem; padding-right: 2rem; }
-    .hero-meta, .work-head, .skill-group { grid-template-columns: 1fr; gap: 0.75rem; }
-    .hero-role { margin-top: 0; }
-    .work-sub { max-width: none; }
+
+    .meta-row, .skill-group, .else-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .work-head {
+        grid-template-columns: 2rem minmax(0, 1fr);
+        gap: 0.5rem 1.25rem;
+    }
+
+    .work-title { grid-column: 2; }
+    .work-sub { grid-column: 2; max-width: none; }
+
+    /* stack drops under the description and reads left-to-right */
+    .project-row {
+        grid-template-columns: 3rem minmax(0, 1fr) 2rem;
+    }
+
+    .row-stack {
+        grid-column: 2 / 3;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 0.85rem;
+        padding-top: 0;
+        text-align: left;
+    }
 }
 
 @media (max-width: 640px) {
@@ -650,11 +707,11 @@
     .hero { padding-top: 12vh; padding-bottom: 4rem; }
     .work { padding-top: 5rem; }
     .skills { padding-top: 5rem; padding-bottom: 5rem; }
-    .home-text { font-size: 1.02rem; }
+    .meta-body { font-size: 1.05rem; }
     .vmarquee { padding: 1.6rem 0; }
 
     .project-row, .index-link {
-        grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+        grid-template-columns: 2.25rem minmax(0, 1fr) 1.5rem;
         gap: 0.6rem 1rem;
     }
 
