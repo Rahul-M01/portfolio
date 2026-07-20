@@ -54,9 +54,16 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
             raf = requestAnimationFrame(loop);
         };
 
-        const isInteractive = (t) => t && t.closest && t.closest('a, button, .project-row, .feature-card');
-        const onOver = (e) => { if (isInteractive(e.target)) ring.classList.add('hov'); };
-        const onOut = (e) => { if (!isInteractive(e.relatedTarget)) ring.classList.remove('hov'); };
+        const isInteractive = (t) => t && t.closest && t.closest('a, button, .feature-card');
+        const isRow = (t) => t && t.closest && t.closest('.project-row');
+        const onOver = (e) => {
+            if (isRow(e.target)) { ring.classList.add('hidden'); return; }
+            if (isInteractive(e.target)) ring.classList.add('hov');
+        };
+        const onOut = (e) => {
+            if (!isRow(e.relatedTarget)) ring.classList.remove('hidden');
+            if (!isInteractive(e.relatedTarget)) ring.classList.remove('hov');
+        };
 
         window.addEventListener('mousemove', onMove);
         document.addEventListener('mouseover', onOver);
@@ -92,7 +99,12 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
         };
     }, []);
 
-    return <div className="page-wash" aria-hidden />;
+    return (
+        <>
+            <div className="page-wash" aria-hidden />
+            <div className="grain" aria-hidden />
+        </>
+    );
 };
 
 export default Chrome;

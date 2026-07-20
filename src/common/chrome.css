@@ -11,6 +11,28 @@
     );
 }
 
+/* Film grain — kills the flat-gradient look */
+.grain {
+    position: fixed;
+    inset: -50%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainShift 0.6s steps(3) infinite;
+}
+
+@keyframes grainShift {
+    0%   { transform: translate(0, 0); }
+    33%  { transform: translate(-3%, 2%); }
+    66%  { transform: translate(2%, -3%); }
+    100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .grain { animation: none; }
+}
+
 .fade-up {
     opacity: 0;
     transform: translateY(28px);
@@ -62,6 +84,14 @@
     height: 44px;
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* the preview panel replaces the ring over project rows */
+.cursor-ring.hidden {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    border-color: transparent;
 }
 
 @media (pointer: coarse), (max-width: 900px) {
