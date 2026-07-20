@@ -81,6 +81,28 @@
 /* =========================================================
    HERO
    ========================================================= */
+.hero-field {
+    position: absolute;
+    inset: -6rem -4rem auto;
+    height: calc(100% + 6rem);
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(80% 70% at 50% 40%, #000 30%, transparent 78%);
+            mask-image: radial-gradient(80% 70% at 50% 40%, #000 30%, transparent 78%);
+}
+
+.hero-field canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hero > *:not(.hero-field) {
+    position: relative;
+    z-index: 1;
+}
+
 .hero {
     padding-top: 15vh;
     padding-bottom: 7rem;
@@ -152,7 +174,6 @@
 
 .rn-italic {
     font-style: italic;
-    font-weight: 300;
     color: var(--fg);
 }
 
@@ -318,6 +339,40 @@
    ========================================================= */
 .project-list { border-top: 1px solid var(--line); }
 
+/* The row itself no longer moves; its cells reveal in sequence. */
+.project-row.fade-up {
+    opacity: 1;
+    transform: none;
+    transition: padding-left 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-row .row-num,
+.project-row .row-main,
+.project-row .row-stack,
+.project-row .row-end {
+    clip-path: inset(105% 0 0 0);
+    transform: translate3d(0, 16px, 0);
+    opacity: 0;
+    transition:
+        clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.7s ease;
+}
+
+.project-row.in-view .row-num,
+.project-row.in-view .row-main,
+.project-row.in-view .row-stack,
+.project-row.in-view .row-end {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+}
+
+.project-row.in-view .row-num  { transition-delay: 0ms; }
+.project-row.in-view .row-main { transition-delay: 70ms; }
+.project-row.in-view .row-stack { transition-delay: 150ms; }
+.project-row.in-view .row-end  { transition-delay: 220ms; }
+
 .project-row {
     display: grid;
     grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 15rem) 2rem;
@@ -472,15 +527,14 @@
 }
 
 .row-arrow {
+    display: inline-block;
     font-size: 1.4rem;
     color: var(--fg-faint);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    transition: color 0.3s ease;
+    will-change: transform;
 }
 
-.project-row:hover .row-arrow {
-    color: var(--hue, var(--accent));
-    transform: translateX(8px);
-}
+.project-row:hover .row-arrow { color: var(--hue, var(--accent)); }
 
 /* dim the rest of the page while a row is hovered */
 .page-content.dimmed .project-row:not(:hover) .row-title-in,
