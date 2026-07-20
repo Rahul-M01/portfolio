@@ -6,7 +6,7 @@ import './Footer.css';
 const Footer = () => {
     return (
         <footer className="social-footer">
-            <p className="footer-note">© {new Date().getFullYear()} Rahul Mahajan · Built and self-hosted by me</p>
+            <p className="footer-note">© {new Date().getFullYear()} Rahul Mahajan / Built and self-hosted by me</p>
             <div className="footer-links">
                 <a href={process.env.REACT_APP_GITHUB_URL} className="icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     <FontAwesomeIcon icon={faGithub} />

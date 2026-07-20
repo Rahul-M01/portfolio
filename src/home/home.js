@@ -551,9 +551,9 @@ const HeroSpace = ({ progressRef }) => {
                     else ctx.lineTo(x, y);
                 }
                 const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, maxR);
-                grad.addColorStop(0, 'rgba(232, 131, 74, 0.30)');
-                grad.addColorStop(0.55, 'rgba(232, 131, 74, 0.09)');
-                grad.addColorStop(1, 'rgba(232, 131, 74, 0)');
+                grad.addColorStop(0, 'rgba(53, 214, 242, 0.30)');
+                grad.addColorStop(0.55, 'rgba(53, 214, 242, 0.09)');
+                grad.addColorStop(1, 'rgba(53, 214, 242, 0)');
                 ctx.strokeStyle = grad;
                 ctx.stroke();
             }
@@ -566,7 +566,7 @@ const HeroSpace = ({ progressRef }) => {
                 const y = gy + Math.sin(a) * orbit * 0.42;
                 ctx.beginPath();
                 ctx.arc(x, y, 1.7, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 214, 184, 0.85)';
+                ctx.fillStyle = 'rgba(226, 240, 255, 0.9)';
                 ctx.fill();
             }
         };
@@ -592,14 +592,14 @@ const HeroSpace = ({ progressRef }) => {
                 if (e.life <= 0) { exhaust.splice(i, 1); continue; }
                 ctx.beginPath();
                 ctx.arc(e.x, e.y, e.r * e.life, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(232, 131, 74, ${(0.30 * e.life * fade).toFixed(3)})`;
+                ctx.fillStyle = `rgba(53, 214, 242, ${(0.30 * e.life * fade).toFixed(3)})`;
                 ctx.fill();
             }
 
             ctx.save();
             ctx.translate(x, y);
             ctx.rotate(tilt);
-            ctx.strokeStyle = `rgba(242, 240, 236, ${(0.75 * fade).toFixed(3)})`;
+            ctx.strokeStyle = `rgba(234, 239, 243, ${(0.75 * fade).toFixed(3)})`;
             ctx.lineWidth = 1.1;
             ctx.lineJoin = 'round';
             ctx.beginPath();
@@ -615,7 +615,7 @@ const HeroSpace = ({ progressRef }) => {
             ctx.stroke();
             ctx.beginPath();
             ctx.arc(0, -2.5, 2.4, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(232, 131, 74, ${(0.9 * fade).toFixed(3)})`;
+            ctx.strokeStyle = `rgba(53, 214, 242, ${(0.9 * fade).toFixed(3)})`;
             ctx.stroke();
             ctx.restore();
         };
@@ -640,7 +640,7 @@ const HeroSpace = ({ progressRef }) => {
                 const py = s2.y - oy * s2.par;
                 ctx.beginPath();
                 ctx.arc(px, py, s2.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(242, 240, 236, ${(s2.a * tw).toFixed(3)})`;
+                ctx.fillStyle = `rgba(234, 239, 243, ${(s2.a * tw).toFixed(3)})`;
                 ctx.fill();
             }
 
@@ -688,14 +688,36 @@ const MetaRow = ({ label, children }) => (
     </div>
 );
 
+/* ---------------------------------------------------------
+   Rocket launch intro. Per the Lovable design: 2s launch,
+   380ms fade to the page, skippable, once per session.
+   --------------------------------------------------------- */
+const LaunchOverlay = ({ onSkip }) => (
+    <div className="launch-overlay">
+        <div className="stars-bg" aria-hidden />
+        <div className="horizon" aria-hidden />
+        <div className="flash" aria-hidden />
+        <div className="rocket-wrap" aria-hidden>
+            <svg className="rocket" width="44" height="72" viewBox="0 0 44 72" fill="none">
+                <path
+                    d="M22 2c7 9 11 19 11 30 0 8-2 15-5 21H16c-3-6-5-13-5-21C11 21 15 11 22 2Z"
+                    stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"
+                />
+                <path d="M16 53 4 66l12-5M28 53l12 13-12-5" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                <circle cx="22" cy="27" r="6" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+            <span className="trail" />
+        </div>
+        <button type="button" className="skip" onClick={onSkip}>Skip</button>
+    </div>
+);
+
 let introPlayed = false;
 
 const Home = () => {
-    const words = ["Hello", "مرحبًا", "नमस्ते", "Bonjour", "こんにちは"];
     const location = useLocation();
     const skipIntro = useRef(introPlayed || Boolean(location.hash));
-    const [word, setWord] = useState('');
-    const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'start');
+    const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'launch');
     const [active, setActive] = useState(null);
     const nameRef = useRef(null);
     const trackRef = useRef(null);
@@ -708,16 +730,17 @@ const Home = () => {
     const onEnter = useCallback((t) => setActive(t), []);
     const onLeave = useCallback(() => setActive(null), []);
 
+    const finishIntro = useCallback(() => {
+        introPlayed = true;
+        setStage('reveal');
+    }, []);
+
     useEffect(() => {
         if (skipIntro.current) return;
-        const randomWord = words[Math.floor(Math.random() * words.length)];
-        setWord(randomWord);
-        const t1 = setTimeout(() => setStage('drop'), 500);
-        const t2 = setTimeout(() => setStage('zoom'), 1000);
-        const t3 = setTimeout(() => { setStage('reveal'); introPlayed = true; }, 2000);
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if (reduceMotion()) { finishIntro(); return; }
+        const t = setTimeout(finishIntro, 2380);
+        return () => clearTimeout(t);
+    }, [finishIntro]);
 
     useEffect(() => {
         if (stage !== 'reveal' || !location.hash) return;
@@ -733,9 +756,7 @@ const Home = () => {
     return (
         <main>
             <div className="app">
-                {(stage === 'start' || stage === 'drop') && <div className="hello-text">{word}</div>}
-                {stage === 'drop' && <div className="drop"></div>}
-                {stage === 'zoom' && <div className="hello-text zoom">{word}</div>}
+                {stage === 'launch' && <LaunchOverlay onSkip={finishIntro} />}
                 {stage === 'reveal' &&
                     <div className={`page-content ${active ? 'dimmed' : ''}`}>
                         <Chrome />

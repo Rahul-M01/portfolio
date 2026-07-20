@@ -150,7 +150,7 @@ const Homelab = () => {
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 02 / HOMELAB'}</span>
-                    <span className="ph-status">SELF-HOSTED · DOCKER</span>
+                    <span className="ph-status">SELF-HOSTED / DOCKER</span>
                 </div>
 
                 <div className="ph-body">

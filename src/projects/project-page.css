@@ -21,7 +21,7 @@
 .project-hero {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 11rem 4rem 5rem;
+    padding: var(--hero-top-pad) 4rem 5rem;
 }
 
 .ph-meta {
@@ -44,11 +44,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(var(--accent-rgb), 0.4);
-    border-radius: 999px;
+    padding: 6px 10px;
+    border: 1px solid rgba(var(--accent-rgb), 0.5);
+    border-radius: 2px;
     color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.06);
+    background: rgba(var(--accent-rgb), 0.08);
+    letter-spacing: 0.2em;
 }
 
 .ph-status::before {
@@ -57,6 +58,7 @@
     height: 7px;
     border-radius: 50%;
     background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
 }
 
 @keyframes phPulse {
@@ -171,13 +173,15 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.95rem 1.5rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    padding: 14px 20px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     text-decoration: none;
+    color: var(--fg);
     cursor: pointer;
     transition:
         transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
@@ -188,26 +192,28 @@
 
 .ph-action.primary {
     background: var(--accent);
-    color: #0a0a0a;
+    color: var(--bg);
     border-color: var(--accent);
-    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35);
+}
+
+.ph-action.primary {
+    color: var(--bg);
 }
 
 .ph-action.primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 44px rgba(var(--accent-rgb), 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px -8px rgba(var(--accent-rgb), 0.6);
 }
 
 .ph-action.ghost {
-    background: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    background: transparent;
+    border-color: var(--line);
+    color: var(--fg);
 }
 
 .ph-action.ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-3px);
+    border-color: var(--fg);
+    transform: translateY(-1px);
 }
 
 .ph-action .arrow {
@@ -238,10 +244,11 @@
 
 .feature-card {
     position: relative;
-    padding: 2rem;
-    background: #0d0d0f;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 2.5rem 0;
+    background: transparent;
+    border-radius: 0;
+    border: 0;
+    border-top: 1px solid var(--line);
     overflow: hidden;
     isolation: isolate;
     transition:
@@ -252,10 +259,7 @@
 }
 
 .feature-card:hover {
-    border-color: rgba(var(--accent-rgb), 0.5);
-    background: #111;
-    transform: translateY(-4px);
-    box-shadow: 0 30px 70px rgba(var(--accent-rgb), 0.12);
+    border-top-color: rgba(var(--accent-rgb), 0.45);
 }
 
 .feature-card .fc-glow {
@@ -263,8 +267,8 @@
     inset: 0;
     pointer-events: none;
     background: radial-gradient(
-        320px circle at var(--mx, 50%) var(--my, 50%),
-        rgba(var(--accent-rgb), 0.14),
+        420px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(var(--accent-rgb), 0.07),
         transparent 65%
     );
     opacity: 0;
@@ -404,6 +408,8 @@
     background: rgba(255, 255, 255, 0.02);
     transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
 }
+
+.project-nav a { transition: color 200ms ease, transform 200ms ease; }
 
 .project-nav a:hover {
     background: rgba(var(--accent-rgb), 0.1);

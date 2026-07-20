@@ -10,7 +10,8 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    padding: 1.35rem 4rem;
+    height: var(--header-h);
+    padding: 0 4rem;
     max-width: 1080px;
     margin: 0 auto;
     position: fixed;
@@ -28,9 +29,7 @@ header {
     max-width: none;
     padding-left: max(4rem, calc((100vw - 1080px) / 2 + 4rem));
     padding-right: max(4rem, calc((100vw - 1080px) / 2 + 4rem));
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    background-color: rgba(10, 10, 10, 0.72);
+    background-color: rgba(4, 6, 13, 0.72);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border-bottom-color: var(--line);
@@ -151,7 +150,7 @@ header {
 @media (max-width: 900px) {
     .header-container,
     .header-container.sticky {
-        padding: 1rem 1.35rem;
+        padding: 0 1.35rem;
         max-width: none;
     }
 
@@ -179,7 +178,7 @@ header {
         flex-direction: column;
         border: 1px solid var(--line);
         border-radius: 14px;
-        background: rgba(14, 14, 16, 0.95);
+        background: rgba(6, 9, 18, 0.96);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         padding: 0.5rem;

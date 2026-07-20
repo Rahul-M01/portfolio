@@ -93,13 +93,13 @@ const Drishti = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
+            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 07 / OBSERVABILITY'}</span>
-                    <span className="ph-status">DESKTOP · DAEMON</span>
+                    <span className="ph-status">DESKTOP / DAEMON</span>
                 </div>
 
                 <div className="ph-body">

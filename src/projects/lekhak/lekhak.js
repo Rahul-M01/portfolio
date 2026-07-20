@@ -92,13 +92,13 @@ const Lekhak = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
+            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 04 / PRODUCTIVITY'}</span>
-                    <span className="ph-status">DESKTOP · WINDOWS</span>
+                    <span className="ph-status">DESKTOP / WINDOWS</span>
                 </div>
 
                 <div className="ph-body">

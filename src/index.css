@@ -1,15 +1,24 @@
+/* Space palette, per the Lovable design system.
+   Values are the sRGB equivalents of its oklch tokens so they render
+   identically in browsers without oklch support. */
 :root {
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
   --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
 
-  --bg: #0a0a0b;
-  --fg: #f2f0ec;
-  --fg-muted: #a09d98;
-  --fg-faint: #6f6d69;
-  --line: rgba(255, 255, 255, 0.09);
-  --accent: #e8834a;
-  --accent-rgb: 232, 131, 74;
+  --bg: #04060d;
+  --fg: #eaeff3;
+  --fg-muted: #9aa4b2;
+  --fg-faint: #77818c;
+  --line: #1f242b;
+
+  --accent: #35d6f2;
+  --accent-rgb: 53, 214, 242;
+  --accent-2: #b96ee0;
+  --accent-2-rgb: 185, 110, 224;
+
+  --header-h: 60px;
+  --hero-top-pad: 140px;
 }
 
 ::selection {
@@ -17,11 +26,25 @@
   color: var(--bg);
 }
 
+html {
+  background-color: var(--bg);
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Nebula wash. Fixed so it reads as depth behind the page, not a banner. */
+  background-image:
+    radial-gradient(1200px 700px at 12% -10%, rgba(var(--accent-2-rgb), 0.16), transparent 60%),
+    radial-gradient(1000px 600px at 92% 8%, rgba(var(--accent-rgb), 0.12), transparent 55%),
+    radial-gradient(900px 500px at 50% 120%, rgba(var(--accent-rgb), 0.07), transparent 60%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 code {

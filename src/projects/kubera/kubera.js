@@ -93,13 +93,13 @@ const Kubera = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
+            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
             <Header />
 
             <section className="project-hero">
                 <div className="ph-meta">
                     <span className="ph-tag">{'PROJECT 05 / FINANCE'}</span>
-                    <span className="ph-status">OPEN BANKING · LOCAL-ONLY</span>
+                    <span className="ph-status">OPEN BANKING / LOCAL-ONLY</span>
                 </div>
 
                 <div className="ph-body">

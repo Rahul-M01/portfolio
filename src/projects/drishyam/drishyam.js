@@ -91,7 +91,7 @@ const Drishyam = () => {
             className="project-page"
             style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
         >
-            <Chrome pageA={ACCENT_RGB} pageB="139, 92, 246" />
+            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
             <Header />
 
             <section className="project-hero">

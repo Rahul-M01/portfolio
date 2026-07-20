@@ -48,6 +48,81 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
         };
     }, []);
 
+
+    // Site-wide starfield with a slow orbit ring (design: Lovable).
+    useEffect(() => {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'starfield';
+        wrap.setAttribute('aria-hidden', 'true');
+        const canvas = document.createElement('canvas');
+        wrap.appendChild(canvas);
+        document.body.appendChild(wrap);
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { wrap.remove(); return; }
+
+        const DPR = Math.min(2, window.devicePixelRatio || 1);
+        let W = 0, H = 0, raf = 0, t = 0;
+        let stars = [];
+
+        const resize = () => {
+            W = Math.max(1, window.innerWidth);
+            H = Math.max(1, window.innerHeight);
+            canvas.width = W * DPR;
+            canvas.height = H * DPR;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+            stars = [];
+            const count = Math.min(200, Math.floor((W * H) / 11000));
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: 0.4 + Math.random() * 1.4,
+                    a: 0.35 + Math.random() * 0.55,
+                    tw: Math.random() * Math.PI * 2,
+                });
+            }
+        };
+
+        const draw = () => {
+            t += 0.016;
+            ctx.clearRect(0, 0, W, H);
+
+            ctx.strokeStyle = 'rgba(140, 200, 255, 0.07)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.ellipse(W * 0.75, H * 0.55, W * 0.5, H * 0.35, Math.sin(t * 0.1) * 0.05, 0, Math.PI * 2);
+            ctx.stroke();
+
+            for (let i = 0; i < stars.length; i++) {
+                const s2 = stars[i];
+                s2.tw += 0.03;
+                ctx.globalAlpha = s2.a * (0.7 + Math.sin(s2.tw) * 0.3);
+                ctx.fillStyle = 'rgba(220, 235, 255, 1)';
+                ctx.beginPath();
+                ctx.arc(s2.x, s2.y, s2.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+            if (!reduce) raf = requestAnimationFrame(draw);
+        };
+
+        resize();
+        window.addEventListener('resize', resize);
+        draw();
+
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', resize);
+            wrap.remove();
+        };
+    }, []);
+
     return (
         <>
             <div className="page-wash" aria-hidden />
