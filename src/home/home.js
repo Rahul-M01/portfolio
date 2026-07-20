@@ -340,7 +340,7 @@ const RevealName = ({ text, delay = 0, italic = false }) => (
 const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, stage }) => {
+const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, progressRef, stage }) => {
     useEffect(() => {
         if (stage !== 'reveal') return;
 
@@ -366,6 +366,7 @@ const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, stage }) => {
             track.classList.add('is-static');
             chars.forEach((c) => setAxes(c, OPSZ_HI, 440));
             name.style.transform = '';
+            progressRef.current = 0;
         };
 
         if (reduceMotion() || !window.matchMedia('(min-width: 901px)').matches) {
@@ -414,6 +415,7 @@ const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, stage }) => {
                 top.style.transform = `translate3d(0, ${(-18 * e).toFixed(1)}px, 0)`;
             }
             pin.style.setProperty('--stage', e.toFixed(4));
+            progressRef.current = p;
         };
 
         const onScroll = () => {
@@ -457,11 +459,22 @@ const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, stage }) => {
             name.style.letterSpacing = '';
             if (top) { top.style.opacity = ''; top.style.transform = ''; }
         };
-    }, [trackRef, pinRef, nameRef, topRef, stage]);
+    }, [trackRef, pinRef, nameRef, topRef, progressRef, stage]);
 };
 
-/* Flow field behind the hero. Thin warm strokes that bend away from the cursor. */
-const HeroField = () => {
+/* ---------------------------------------------------------
+   Hero space field.
+
+   Three layers on one canvas, one rAF:
+     1. starfield with depth parallax
+     2. a binary inspiral throwing off two-armed spiral waves,
+        which is the quadrupole pattern of a gravitational-wave
+        source (the thing the MSc is actually about)
+     3. a rocket that climbs as the hero stage advances
+
+   Skipped entirely on touch and under reduced motion.
+   --------------------------------------------------------- */
+const HeroSpace = ({ progressRef }) => {
     const wrapRef = useRef(null);
     const canvasRef = useRef(null);
 
@@ -475,11 +488,35 @@ const HeroField = () => {
 
         const DPR = Math.min(2, window.devicePixelRatio || 1);
         const FRAME = 1000 / 40;
-        const BG = '10, 10, 11';
 
         let W = 0, H = 0, raf = 0, last = 0, visible = true;
-        let mx = -9999, my = -9999;
-        const pts = [];
+        let mx = 0, my = 0, cx = 0, cy = 0;
+
+        let stars = [];
+        const LAYERS = [
+            { count: 90, r: 0.6, alpha: 0.30, par: 6 },
+            { count: 46, r: 0.9, alpha: 0.52, par: 14 },
+            { count: 20, r: 1.3, alpha: 0.85, par: 26 },
+        ];
+
+        const seed = () => {
+            stars = [];
+            LAYERS.forEach((L, li) => {
+                const n = Math.round(L.count * Math.min(1.4, (W * H) / 900000));
+                for (let i = 0; i < n; i++) {
+                    stars.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        r: L.r * (0.6 + Math.random() * 0.8),
+                        a: L.alpha * (0.5 + Math.random() * 0.5),
+                        par: L.par,
+                        tw: Math.random() * Math.PI * 2,
+                        tws: 0.0006 + Math.random() * 0.0012,
+                        layer: li,
+                    });
+                }
+            });
+        };
 
         const resize = () => {
             const r = wrap.getBoundingClientRect();
@@ -490,62 +527,125 @@ const HeroField = () => {
             canvas.style.width = W + 'px';
             canvas.style.height = H + 'px';
             ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-            pts.length = 0;
-            const target = Math.min(220, Math.floor((W * H) / 9000));
-            for (let i = 0; i < target; i++) {
-                const x = Math.random() * W;
-                const y = Math.random() * H;
-                pts.push({ x, y, px: x, py: y });
-            }
-            ctx.fillStyle = `rgb(${BG})`;
-            ctx.fillRect(0, 0, W, H);
+            seed();
         };
 
-        const angleAt = (x, y, t) => (
-            Math.sin(x * 0.0025 + t * 0.0003) * 1.2 +
-            Math.cos(y * 0.00325 - t * 0.00025) * 1.1 +
-            Math.sin((x + y) * 0.0015 + t * 0.0002) * 0.6
-        );
+        // ---- binary inspiral, drawn as a rotating two-arm spiral ----
+        const drawWaves = (t, ox, oy) => {
+            const gx = W * 0.72 + ox * 0.4;
+            const gy = H * 0.42 + oy * 0.4;
+            const spin = t * 0.00016;
+            const maxR = Math.min(W, H) * 0.46;
+
+            ctx.lineWidth = 1;
+            for (let arm = 0; arm < 2; arm++) {
+                ctx.beginPath();
+                const phase = arm * Math.PI + spin;
+                let started = false;
+                for (let th = 0.35; th < Math.PI * 5.2; th += 0.09) {
+                    const r = 10 + th * (maxR / 16);
+                    if (r > maxR) break;
+                    const x = gx + Math.cos(th + phase) * r;
+                    const y = gy + Math.sin(th + phase) * r * 0.42;
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else ctx.lineTo(x, y);
+                }
+                const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, maxR);
+                grad.addColorStop(0, 'rgba(232, 131, 74, 0.30)');
+                grad.addColorStop(0.55, 'rgba(232, 131, 74, 0.09)');
+                grad.addColorStop(1, 'rgba(232, 131, 74, 0)');
+                ctx.strokeStyle = grad;
+                ctx.stroke();
+            }
+
+            // the two orbiting masses at the centre
+            const orbit = 9;
+            for (let m = 0; m < 2; m++) {
+                const a = spin * 7 + m * Math.PI;
+                const x = gx + Math.cos(a) * orbit;
+                const y = gy + Math.sin(a) * orbit * 0.42;
+                ctx.beginPath();
+                ctx.arc(x, y, 1.7, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 214, 184, 0.85)';
+                ctx.fill();
+            }
+        };
+
+        // ---- rocket, climbing with stage progress ----
+        const exhaust = [];
+        const drawRocket = (t, p) => {
+            if (p <= 0.001) return;
+            const x = W * (0.18 + 0.1 * p);
+            const y = H * (1.12 - 1.32 * p);
+            const tilt = -0.16 + Math.sin(t * 0.0012) * 0.05;
+            const fade = p < 0.08 ? p / 0.08 : p > 0.92 ? (1 - p) / 0.08 : 1;
+            if (fade <= 0) return;
+
+            if (Math.random() < 0.7) {
+                exhaust.push({ x, y, life: 1, r: 1.4 + Math.random() * 1.6, vx: (Math.random() - 0.5) * 0.3 });
+            }
+            for (let i = exhaust.length - 1; i >= 0; i--) {
+                const e = exhaust[i];
+                e.life -= 0.022;
+                e.y += 0.7;
+                e.x += e.vx;
+                if (e.life <= 0) { exhaust.splice(i, 1); continue; }
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, e.r * e.life, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(232, 131, 74, ${(0.30 * e.life * fade).toFixed(3)})`;
+                ctx.fill();
+            }
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(tilt);
+            ctx.strokeStyle = `rgba(242, 240, 236, ${(0.75 * fade).toFixed(3)})`;
+            ctx.lineWidth = 1.1;
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(0, -16);
+            ctx.bezierCurveTo(6, -6, 6, 6, 4.5, 13);
+            ctx.lineTo(-4.5, 13);
+            ctx.bezierCurveTo(-6, 6, -6, -6, 0, -16);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(-4.5, 8); ctx.lineTo(-9, 16); ctx.lineTo(-4.5, 14);
+            ctx.moveTo(4.5, 8);  ctx.lineTo(9, 16);  ctx.lineTo(4.5, 14);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, -2.5, 2.4, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(232, 131, 74, ${(0.9 * fade).toFixed(3)})`;
+            ctx.stroke();
+            ctx.restore();
+        };
 
         const step = (now) => {
             raf = requestAnimationFrame(step);
             if (!visible || now - last < FRAME) return;
             last = now;
 
-            ctx.fillStyle = `rgba(${BG}, 0.075)`;
-            ctx.fillRect(0, 0, W, H);
-            ctx.strokeStyle = 'rgba(232, 131, 74, 0.13)';
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
+            cx += (mx - cx) * 0.05;
+            cy += (my - cy) * 0.05;
+            const ox = cx / (W || 1) - 0.5;
+            const oy = cy / (H || 1) - 0.5;
 
-            for (let i = 0; i < pts.length; i++) {
-                const p = pts[i];
-                const a = angleAt(p.x, p.y, now);
-                let vx = Math.cos(a) * 0.6;
-                let vy = Math.sin(a) * 0.6;
+            ctx.clearRect(0, 0, W, H);
 
-                const dx = p.x - mx;
-                const dy = p.y - my;
-                const d2 = dx * dx + dy * dy;
-                if (d2 < 40000) {
-                    const d = Math.sqrt(d2) || 1;
-                    const f = (1 - d / 200) * 1.4;
-                    vx += (dx / d) * f;
-                    vy += (dy / d) * f;
-                }
-
-                p.px = p.x; p.py = p.y;
-                p.x += vx; p.y += vy;
-
-                if (p.x < 0 || p.x > W || p.y < 0 || p.y > H) {
-                    p.x = Math.random() * W;
-                    p.y = Math.random() * H;
-                    p.px = p.x; p.py = p.y;
-                }
-                ctx.moveTo(p.px, p.py);
-                ctx.lineTo(p.x, p.y);
+            for (let i = 0; i < stars.length; i++) {
+                const s2 = stars[i];
+                s2.tw += s2.tws * 16;
+                const tw = 0.72 + Math.sin(s2.tw) * 0.28;
+                const px = s2.x - ox * s2.par;
+                const py = s2.y - oy * s2.par;
+                ctx.beginPath();
+                ctx.arc(px, py, s2.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(242, 240, 236, ${(s2.a * tw).toFixed(3)})`;
+                ctx.fill();
             }
-            ctx.stroke();
+
+            drawWaves(now, ox * 40, oy * 40);
+            drawRocket(now, progressRef.current || 0);
         };
 
         const onMouse = (e) => {
@@ -553,7 +653,6 @@ const HeroField = () => {
             mx = e.clientX - r.left;
             my = e.clientY - r.top;
         };
-        const onOut = () => { mx = -9999; my = -9999; };
 
         const io = new IntersectionObserver(
             (es) => es.forEach((e) => { visible = e.isIntersecting; }),
@@ -562,9 +661,9 @@ const HeroField = () => {
         io.observe(wrap);
 
         resize();
+        mx = W / 2; my = H / 2; cx = mx; cy = my;
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', onMouse, { passive: true });
-        document.addEventListener('mouseleave', onOut);
         raf = requestAnimationFrame(step);
 
         return () => {
@@ -572,9 +671,8 @@ const HeroField = () => {
             io.disconnect();
             window.removeEventListener('resize', resize);
             window.removeEventListener('mousemove', onMouse);
-            document.removeEventListener('mouseleave', onOut);
         };
-    }, []);
+    }, [progressRef]);
 
     return (
         <div className="hero-field" ref={wrapRef} aria-hidden>
@@ -603,8 +701,9 @@ const Home = () => {
     const trackRef = useRef(null);
     const pinRef = useRef(null);
     const topRef = useRef(null);
+    const progressRef = useRef(0);
 
-    useHeroStage({ trackRef, pinRef, nameRef, topRef, stage });
+    useHeroStage({ trackRef, pinRef, nameRef, topRef, progressRef, stage });
 
     const onEnter = useCallback((t) => setActive(t), []);
     const onLeave = useCallback(() => setActive(null), []);
@@ -645,7 +744,7 @@ const Home = () => {
 
                         <div className="hero-track" ref={trackRef}>
                         <section className="hero" ref={pinRef}>
-                            <HeroField />
+                            <HeroSpace progressRef={progressRef} />
                             <div className="hero-top" ref={topRef}>
                                 <span className="hero-avail">
                                     <span className="avail-dot" />
