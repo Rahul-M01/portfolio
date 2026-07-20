@@ -96,6 +96,7 @@
     display: block;
     width: 100%;
     height: 100%;
+    opacity: calc(1 - var(--stage, 0));
 }
 
 .hero > *:not(.hero-field) {
@@ -103,12 +104,42 @@
     z-index: 1;
 }
 
-.hero {
-    padding-top: 15vh;
-    padding-bottom: 7rem;
+/* Scroll track: its extra height is the timeline the pinned hero plays across. */
+.hero-track {
     position: relative;
-    transform: translateY(var(--sy, 0px));
-    will-change: transform;
+    height: 175vh;
+}
+
+.hero-track.is-static { height: auto; }
+
+.hero {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    overflow: hidden;
+}
+
+.hero-track.is-static .hero {
+    position: relative;
+    min-height: 0;
+    display: block;
+    padding-top: 15vh;
+    padding-bottom: 5rem;
+    overflow: visible;
+}
+
+/* Content that resumes normal flow once the stage has played out. */
+.hero-after {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 4rem 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-top {
@@ -160,6 +191,8 @@
 
 /* Oversized name, per-character reveal */
 .title {
+    transform-origin: 0 50%;
+    will-change: transform;
     font-family: var(--font-display);
     font-size: clamp(3.6rem, 15vw, 13rem);
     line-height: 0.84;
@@ -168,7 +201,6 @@
     margin: 0 0 3.5rem;
     padding: 0;
     color: var(--fg);
-    opacity: var(--so, 1);
     margin-left: -0.045em;
 }
 
@@ -193,7 +225,7 @@
 @keyframes charUp { to { transform: translateY(0) rotate(0); } }
 
 .hero-meta {
-    margin-bottom: 4rem;
+    margin-bottom: 0;
     border-top: 1px solid var(--line);
     opacity: 0;
     animation: fadeSlide 0.8s 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -206,6 +238,7 @@
     align-items: baseline;
     padding: 1.15rem 0;
     border-bottom: 1px solid var(--line);
+    opacity: calc(1 - var(--stage, 0) * 1.7);
 }
 
 .meta-label {
@@ -235,8 +268,6 @@
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--line);
-    opacity: 0;
-    animation: fadeSlide 0.8s 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .index-link {
@@ -725,6 +756,20 @@
    RESPONSIVE
    ========================================================= */
 @media (max-width: 900px) {
+    .hero-track { height: auto; }
+
+    .hero {
+        position: relative;
+        min-height: 0;
+        display: block;
+        padding-top: 12vh;
+        padding-bottom: 4rem;
+        overflow: visible;
+    }
+
+    .meta-row { opacity: 1; }
+    .hero-after { padding: 0 2rem 2rem; }
+
     .hero, .work, .skills { padding-left: 2rem; padding-right: 2rem; }
 
     .meta-row, .skill-group, .else-row {
@@ -758,6 +803,7 @@
 
 @media (max-width: 640px) {
     .hero, .work, .skills { padding-left: 1.35rem; padding-right: 1.35rem; }
+    .hero-after { padding: 0 1.35rem 2rem; }
     .hero { padding-top: 12vh; padding-bottom: 4rem; }
     .work { padding-top: 5rem; }
     .skills { padding-top: 5rem; padding-bottom: 5rem; }

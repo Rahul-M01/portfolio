@@ -328,78 +328,136 @@ const RevealName = ({ text, delay = 0, italic = false }) => (
     </span>
 );
 
-/* Variable-font choreography: Fraunces opsz/wght animate in on load,
-   then track scroll so the name thins as it leaves. */
-const useVariableName = (rootRef, stage) => {
+/* ---------------------------------------------------------
+   Pinned hero stage.
+
+   One rAF-driven timeline owns everything that reacts to scroll
+   across the hero: the variable-font axes, the compress-and-dock
+   transform, and the fade of the surrounding chrome. Running it
+   from a single handler avoids two listeners fighting over the
+   same elements.
+   --------------------------------------------------------- */
+const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+const useHeroStage = ({ trackRef, pinRef, nameRef, topRef, stage }) => {
     useEffect(() => {
         if (stage !== 'reveal') return;
-        const root = rootRef.current;
-        if (!root) return;
 
-        const chars = Array.from(root.querySelectorAll('.rn-char'));
-        if (!chars.length) return;
+        const track = trackRef.current;
+        const pin = pinRef.current;
+        const name = nameRef.current;
+        const top = topRef.current;
+        if (!track || !pin || !name) return;
 
-        // the italic surname sits lighter than the roman given name
+        const chars = Array.from(name.querySelectorAll('.rn-char'));
         const isItalic = (el) => Boolean(el.closest('.rn-italic'));
-        const scale = (el) => (isItalic(el) ? 0.62 : 1);
-
-        const OPSZ_HI = 144, OPSZ_LO = 40;
-        const WGHT_HI = 520, WGHT_LO = 250;
-
-        const set = (el, opsz, wght) => {
+        const setAxes = (el, opsz, wght) => {
             el.style.fontVariationSettings =
-                `"opsz" ${opsz.toFixed(1)}, "wght" ${Math.round(wght * scale(el))}`;
+                `"opsz" ${opsz.toFixed(1)}, "wght" ${Math.round(wght * (isItalic(el) ? 0.62 : 1))}`;
         };
 
-        if (reduceMotion()) {
-            chars.forEach((c) => set(c, OPSZ_HI, 440));
+        const OPSZ_HI = 144, OPSZ_LO = 46;
+        const WGHT_HI = 520, WGHT_LO = 260;
+        const END_SCALE = 0.3;
+
+        // Static fallback: no pinning, no timeline.
+        const staticLayout = () => {
+            track.classList.add('is-static');
+            chars.forEach((c) => setAxes(c, OPSZ_HI, 440));
+            name.style.transform = '';
+        };
+
+        if (reduceMotion() || !window.matchMedia('(min-width: 901px)').matches) {
+            staticLayout();
             return;
         }
 
-        const INTRO = 900;
-        const STEP = 42;
+        track.classList.remove('is-static');
+
+        // Where the name should end up: roughly the header brand slot.
+        let dock = { x: 0, y: 0 };
+        const measure = () => {
+            const prev = name.style.transform;
+            name.style.transform = 'none';
+            const r = name.getBoundingClientRect();
+            const pinRect = pin.getBoundingClientRect();
+            // target: left gutter of the pin, just below the top bar
+            const targetX = pinRect.left + parseFloat(getComputedStyle(pin).paddingLeft || '0');
+            const targetY = pinRect.top + 26;
+            dock = { x: targetX - r.left, y: targetY - r.top };
+            name.style.transform = prev;
+        };
+
         let raf = 0;
-        let scrollRaf = 0;
-        const t0 = performance.now();
+        let introDone = false;
 
-        const applyScroll = () => {
-            scrollRaf = 0;
-            const span = window.innerHeight * 0.85;
-            const y = Math.max(0, Math.min(1, window.scrollY / span));
-            const opsz = OPSZ_HI - (OPSZ_HI - OPSZ_LO) * y;
-            const wght = WGHT_HI - (WGHT_HI - WGHT_LO) * y;
-            chars.forEach((c) => set(c, opsz, wght));
+        const apply = () => {
+            raf = 0;
+            const span = Math.max(1, track.offsetHeight - window.innerHeight);
+            const p = clamp01(-track.getBoundingClientRect().top / span);
+            const e = easeInOut(p);
+
+            const scale = 1 - (1 - END_SCALE) * e;
+            name.style.transform =
+                `translate3d(${(dock.x * e).toFixed(2)}px, ${(dock.y * e).toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
+            name.style.letterSpacing = `${(-0.045 - 0.012 * e).toFixed(4)}em`;
+
+            if (introDone) {
+                const opsz = OPSZ_HI - (OPSZ_HI - OPSZ_LO) * e;
+                const wght = WGHT_HI - (WGHT_HI - WGHT_LO) * e;
+                chars.forEach((c) => setAxes(c, opsz, wght));
+            }
+
+            if (top) {
+                top.style.opacity = String(clamp01(1 - p * 2.4));
+                top.style.transform = `translate3d(0, ${(-18 * e).toFixed(1)}px, 0)`;
+            }
+            pin.style.setProperty('--stage', e.toFixed(4));
         };
+
         const onScroll = () => {
-            if (scrollRaf) return;
-            scrollRaf = requestAnimationFrame(applyScroll);
+            if (!raf) raf = requestAnimationFrame(apply);
         };
-        const startScrollBinding = () => {
-            window.addEventListener('scroll', onScroll, { passive: true });
-            applyScroll();
-        };
+        const onResize = () => { measure(); onScroll(); };
 
+        // Character intro: optical size and weight open up, staggered.
+        const INTRO = 900, STEP = 42;
+        const t0 = performance.now();
+        let introRaf = 0;
         const intro = (now) => {
             const elapsed = now - t0;
             let done = true;
             chars.forEach((c, i) => {
-                const local = Math.max(0, Math.min(1, (elapsed - i * STEP) / INTRO));
+                const local = clamp01((elapsed - i * STEP) / INTRO);
                 if (local < 1) done = false;
-                const e = 1 - Math.pow(1 - local, 3);
-                set(c, 12 + (OPSZ_HI - 12) * e, 220 + (WGHT_HI - 220) * e);
+                const k = 1 - Math.pow(1 - local, 3);
+                setAxes(c, 12 + (OPSZ_HI - 12) * k, 220 + (WGHT_HI - 220) * k);
             });
-            if (!done) raf = requestAnimationFrame(intro);
-            else startScrollBinding();
+            if (!done) {
+                introRaf = requestAnimationFrame(intro);
+            } else {
+                introDone = true;
+                apply();
+            }
         };
 
-        raf = requestAnimationFrame(intro);
+        measure();
+        apply();
+        introRaf = requestAnimationFrame(intro);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize);
 
         return () => {
             cancelAnimationFrame(raf);
-            if (scrollRaf) cancelAnimationFrame(scrollRaf);
+            cancelAnimationFrame(introRaf);
             window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
+            name.style.transform = '';
+            name.style.letterSpacing = '';
+            if (top) { top.style.opacity = ''; top.style.transform = ''; }
         };
-    }, [rootRef, stage]);
+    }, [trackRef, pinRef, nameRef, topRef, stage]);
 };
 
 /* Flow field behind the hero. Thin warm strokes that bend away from the cursor. */
@@ -542,8 +600,11 @@ const Home = () => {
     const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'start');
     const [active, setActive] = useState(null);
     const nameRef = useRef(null);
+    const trackRef = useRef(null);
+    const pinRef = useRef(null);
+    const topRef = useRef(null);
 
-    useVariableName(nameRef, stage);
+    useHeroStage({ trackRef, pinRef, nameRef, topRef, stage });
 
     const onEnter = useCallback((t) => setActive(t), []);
     const onLeave = useCallback(() => setActive(null), []);
@@ -570,26 +631,6 @@ const Home = () => {
         return () => cancelAnimationFrame(raf);
     }, [stage, location.hash]);
 
-    // parallax on the hero as you scroll away
-    useEffect(() => {
-        if (stage !== 'reveal' || reduceMotion()) return;
-        const hero = document.querySelector('.hero');
-        if (!hero) return;
-        let raf;
-        const onScroll = () => {
-            cancelAnimationFrame(raf);
-            raf = requestAnimationFrame(() => {
-                const y = window.scrollY;
-                if (y < window.innerHeight * 1.2) {
-                    hero.style.setProperty('--sy', `${y * 0.22}px`);
-                    hero.style.setProperty('--so', `${Math.max(0, 1 - y / (window.innerHeight * 0.75))}`);
-                }
-            });
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
-    }, [stage]);
-
     return (
         <main>
             <div className="app">
@@ -602,9 +643,10 @@ const Home = () => {
                         <Header />
                         <Preview active={active} />
 
-                        <section className="hero">
+                        <div className="hero-track" ref={trackRef}>
+                        <section className="hero" ref={pinRef}>
                             <HeroField />
-                            <div className="hero-top">
+                            <div className="hero-top" ref={topRef}>
                                 <span className="hero-avail">
                                     <span className="avail-dot" />
                                     Open to work
@@ -635,6 +677,10 @@ const Home = () => {
                                 </MetaRow>
                             </div>
 
+                        </section>
+                        </div>
+
+                        <section className="hero-after">
                             <div className="hero-index">
                                 <a href="#work" className="index-link">
                                     <span className="index-n">01</span>
