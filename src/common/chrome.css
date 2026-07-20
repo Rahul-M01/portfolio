@@ -21,7 +21,7 @@
     );
 }
 
-/* Film grain — kills the flat-gradient look */
+/* Film grain. Stops the flat gradient reading as a template. */
 .grain {
     position: fixed;
     inset: -50%;

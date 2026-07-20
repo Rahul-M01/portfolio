@@ -1,81 +1,104 @@
 import React, { useState, useEffect } from "react";
 import "./drishyam_home.css";
 
+// Configured at build time. Unset means this deployment has no backend, so the
+// page says so rather than firing blocked mixed-content calls at localhost.
+const API = process.env.REACT_APP_DRISHYAM_API;
+
 const DrishyamHome = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  // Fetch available videos on component mount
   useEffect(() => {
+    if (!API) {
+      setError("The Drishyam backend isn't reachable from this deployment.");
+      return;
+    }
+
+    const controller = new AbortController();
+
     const fetchVideos = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/files/list");
-        if (!response.ok) {
-          throw new Error("Failed to fetch videos.");
-        }
+        const response = await fetch(`${API}/api/files/list`, {
+          credentials: "include",
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Failed to fetch videos.");
         const data = await response.json();
-        setVideos(data);
+        setVideos(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error("Error fetching videos:", err);
-        setError("Error fetching videos. Please try again.");
+        if (err.name === "AbortError") return;
+        setError("Couldn't load the library. Try again.");
       }
     };
 
     fetchVideos();
+    return () => controller.abort();
   }, []);
 
   const handleDownload = async () => {
-    if (!videoUrl) {
-      alert("Please enter a valid Instagram video URL.");
+    setNotice("");
+    setError("");
+
+    if (!API) {
+      setError("The Drishyam backend isn't reachable from this deployment.");
+      return;
+    }
+    if (!videoUrl.trim()) {
+      setError("Enter a video URL first.");
       return;
     }
 
+    setBusy(true);
     try {
-      const response = await fetch("http://localhost:8080/api/videos/download", {
+      const response = await fetch(`${API}/api/videos/download`, {
         method: "POST",
-        headers: {
-          "Content-Type": "text/plain",
-        },
+        headers: { "Content-Type": "text/plain" },
+        credentials: "include",
         body: videoUrl,
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to download video.");
-      }
-
-      alert("Video download initiated. Refresh the page to see the video embedded.");
-
-      setVideoUrl(""); // Clear the input field after the download
-    } catch (error) {
-      console.error("Error downloading video:", error);
-      alert("Error downloading video. Please try again.");
+      if (!response.ok) throw new Error("Failed to download video.");
+      setNotice("Download started. Refresh to see it in the library.");
+      setVideoUrl("");
+    } catch (err) {
+      setError("Couldn't start that download. Try again.");
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
     <div className="download-form">
-      <h2>Download Instagram Video</h2>
+      <h2>Add a video</h2>
       <div>
+        <label htmlFor="video-url" className="sr-only">Video URL</label>
         <input
-          type="text"
-          placeholder="Enter Instagram video URL"
+          id="video-url"
+          type="url"
+          placeholder="Paste a video URL"
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
         />
-        <button onClick={handleDownload}>Download</button>
+        <button onClick={handleDownload} disabled={busy || !API}>
+          {busy ? "Working" : "Download"}
+        </button>
       </div>
 
+      {error && <p className="dh-error" role="alert">{error}</p>}
+      {notice && <p className="dh-notice">{notice}</p>}
+
       <div>
-        <h2>Available Videos</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <h2>Library</h2>
         <div className="video-list">
-          {videos.map((video, index) => (
-            <div key={index} className="video-item">
+          {videos.map((video) => (
+            <div key={video} className="video-item">
               <h3>{video}</h3>
-              <video controls width="400">
+              <video controls width="400" preload="none">
                 <source
-                  src={`http://localhost:8080/api/files/download/${encodeURIComponent(video)}`}
+                  src={`${API}/api/files/download/${encodeURIComponent(video)}`}
                   type="video/mp4"
                 />
                 Your browser does not support the video tag.
