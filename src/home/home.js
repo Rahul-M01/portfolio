@@ -337,14 +337,16 @@ const useHeroName = (nameRef, stage) => {
         source (the thing the MSc is actually about)
      3. a rocket that climbs as the hero stage advances
 
-   Skipped entirely on touch and under reduced motion.
+   On touch there's no pointer parallax, so the field stays
+   centred but still twinkles, orbits and launches. Skipped
+   under reduced motion.
    --------------------------------------------------------- */
 const HeroSpace = () => {
     const wrapRef = useRef(null);
     const canvasRef = useRef(null);
 
     useEffect(() => {
-        if (!finePointer() || reduceMotion()) return;
+        if (reduceMotion()) return;
         const wrap = wrapRef.current;
         const canvas = canvasRef.current;
         if (!wrap || !canvas) return;
@@ -536,7 +538,7 @@ const HeroSpace = () => {
         resize();
         mx = W / 2; my = H / 2; cx = mx; cy = my;
         window.addEventListener('resize', resize);
-        window.addEventListener('mousemove', onMouse, { passive: true });
+        if (finePointer()) window.addEventListener('mousemove', onMouse, { passive: true });
         raf = requestAnimationFrame(step);
 
         return () => {
@@ -562,8 +564,8 @@ const MetaRow = ({ label, children }) => (
 );
 
 /* ---------------------------------------------------------
-   Rocket launch intro. Per the Lovable design: 2s launch,
-   380ms fade to the page, skippable, once per session.
+   Rocket launch intro. 2s launch, 380ms fade to the page,
+   skippable, once per session.
    --------------------------------------------------------- */
 const LaunchOverlay = ({ onSkip }) => (
     <div className="launch-overlay">

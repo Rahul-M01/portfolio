@@ -1,6 +1,5 @@
-/* Space palette, per the Lovable design system.
-   Values are the sRGB equivalents of its oklch tokens so they render
-   identically in browsers without oklch support. */
+/* Space palette. Values are sRGB equivalents of the original oklch
+   tokens so they render identically in browsers without oklch support. */
 :root {
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;

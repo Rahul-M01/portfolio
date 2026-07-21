@@ -49,9 +49,8 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
     }, []);
 
 
-    // Site-wide starfield with a slow orbit ring (design: Lovable).
+    // Site-wide starfield with a slow orbit ring and the odd meteor.
     useEffect(() => {
-        if (window.matchMedia('(pointer: coarse)').matches) return;
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const wrap = document.createElement('div');
@@ -89,6 +88,44 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
             }
         };
 
+        // Meteors: rare, thin, and gone in about a second.
+        const meteors = [];
+        const spawnMeteor = () => {
+            const fromLeft = Math.random() < 0.5;
+            const speed = 7 + Math.random() * 5;
+            const dir = fromLeft ? 1 : -1;
+            meteors.push({
+                x: fromLeft ? -30 : W + 30,
+                y: Math.random() * H * 0.4,
+                vx: dir * speed,
+                vy: speed * (0.32 + Math.random() * 0.18),
+                life: 1,
+            });
+        };
+
+        const drawMeteors = () => {
+            if (Math.random() < 0.002 && meteors.length < 2) spawnMeteor();
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                const m = meteors[i];
+                m.x += m.vx;
+                m.y += m.vy;
+                m.life -= 0.011;
+                if (m.life <= 0) { meteors.splice(i, 1); continue; }
+                const a = Math.sin(m.life * Math.PI) * 0.55;
+                const tx = m.x - m.vx * 11;
+                const ty = m.y - m.vy * 11;
+                const grad = ctx.createLinearGradient(m.x, m.y, tx, ty);
+                grad.addColorStop(0, `rgba(220, 235, 255, ${a.toFixed(3)})`);
+                grad.addColorStop(1, 'rgba(220, 235, 255, 0)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.moveTo(m.x, m.y);
+                ctx.lineTo(tx, ty);
+                ctx.stroke();
+            }
+        };
+
         const draw = () => {
             t += 0.016;
             ctx.clearRect(0, 0, W, H);
@@ -109,6 +146,7 @@ const Chrome = ({ pageA = '139, 92, 246', pageB = '47, 248, 255' }) => {
                 ctx.fill();
             }
             ctx.globalAlpha = 1;
+            if (!reduce) drawMeteors();
             if (!reduce) raf = requestAnimationFrame(draw);
         };
 
