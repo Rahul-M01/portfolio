@@ -1,129 +1,14 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, MotionConfig } from 'framer-motion';
 import './home.css';
 import Header from '../header/header';
 import Footer from '../footer/Footer';
 import Chrome from '../common/Chrome';
-import discordLogo from '../images/discord.png';
-import homelabLogo from '../images/homelab.png';
-import videoLogo from '../images/video.png';
-import drishtiLogo from '../images/drishti.png';
+import { smoothTo } from '../common/smoothScroll';
+import { identity, groups, elsewhere, skillGroups } from '../content/portfolio';
 
-const services = [
-    {
-        title: 'Bhima',
-        tag: 'Discord bot',
-        desc: 'Moderation, music, poker, blackjack, leveling, polls, translation and live analytics. Runs 24/7 on the homelab.',
-        href: '/bot',
-        img: discordLogo,
-        hue: '#7d8cff',
-        stack: ['Node.js', 'Discord.js', 'SQL'],
-    },
-    {
-        title: 'Agni',
-        tag: 'Homelab',
-        desc: 'Self-hosted personal cloud, media server and networking stack. Nextcloud, Plex and secure remote access.',
-        href: '/homelab',
-        img: homelabLogo,
-        hue: '#ff7a45',
-        stack: ['Docker', 'Nginx', 'Linux'],
-    },
-    {
-        title: 'Drishyam',
-        tag: 'Video platform',
-        desc: 'Browser-native video host that also auto-downloads content from a pasted link. Built for quick personal archives.',
-        href: '/drishyam',
-        img: videoLogo,
-        hue: '#2ff8ff',
-        stack: ['React', 'FFmpeg', 'Node'],
-    },
-];
-
-const desktopApps = [
-    {
-        title: 'Lekhak',
-        tag: 'Notes and tasks',
-        desc: 'Privacy-first desktop tasks, rich notes and scheduled reminders. Local SQLite, system tray, dark and light themes.',
-        href: '/lekhak',
-        mono: 'ल',
-        hue: '#e8e4d8',
-        stack: ['Electron', 'React 19', 'Tailwind', 'SQLite'],
-    },
-    {
-        title: 'Kubera',
-        tag: 'Finance tracker',
-        desc: 'Open banking dashboard with balances, spend analytics, category budgets and recurring payment detection. Stays on your machine.',
-        href: '/kubera',
-        mono: '₹',
-        hue: '#f5c518',
-        stack: ['Electron', 'Express', 'SQLite'],
-    },
-    {
-        title: 'Yudhishtra',
-        tag: 'Code auditor',
-        desc: 'Offline analyser for local git repos. Scans for vulnerabilities, generates tests and suggests next steps via Ollama.',
-        href: '/yudhishtra',
-        mono: 'यु',
-        hue: '#6b7bff',
-        stack: ['Electron', 'React', 'TypeScript', 'SQLite', 'Ollama'],
-    },
-    {
-        title: 'Drishti',
-        tag: 'Health monitor',
-        desc: 'Collects Prometheus metrics from every service on the lab into a single desktop dashboard.',
-        href: '/drishti',
-        img: drishtiLogo,
-        hue: '#4fd1c5',
-        stack: ['Electron', 'Express', 'Prometheus'],
-    },
-];
-
-const experiments = [
-    {
-        title: 'Simulation',
-        tag: 'Browser demo',
-        desc: 'Interactive simulation with physics, particles and playful maths. Hosted on GitHub Pages.',
-        href: 'https://rahul-m01.github.io/simulation/',
-        external: true,
-        mono: '∿',
-        hue: '#ff2d87',
-        stack: ['JavaScript', 'Canvas', 'WebGL'],
-    },
-];
-
-const elsewhere = [
-    {
-        title: 'Gravitational-wave analysis',
-        note: 'MSc thesis. Machine-learning methods for binary black-hole and neutron-star data.',
-    },
-    {
-        title: 'Stock-market analysis pipeline',
-        note: '20 years of market data, 30+ engineered indicators, walk-forward validation.',
-    },
-    {
-        title: 'AI game development',
-        note: 'Won two international AI game-development competitions.',
-    },
-];
-
-const skillGroups = [
-    {
-        label: 'Languages',
-        items: ['Python', 'Java', 'TypeScript', 'JavaScript', 'C++', 'C', 'Go'],
-    },
-    {
-        label: 'Frameworks',
-        items: ['Spring Boot', 'Angular', 'React', 'Django', 'Electron'],
-    },
-    {
-        label: 'Data',
-        items: ['PostgreSQL', 'MySQL', 'SQLite', 'NumPy', 'Pandas', 'scikit-learn', 'TensorFlow'],
-    },
-    {
-        label: 'Infra & testing',
-        items: ['Docker', 'Kubernetes', 'Azure Pipelines', 'Selenium', 'Playwright', 'Cucumber', 'Git', 'Linux'],
-    },
-];
+const EASE = [0.16, 1, 0.3, 1];
 
 const reduceMotion = () =>
     typeof window !== 'undefined' &&
@@ -133,60 +18,9 @@ const finePointer = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(pointer: fine)').matches;
 
-/* ---------------------------------------------------------
-   Project row
-   --------------------------------------------------------- */
+/* Project row: quiet editorial list item with a hue accent on hover. */
 const ProjectRow = ({ p, num }) => {
     const ref = useRef(null);
-    const arrowRef = useRef(null);
-    const magnet = useRef({ tx: 0, ty: 0, cx: 0, cy: 0, raf: 0, live: false });
-
-    const spring = () => {
-        const m = magnet.current;
-        m.cx += (m.tx - m.cx) * 0.16;
-        m.cy += (m.ty - m.cy) * 0.16;
-        if (arrowRef.current) {
-            arrowRef.current.style.transform =
-                `translate3d(${m.cx.toFixed(2)}px, ${m.cy.toFixed(2)}px, 0)`;
-        }
-        const settled = Math.abs(m.tx - m.cx) < 0.1 && Math.abs(m.ty - m.cy) < 0.1;
-        if (m.live || !settled) {
-            m.raf = requestAnimationFrame(spring);
-        } else {
-            m.raf = 0;
-        }
-    };
-
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--px', `${((e.clientX - r.left) / r.width) * 100}%`);
-
-        const a = arrowRef.current;
-        if (!a || reduceMotion()) return;
-        const ar = a.getBoundingClientRect();
-        const dx = e.clientX - (ar.left + ar.width / 2);
-        const dy = e.clientY - (ar.top + ar.height / 2);
-        const d = Math.hypot(dx, dy) || 1;
-        const pull = Math.min(1, 220 / (d + 60));
-        const m = magnet.current;
-        m.tx = (dx / d) * 12 * pull;
-        m.ty = (dy / d) * 12 * pull;
-        m.live = true;
-        if (!m.raf) m.raf = requestAnimationFrame(spring);
-    };
-
-    const releaseMagnet = () => {
-        const m = magnet.current;
-        m.tx = 0; m.ty = 0; m.live = false;
-        if (!m.raf) m.raf = requestAnimationFrame(spring);
-    };
-
-    useEffect(() => () => {
-        const m = magnet.current;
-        if (m.raf) cancelAnimationFrame(m.raf);
-    }, []);
 
     const inner = (
         <>
@@ -208,12 +42,10 @@ const ProjectRow = ({ p, num }) => {
             </span>
 
             <span className="row-end">
-                <span className="row-arrow" ref={arrowRef} aria-hidden>
+                <span className="row-arrow" aria-hidden>
                     {p.external ? '↗' : '→'}
                 </span>
             </span>
-
-            <span className="row-sheen" aria-hidden />
         </>
     );
 
@@ -221,8 +53,6 @@ const ProjectRow = ({ p, num }) => {
         ref,
         className: 'project-row fade-up',
         style: { '--hue': p.hue },
-        onMouseLeave: releaseMagnet,
-        onMouseMove: onMove,
     };
 
     if (p.external) {
@@ -231,13 +61,21 @@ const ProjectRow = ({ p, num }) => {
     return <Link to={p.href} {...props}>{inner}</Link>;
 };
 
+/* Section head + list rows reveal via framer-motion whileInView. */
+const headMotion = (i = 0) => ({
+    initial: { opacity: 0, y: 26 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '0px 0px -8% 0px' },
+    transition: { duration: 0.85, ease: EASE, delay: i * 0.08 },
+});
+
 const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1 }) => (
     <section className="work" id={id}>
-        <div className="work-head fade-up">
+        <motion.div className="work-head" {...headMotion()}>
             <span className="work-numeral">{numeral}</span>
             <h2 className="work-title">{title}</h2>
             <p className="work-sub">{sub}</p>
-        </div>
+        </motion.div>
         <div className="project-list">
             {projects.map((p, i) => (
                 <ProjectRow key={p.title} p={p} num={String(start + i).padStart(2, '0')} />
@@ -246,33 +84,30 @@ const ProjectGroup = ({ id, numeral, title, sub, projects, start = 1 }) => (
     </section>
 );
 
-/* ---------------------------------------------------------
-   Hero name, per character reveal
-   --------------------------------------------------------- */
-const RevealName = ({ text, delay = 0, italic = false }) => (
-    <span className={`rn-line ${italic ? 'rn-italic' : ''}`}>
-        {text.split('').map((ch, i) => (
-            <span className="rn-char" key={i} style={{ '--cd': `${delay + i * 34}ms` }}>
-                {ch === ' ' ? ' ' : ch}
-            </span>
-        ))}
-    </span>
-);
 
-/* ---------------------------------------------------------
-   Hero name: Fraunces variable axes open on load, then thin
-   slightly as the hero scrolls away. No pinning.
-   --------------------------------------------------------- */
+const RevealName = ({ text, delay = 0, italic = false }) => {
+    return (
+        <span className={`rn-line ${italic ? 'rn-italic' : ''}`}>
+            {text.split('').map((ch, i) => (
+                <span className="rn-char" key={i} style={{ '--cd': `${delay + i * 34}ms` }}>
+                    {ch === ' ' ? '\u00A0' : ch}
+                </span>
+            ))}
+        </span>
+    );
+};
+
+
 const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
-const useHeroName = (nameRef, stage) => {
+const useHeroName = (nameRef, active) => {
     useEffect(() => {
-        if (stage !== 'reveal') return;
+        if (!active) return undefined;
         const name = nameRef.current;
-        if (!name) return;
+        if (!name) return undefined;
 
         const chars = Array.from(name.querySelectorAll('.rn-char'));
-        if (!chars.length) return;
+        if (!chars.length) return undefined;
 
         const isItalic = (el) => Boolean(el.closest('.rn-italic'));
         const setAxes = (el, opsz, wght) => {
@@ -285,24 +120,36 @@ const useHeroName = (nameRef, stage) => {
 
         if (reduceMotion()) {
             chars.forEach((c) => setAxes(c, OPSZ_HI, 440));
-            return;
+            return undefined;
         }
 
         let introDone = false;
-        let scrollRaf = 0;
+        let raf = 0;
+        let mx = -1e4, my = -1e4, pointerIn = false;
 
-        const applyScroll = () => {
-            scrollRaf = 0;
+        // Scroll thins the base axes; the cursor blooms weight locally.
+        const frame = () => {
+            raf = 0;
             if (!introDone) return;
             const y = clamp01(window.scrollY / (window.innerHeight * 0.9));
-            setAxesAll(OPSZ_HI - (OPSZ_HI - OPSZ_LO) * y, WGHT_HI - (WGHT_HI - WGHT_LO) * y);
+            const bO = OPSZ_HI - (OPSZ_HI - OPSZ_LO) * y;
+            const bW = WGHT_HI - (WGHT_HI - WGHT_LO) * y;
+            let hot = false;
+            chars.forEach((c) => {
+                const r = c.getBoundingClientRect();
+                const d = Math.hypot(mx - (r.left + r.width / 2), my - (r.top + r.height / 2));
+                const g = Math.exp(-(d * d) / (2 * 115 * 115));
+                if (g > 0.02) hot = true;
+                setAxes(c, bO + 48 * g, Math.min(600, bW + 320 * g));
+            });
+            if (pointerIn || hot) raf = requestAnimationFrame(frame);
         };
-        const setAxesAll = (o, w) => chars.forEach((c) => setAxes(c, o, w));
-        const onScroll = () => { if (!scrollRaf) scrollRaf = requestAnimationFrame(applyScroll); };
+        const kick = () => { if (!raf && introDone) raf = requestAnimationFrame(frame); };
+        const onScroll = () => kick();
 
         const INTRO = 900, STEP = 42;
         const t0 = performance.now();
-        let raf = requestAnimationFrame(function intro(now) {
+        raf = requestAnimationFrame(function intro(now) {
             const elapsed = now - t0;
             let done = true;
             chars.forEach((c, i) => {
@@ -314,33 +161,38 @@ const useHeroName = (nameRef, stage) => {
             if (!done) raf = requestAnimationFrame(intro);
             else {
                 introDone = true;
-                applyScroll();
-                window.addEventListener('scroll', onScroll, { passive: true });
+                kick();
             }
         });
 
+        const heroEl = name.closest('.hero');
+        const onMove = (e) => { mx = e.clientX; my = e.clientY; kick(); };
+        const onEnter = () => { pointerIn = true; kick(); };
+        const onLeave = () => { pointerIn = false; mx = -1e4; my = -1e4; kick(); };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        if (heroEl && finePointer()) {
+            heroEl.addEventListener('pointermove', onMove, { passive: true });
+            heroEl.addEventListener('pointerenter', onEnter);
+            heroEl.addEventListener('pointerleave', onLeave);
+        }
+
         return () => {
             cancelAnimationFrame(raf);
-            if (scrollRaf) cancelAnimationFrame(scrollRaf);
             window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (heroEl) {
+                heroEl.removeEventListener('pointermove', onMove);
+                heroEl.removeEventListener('pointerenter', onEnter);
+                heroEl.removeEventListener('pointerleave', onLeave);
+            }
         };
-    }, [nameRef, stage]);
+    }, [nameRef, active]);
 };
 
-/* ---------------------------------------------------------
-   Hero space field.
-
-   Three layers on one canvas, one rAF:
-     1. starfield with depth parallax
-     2. a binary inspiral throwing off two-armed spiral waves,
-        which is the quadrupole pattern of a gravitational-wave
-        source (the thing the MSc is actually about)
-     3. a rocket that climbs as the hero stage advances
-
-   On touch there's no pointer parallax, so the field stays
-   centred but still twinkles, orbits and launches. Skipped
-   under reduced motion.
-   --------------------------------------------------------- */
+/* Hero canvas: parallax starfield, two-arm inspiral waves, rocket
+   that climbs with scroll progress. Disabled under reduced motion. */
 const HeroSpace = () => {
     const wrapRef = useRef(null);
     const canvasRef = useRef(null);
@@ -375,7 +227,7 @@ const HeroSpace = () => {
 
         const seed = () => {
             stars = [];
-            LAYERS.forEach((L, li) => {
+            LAYERS.forEach((L) => {
                 const n = Math.round(L.count * Math.min(1.4, (W * H) / 900000));
                 for (let i = 0; i < n; i++) {
                     stars.push({
@@ -386,7 +238,6 @@ const HeroSpace = () => {
                         par: L.par,
                         tw: Math.random() * Math.PI * 2,
                         tws: 0.0006 + Math.random() * 0.0012,
-                        layer: li,
                     });
                 }
             });
@@ -494,6 +345,56 @@ const HeroSpace = () => {
             ctx.restore();
         };
 
+        // ---- meteors: rare thin streaks across the upper field ----
+        const meteors = [];
+        const drawMeteors = () => {
+            if (Math.random() < 0.006 && meteors.length < 2) {
+                const speed = 6 + Math.random() * 5;
+                const fromLeft = Math.random() < 0.5;
+                meteors.push({
+                    x: fromLeft ? -30 : W + 30,
+                    y: Math.random() * H * 0.45,
+                    vx: (fromLeft ? 1 : -1) * speed,
+                    vy: speed * (0.3 + Math.random() * 0.2),
+                    life: 1,
+                });
+            }
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                const m = meteors[i];
+                m.x += m.vx;
+                m.y += m.vy;
+                m.life -= 0.012;
+                if (m.life <= 0 || m.x < -60 || m.x > W + 60) { meteors.splice(i, 1); continue; }
+                const a = Math.sin(m.life * Math.PI) * 0.5;
+                ctx.strokeStyle = `rgba(200, 230, 255, ${a.toFixed(3)})`;
+                ctx.lineWidth = 1.1;
+                ctx.beginPath();
+                ctx.moveTo(m.x, m.y);
+                ctx.lineTo(m.x - m.vx * 9, m.y - m.vy * 9);
+                ctx.stroke();
+            }
+        };
+
+        // ---- gravity ripples: expanding distortion rings on click ----
+        const ripples = [];
+        const drawRipples = () => {
+            for (let i = ripples.length - 1; i >= 0; i--) {
+                const rp = ripples[i];
+                rp.r += 6.5;
+                rp.a *= 0.955;
+                if (rp.a < 0.02) { ripples.splice(i, 1); continue; }
+                ctx.strokeStyle = `rgba(53, 214, 242, ${rp.a.toFixed(3)})`;
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.strokeStyle = `rgba(53, 214, 242, ${(rp.a * 0.45).toFixed(3)})`;
+                ctx.beginPath();
+                ctx.arc(rp.x, rp.y, rp.r * 0.62, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        };
+
         const step = (now) => {
             raf = requestAnimationFrame(step);
             if (!visible || now - last < FRAME) return;
@@ -519,6 +420,8 @@ const HeroSpace = () => {
             }
 
             drawWaves(now, ox * 40, oy * 40);
+            drawMeteors();
+            drawRipples();
             readProgress();
             drawRocket(now, progress);
         };
@@ -535,6 +438,14 @@ const HeroSpace = () => {
         );
         io.observe(wrap);
 
+        const host = wrap.parentElement;
+        const onHostDown = (e) => {
+            if (e.target.closest('a, button')) return;
+            const r = wrap.getBoundingClientRect();
+            ripples.push({ x: e.clientX - r.left, y: e.clientY - r.top, r: 8, a: 0.5 });
+        };
+        if (host) host.addEventListener('pointerdown', onHostDown);
+
         resize();
         mx = W / 2; my = H / 2; cx = mx; cy = my;
         window.addEventListener('resize', resize);
@@ -544,6 +455,7 @@ const HeroSpace = () => {
         return () => {
             cancelAnimationFrame(raf);
             io.disconnect();
+            if (host) host.removeEventListener('pointerdown', onHostDown);
             window.removeEventListener('resize', resize);
             window.removeEventListener('mousemove', onMouse);
         };
@@ -556,17 +468,47 @@ const HeroSpace = () => {
     );
 };
 
+/* ---------------------------------------------------------
+   Hero entrance choreography (framer-motion).
+   --------------------------------------------------------- */
+const heroTopMotion = {
+    initial: { opacity: 0, y: -12 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: EASE, delay: 0.15 },
+};
+
+const metaWrap = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.09, delayChildren: 0.55 } },
+};
+
+const metaItem = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+};
+
 const MetaRow = ({ label, children }) => (
-    <div className="meta-row">
+    <motion.div className="meta-row" variants={metaItem}>
         <span className="meta-label">{label}</span>
         <p className="meta-body">{children}</p>
-    </div>
+    </motion.div>
 );
 
-/* ---------------------------------------------------------
-   Rocket launch intro. 2s launch, 380ms fade to the page,
-   skippable, once per session.
-   --------------------------------------------------------- */
+const ScrollCue = ({ onClick }) => (
+    <motion.button
+        type="button"
+        className="scroll-cue"
+        onClick={onClick}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, delay: 1.7 }}
+    >
+        <span className="cue-label">Scroll</span>
+        <span className="cue-line" aria-hidden />
+    </motion.button>
+);
+
+/* Session intro: launch animation, skippable. */
 const LaunchOverlay = ({ onSkip }) => (
     <div className="launch-overlay">
         <div className="stars-bg" aria-hidden />
@@ -589,13 +531,223 @@ const LaunchOverlay = ({ onSkip }) => (
 
 let introPlayed = false;
 
+/* GW chirp waveform drawn by scroll progress through the strip. */
+const chirpSmooth = (x) => { const c = clamp01(x); return c * c * (3 - 2 * c); };
+
+const ChirpStrip = () => {
+    const wrapRef = useRef(null);
+    const cvsRef = useRef(null);
+
+    useEffect(() => {
+        const wrap = wrapRef.current;
+        const cvs = cvsRef.current;
+        if (!wrap || !cvs) return undefined;
+        const ctx = cvs.getContext('2d');
+        if (!ctx) return undefined;
+
+        const reduce = reduceMotion();
+        const DPR = Math.min(2, window.devicePixelRatio || 1);
+        const H = 120;
+        let W = 0;
+        let samples = [];
+        let raf = 0;
+
+        const build = () => {
+            W = Math.max(2, Math.floor(wrap.getBoundingClientRect().width));
+            cvs.width = W * DPR;
+            cvs.height = H * DPR;
+            ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+            samples = new Array(W);
+            let phase = 0;
+            const F0 = 1.4, F1 = 24, RING = 0.86;
+            for (let i = 0; i < W; i++) {
+                const t = i / (W - 1);
+                const f = F0 * Math.pow(F1 / F0, t);
+                phase += (2 * Math.PI * f) / W;
+                let A = 0.16 + 0.84 * chirpSmooth((t - 0.55) / 0.22);
+                if (t > RING) A *= Math.exp(-(t - RING) * 30);
+                samples[i] = Math.sin(phase) * A;
+            }
+        };
+
+        const draw = (k) => {
+            k = clamp01(k);
+            ctx.clearRect(0, 0, W, H);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, H / 2);
+            ctx.lineTo(W, H / 2);
+            ctx.stroke();
+
+            const n = Math.max(1, Math.floor(k * (W - 1)));
+            ctx.beginPath();
+            for (let i = 0; i <= n; i++) {
+                const y = H / 2 - samples[i] * H * 0.44;
+                if (i === 0) ctx.moveTo(i, y); else ctx.lineTo(i, y);
+            }
+            ctx.strokeStyle = 'rgba(53,214,242,0.85)';
+            ctx.lineWidth = 1.4;
+            ctx.stroke();
+
+            if (k > 0.002) {
+                const y = H / 2 - samples[n] * H * 0.44;
+                ctx.beginPath();
+                ctx.arc(n, y, 7, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(53,214,242,0.25)';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(n, y, 2.8, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+            }
+        };
+
+        const update = () => {
+            raf = 0;
+            const r = wrap.getBoundingClientRect();
+            draw(reduce ? 1 : (window.innerHeight * 0.88 - r.top) / (window.innerHeight * 0.45));
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+        const onResize = () => { build(); if (!raf) raf = requestAnimationFrame(update); };
+
+        build();
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
+            if (raf) cancelAnimationFrame(raf);
+        };
+    }, []);
+
+    return (
+        <section className="chirp" aria-label="Gravitational-wave chirp played by scrolling">
+            <div className="chirp-figure">
+                <canvas ref={cvsRef} className="chirp-canvas" />
+                <div className="chirp-cap">
+                    <span>Fig. 01 — Binary coalescence</span>
+                    <span>h(t) strain ×10⁻²¹ · scroll to play</span>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+/* Right-edge telemetry rail driven by page scroll progress. */
+const RAIL_SECTORS = [
+    ['work', 'STAGE I'],
+    ['apps', 'STAGE II'],
+    ['experiments', 'STAGE III'],
+    ['elsewhere', 'TRANSIT'],
+    ['skills', 'ORBIT'],
+];
+
+const AltRail = () => {
+    const railRef = useRef(null);
+    const altRef = useRef(null);
+    const velRef = useRef(null);
+    const secRef = useRef(null);
+
+    useEffect(() => {
+        let raf = 0;
+        let vel = 0;
+        let lastY = window.scrollY;
+        let lastT = performance.now();
+        let idle = 0;
+
+        const decay = () => {
+            vel *= 0.85;
+            if (velRef.current) {
+                velRef.current.textContent = `VEL ${String(Math.round(vel)).padStart(3, '0')} PX/S`;
+            }
+            if (vel > 1) requestAnimationFrame(decay);
+        };
+
+        const tick = () => {
+            raf = 0;
+            const doc = document.documentElement;
+            const span = doc.scrollHeight - window.innerHeight;
+            const p = span > 0 ? clamp01(window.scrollY / span) : 0;
+
+            const now = performance.now();
+            const dt = Math.max(16, now - lastT);
+            vel = vel * 0.82 + (Math.abs(window.scrollY - lastY) / (dt / 1000)) * 0.18;
+            lastY = window.scrollY;
+            lastT = now;
+
+            if (railRef.current) railRef.current.style.setProperty('--p', p.toFixed(4));
+            if (altRef.current) altRef.current.textContent = `ALT ${(p * 100).toFixed(0)}%`;
+            if (velRef.current) {
+                velRef.current.textContent = `VEL ${String(Math.min(999, Math.round(vel))).padStart(3, '0')} PX/S`;
+            }
+
+            const probe = window.innerHeight * 0.35;
+            let label = 'PRELAUNCH';
+            RAIL_SECTORS.forEach(([id, name]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const r = el.getBoundingClientRect();
+                if (r.top <= probe) label = name;
+            });
+            if (secRef.current && secRef.current.textContent !== label) {
+                secRef.current.textContent = label;
+            }
+
+            clearTimeout(idle);
+            idle = setTimeout(() => requestAnimationFrame(decay), 150);
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+        tick();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            clearTimeout(idle);
+            window.removeEventListener('scroll', onScroll);
+            if (raf) cancelAnimationFrame(raf);
+        };
+    }, []);
+
+    return (
+        <div className="alt-rail" ref={railRef} aria-hidden="true">
+            <div className="rail-meta">
+                <div ref={altRef}>ALT 000%</div>
+                <div ref={velRef}>VEL 000 PX/S</div>
+                <div ref={secRef}>PRELAUNCH</div>
+            </div>
+            <div className="rail-track">
+                <div className="rail-fill" />
+                <div className="rail-rocket">
+                    <svg width="14" height="23" viewBox="0 0 44 72" fill="none">
+                        <path
+                            d="M22 2c7 9 11 19 11 30 0 8-2 15-5 21H16c-3-6-5-13-5-21C11 21 15 11 22 2Z"
+                            stroke="currentColor" strokeWidth="2.6" strokeLinejoin="round"
+                        />
+                        <circle cx="22" cy="27" r="5" stroke="currentColor" strokeWidth="2.6" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* Accent the tail phrase of the colophon sentence. */
+const COLOPHON_HL = 'built and hosted by me';
+const hlIdx = identity.colophon.indexOf(COLOPHON_HL);
+const coloPre = hlIdx >= 0 ? identity.colophon.slice(0, hlIdx) : identity.colophon;
+const coloPost = hlIdx >= 0 ? identity.colophon.slice(hlIdx + COLOPHON_HL.length) : '';
+
 const Home = () => {
     const location = useLocation();
     const skipIntro = useRef(introPlayed || Boolean(location.hash));
     const [stage, setStage] = useState(skipIntro.current ? 'reveal' : 'launch');
     const nameRef = useRef(null);
 
-    useHeroName(nameRef, stage);
+    useHeroName(nameRef, stage === 'reveal');
 
     const finishIntro = useCallback(() => {
         introPlayed = true;
@@ -615,111 +767,141 @@ const Home = () => {
         const raf = requestAnimationFrame(() => {
             const el = document.getElementById(id);
             if (!el) return;
-            window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+            smoothTo(el, { offset: -90 });
         });
         return () => cancelAnimationFrame(raf);
     }, [stage, location.hash]);
 
+    const scrollToWork = useCallback(() => {
+        smoothTo(document.getElementById('work'), { offset: -90 });
+    }, []);
+
+    let running = 1;
+    const groupSections = groups.map((g) => {
+        const section = (
+            <ProjectGroup
+                key={g.id}
+                id={g.id}
+                numeral={g.numeral}
+                title={g.title}
+                sub={g.sub}
+                projects={g.projects}
+                start={running}
+            />
+        );
+        running += g.projects.length;
+        return section;
+    });
+
     return (
         <main>
-            <div className="app">
+            <MotionConfig reducedMotion="user">
+                <div className="app">
                 {stage === 'launch' && <LaunchOverlay onSkip={finishIntro} />}
                 {stage === 'reveal' &&
                     <div className="page-content">
                         <Chrome />
                         <Header />
+                        <AltRail />
 
                         <section className="hero">
                             <HeroSpace />
-                            <div className="hero-top">
+                            <motion.div className="hero-top" {...heroTopMotion}>
                                 <span className="hero-avail">
                                     <span className="avail-dot" />
-                                    Open to work
+                                    {identity.status}
                                 </span>
-                                <span className="hero-loc">Cardiff, UK</span>
-                            </div>
+                                <span className="hero-loc">{identity.location}</span>
+                            </motion.div>
 
                             <h1 className="title" ref={nameRef}>
-                                <RevealName text="Rahul" delay={0} />
-                                <RevealName text="Mahajan." delay={260} italic />
+                                <RevealName text={identity.first} delay={0} />
+                                <RevealName text={`${identity.last}.`} delay={260} italic />
                             </h1>
 
-                            <div className="hero-meta">
+                            <motion.div
+                                className="hero-meta"
+                                variants={metaWrap}
+                                initial="hidden"
+                                animate="show"
+                            >
                                 <MetaRow label="Role">
-                                    Software developer
+                                    {identity.role}
                                 </MetaRow>
                                 <MetaRow label="At present">
-                                    Two years of professional experience building full-stack features
-                                    in Angular, Spring Boot and PostgreSQL, and the test automation
-                                    around them.
+                                    {identity.blurb}
                                 </MetaRow>
                                 <MetaRow label="Studying">
-                                    Finishing an MSc in Data Intensive Astrophysics, applying machine
-                                    learning to gravitational-wave data.
+                                    {identity.study}
                                 </MetaRow>
                                 <MetaRow label="Colophon">
-                                    Everything below is <span className="meta-hl">built and hosted by me</span>.
+                                    {coloPre}<span className="meta-hl">{COLOPHON_HL}</span>{coloPost}
                                 </MetaRow>
-                            </div>
+                            </motion.div>
 
+                            <ScrollCue onClick={scrollToWork} />
                         </section>
 
-                        <ProjectGroup
-                            id="work" numeral="I" title="Live services"
-                            sub="Deployed on my homelab and running right now."
-                            projects={services} start={1}
-                        />
+                        <ChirpStrip />
 
-                        <ProjectGroup
-                            id="apps" numeral="II" title="Desktop apps"
-                            sub="Local-first tools I use daily. No accounts, no cloud."
-                            projects={desktopApps} start={services.length + 1}
-                        />
-
-                        <ProjectGroup
-                            id="experiments" numeral="III" title="Experiments"
-                            sub="Smaller browser builds."
-                            projects={experiments}
-                            start={services.length + desktopApps.length + 1}
-                        />
+                        {groupSections}
 
                         <section className="work" id="elsewhere">
-                            <div className="work-head fade-up">
+                            <motion.div className="work-head" {...headMotion()}>
                                 <span className="work-numeral">IV</span>
                                 <h2 className="work-title">Elsewhere</h2>
                                 <p className="work-sub">Work that doesn't have a page here.</p>
-                            </div>
-                            <div className="else-list">
+                            </motion.div>
+                            <motion.div
+                                className="else-list"
+                                initial="hidden"
+                                whileInView="show"
+                                viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+                                variants={{
+                                    hidden: {},
+                                    show: { transition: { staggerChildren: 0.08 } },
+                                }}
+                            >
                                 {elsewhere.map((e) => (
-                                    <div className="else-row fade-up" key={e.title}>
+                                    <motion.div className="else-row" variants={metaItem} key={e.title}>
                                         <h3 className="else-title">{e.title}</h3>
                                         <p className="else-note">{e.note}</p>
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         </section>
 
                         <section className="skills" id="skills">
-                            <div className="work-head fade-up">
+                            <motion.div className="work-head" {...headMotion()}>
                                 <span className="work-numeral">V</span>
                                 <h2 className="work-title">Stack</h2>
                                 <p className="work-sub">What I work in.</p>
-                            </div>
-                            <div className="skill-groups">
+                            </motion.div>
+                            <motion.div
+                                className="skill-groups"
+                                initial="hidden"
+                                whileInView="show"
+                                viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+                                variants={{
+                                    hidden: {},
+                                    show: { transition: { staggerChildren: 0.08 } },
+                                }}
+                            >
                                 {skillGroups.map((g) => (
-                                    <div className="skill-group fade-up" key={g.label}>
+                                    <motion.div className="skill-group" variants={metaItem} key={g.label}>
                                         <h3 className="skill-label">{g.label}</h3>
                                         <ul className="skill-list">
                                             {g.items.map((s) => <li key={s}>{s}</li>)}
                                         </ul>
-                                    </div>
+                                    </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         </section>
 
                         <Footer />
                     </div>}
-            </div>
+                </div>
+            </MotionConfig>
         </main>
     );
 };

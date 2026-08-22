@@ -1,0 +1,40 @@
+html.fx-cursor,
+html.fx-cursor * {
+    cursor: none !important;
+}
+
+.fx-dot,
+.fx-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 12000;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform;
+}
+
+.fx-dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    mix-blend-mode: difference;
+}
+
+.fx-ring {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    transition:
+        width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.25s ease,
+        opacity 0.3s ease;
+}
+
+.fx-ring.is-hover {
+    width: 54px;
+    height: 54px;
+    border-color: rgba(var(--accent-rgb), 0.9);
+}

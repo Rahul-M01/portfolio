@@ -1,8 +1,14 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { identity, groups } from './content/portfolio';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('portfolio content exposes the owner identity and project groups', () => {
+    expect(identity.first).toBe('Rahul');
+    expect(identity.last).toBe('Mahajan');
+    expect(groups.length).toBeGreaterThan(0);
+    groups.forEach((g) => {
+        expect(Array.isArray(g.projects)).toBe(true);
+        g.projects.forEach((p) => {
+            expect(p.title).toBeTruthy();
+            expect(p.href).toBeTruthy();
+        });
+    });
 });

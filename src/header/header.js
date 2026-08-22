@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './header.css';
+import { smoothTo } from '../common/smoothScroll';
 
 const NAV = [
     { label: 'Home',        key: 'top' },
@@ -18,51 +19,55 @@ const Header = () => {
     const navigate = useNavigate();
     const onHomePage = location.pathname === '/';
 
-    const [isSticky, setIsSticky] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeHash, setActiveHash] = useState(location.hash);
 
     useEffect(() => {
-        const onScroll = () => setIsSticky(window.scrollY > 30);
-        onScroll();
+        let raf = 0;
+        const compute = () => {
+            raf = 0;
+            setScrolled(window.scrollY > 8);
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(compute); };
+        compute();
         window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
+        return () => {
+            if (raf) cancelAnimationFrame(raf);
+            window.removeEventListener('scroll', onScroll);
+        };
     }, []);
 
     useEffect(() => setActiveHash(location.hash), [location.hash]);
 
+    // Scroll spy: last section whose top passed the probe line wins.
     useEffect(() => {
-        if (!onHomePage) return;
+        if (!onHomePage) return undefined;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                const visible = entries
-                    .filter((e) => e.isIntersecting)
-                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-                if (visible.length === 0) return;
-                setActiveHash(`#${visible[0].target.id}`);
-            },
-            { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
-        );
-
-        const onScrollTop = () => {
-            if (window.scrollY < 80) setActiveHash((cur) => (cur ? '' : cur));
-        };
-
-        const timer = setTimeout(() => {
+        let raf = 0;
+        const compute = () => {
+            raf = 0;
+            if (window.scrollY < 80) { setActiveHash(''); return; }
+            const probe = window.innerHeight * 0.35;
+            let current = '';
             SECTION_IDS.forEach((id) => {
                 const el = document.getElementById(id);
-                if (el) observer.observe(el);
+                if (!el) return;
+                const r = el.getBoundingClientRect();
+                if (r.top <= probe && r.bottom > 0) current = `#${id}`;
             });
-            onScrollTop();
-        }, 200);
+            setActiveHash(current);
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(compute); };
 
-        window.addEventListener('scroll', onScrollTop, { passive: true });
-
+        const timer = setTimeout(compute, 200);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
         return () => {
             clearTimeout(timer);
-            observer.disconnect();
-            window.removeEventListener('scroll', onScrollTop);
+            if (raf) cancelAnimationFrame(raf);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
         };
     }, [onHomePage]);
 
@@ -76,7 +81,7 @@ const Header = () => {
         closeMobile();
         if (!onHomePage) return;
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothTo(0);
         if (location.hash) navigate('/', { replace: true });
     };
 
@@ -86,7 +91,7 @@ const Header = () => {
         if (item.key === 'top') {
             if (!onHomePage) return;
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothTo(0);
             if (location.hash) navigate('/', { replace: true });
             return;
         }
@@ -96,8 +101,7 @@ const Header = () => {
         e.preventDefault();
         const el = document.getElementById(item.key);
         if (!el) return;
-        const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+        smoothTo(el, { offset: -HEADER_OFFSET });
         setActiveHash(`#${item.key}`);
         if (location.hash !== `#${item.key}`) {
             navigate(`/#${item.key}`, { replace: true });
@@ -106,7 +110,7 @@ const Header = () => {
 
     return (
         <header>
-            <div className={`header-container ${isSticky ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
+            <div className={`header-container ${scrolled ? 'sticky' : ''} ${isMobileMenuOpen ? 'navbar-open' : ''}`}>
                 <Link to="/" className="brand" onClick={onBrandClick}>
                     <span className="brand-mark">R</span>
                     <span className="brand-name">Rahul Mahajan</span>

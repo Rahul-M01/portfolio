@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './drishti.css';
 import '../project-page.css';
@@ -6,6 +6,7 @@ import drishtiLogo from '../../images/drishti.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import TiltCard from '../../common/TiltCard';
 import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -23,10 +24,10 @@ const features = [
         num: '01',
         title: 'Unified Metrics',
         items: [
-            { icon: faGaugeHigh, text: 'Collects Prometheus metrics from every service on the lab.' },
-            { icon: faChartLine, text: 'Live CPU, memory, disk and request-rate graphs per service.' },
+            { icon: faGaugeHigh, text: 'Scrapes /metrics from any service speaking Prometheus exposition format.' },
+            { icon: faChartLine, text: 'Live CPU, memory and disk percentages per target, graphed as sparklines.' },
             { icon: faServer, text: 'One desktop dashboard instead of a pile of browser tabs.' },
-            { icon: faBoxesStacked, text: 'Group services by host, stack or tag.' },
+            { icon: faBoxesStacked, text: 'Tag projects into groups; the dashboard sorts itself.' },
         ],
     },
     {
@@ -42,8 +43,8 @@ const features = [
         num: '03',
         title: 'Network View',
         items: [
-            { icon: faWifi, text: 'Live reachability probes for every registered service.' },
-            { icon: faPlug, text: 'Automatic discovery via service labels.' },
+            { icon: faWifi, text: 'Reachability probes for every registered service.' },
+            { icon: faPlug, text: 'Port checks configured per project in one JSON file.' },
             { icon: faEye, text: 'Highlights services that drop off the network.' },
         ],
     },
@@ -52,41 +53,29 @@ const features = [
         title: 'Desktop-Native',
         items: [
             { icon: faDesktop, text: 'Electron app, so it behaves like part of the OS rather than a browser page.' },
-            { icon: faHeartPulse, text: 'Minimal-footprint background daemon, <50MB RAM idle.' },
+            { icon: faHeartPulse, text: 'Checks run on your interval; alerts fire even while hidden to tray.' },
             { icon: faServer, text: 'All configuration lives in a single JSON file next to the binary.' },
         ],
     },
 ];
 
-const FeatureCard = ({ f, index }) => {
-    const ref = useRef(null);
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        el.style.setProperty('--my', `${e.clientY - r.top}px`);
-    };
-    return (
-        <div
-            ref={ref}
-            className="feature-card fade-up"
-            style={{ '--stagger': `${index * 90}ms` }}
-            onMouseMove={onMove}
-        >
-            <div className="fc-glow" aria-hidden />
-            <div className="fc-head">
-                <span className="fc-num">{f.num}</span>
-                <h3 className="fc-title accent">{f.title}</h3>
-            </div>
-            <ul className="fc-list">
-                {f.items.map((it, i) => (
-                    <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-                ))}
-            </ul>
+const FeatureCard = ({ f, index }) => (
+    <TiltCard
+        className="feature-card fade-up"
+        style={{ '--stagger': `${index * 90}ms` }}
+    >
+        <div className="fc-glow" aria-hidden />
+        <div className="fc-head">
+            <span className="fc-num">{f.num}</span>
+            <h3 className="fc-title accent">{f.title}</h3>
         </div>
-    );
-};
+        <ul className="fc-list">
+            {f.items.map((it, i) => (
+                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
+            ))}
+        </ul>
+    </TiltCard>
+);
 
 const Drishti = () => {
     return (
@@ -169,3 +158,5 @@ const Drishti = () => {
 };
 
 export default Drishti;
+
+

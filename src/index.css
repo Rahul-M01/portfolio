@@ -23,10 +23,37 @@
 ::selection {
   background: var(--accent);
   color: var(--bg);
+  text-shadow: none;
 }
 
 html {
   background-color: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent-rgb), 0.4) transparent;
+}
+
+/* Custom scrollbar: hairline track, accent-tinted thumb. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 body {
@@ -36,14 +63,6 @@ body {
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Nebula wash. Fixed so it reads as depth behind the page, not a banner. */
-  background-image:
-    radial-gradient(1200px 700px at 12% -10%, rgba(var(--accent-2-rgb), 0.16), transparent 60%),
-    radial-gradient(1000px 600px at 92% 8%, rgba(var(--accent-rgb), 0.12), transparent 55%),
-    radial-gradient(900px 500px at 50% 120%, rgba(var(--accent-rgb), 0.07), transparent 60%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
 }
 
 code {

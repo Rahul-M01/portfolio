@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import usePageTracker from './useTracker';
+import { jumpTo } from '../common/smoothScroll';
 
 function LayoutWithTracker({ children }) {
     const { pathname, hash } = useLocation();
@@ -8,7 +9,7 @@ function LayoutWithTracker({ children }) {
 
     useEffect(() => {
         if (hash) return;
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        jumpTo(0);
     }, [pathname, hash]);
 
     return <>{children}</>;

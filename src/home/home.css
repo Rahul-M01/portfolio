@@ -1,10 +1,11 @@
 /* =========================================================
-   ROCKET LAUNCH INTRO
-   ========================================================= */
+    ROCKET LAUNCH INTRO
+    ========================================================= */
 .app {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--bg);
+
+    background-color: transparent;
     color: var(--fg);
     position: relative;
     display: flex;
@@ -12,6 +13,9 @@
     align-items: flex-start;
 }
 
+/* =========================================================
+    ROCKET LAUNCH INTRO
+    ========================================================= */
 .launch-overlay {
     position: fixed;
     inset: 0;
@@ -143,9 +147,6 @@
 @keyframes launchFade { to { opacity: 0; visibility: hidden; } }
 @keyframes fadeInSkip { to { opacity: 1; } }
 
-/* =========================================================
-   CANVAS
-   ========================================================= */
 .page-content {
     opacity: 0;
     animation: fadeIn 0.8s ease forwards;
@@ -214,8 +215,6 @@
     padding-bottom: 1.6rem;
     margin-bottom: 2.4rem;
     border-bottom: 1px solid var(--line);
-    opacity: 0;
-    animation: fadeSlide 0.8s 0.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .hero-avail {
@@ -285,8 +284,6 @@
 .hero-meta {
     margin-bottom: 0.5rem;
     border-top: 1px solid var(--line);
-    opacity: 0;
-    animation: fadeSlide 0.8s 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .meta-row {
@@ -315,6 +312,32 @@
 }
 
 .meta-hl { color: var(--accent); }
+
+/* Scroll cue: mono label with a breathing hairline. */
+.scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 2.6rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    transition: color 0.3s ease;
+}
+
+.scroll-cue:hover { color: var(--accent); }
+
+.cue-line {
+    width: 64px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.18);
+}
 
 @keyframes fadeSlide {
     from { opacity: 0; transform: translateY(16px); }
@@ -438,37 +461,10 @@
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* hue wash following the cursor */
-.row-sheen {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.045) var(--px, 50%),
-        transparent
-    );
-    opacity: 0;
-    transition: opacity 0.45s ease;
-}
-
-@supports (background: color-mix(in srgb, red 10%, transparent)) {
-    .row-sheen {
-        background: linear-gradient(
-            90deg,
-            transparent,
-            color-mix(in srgb, var(--hue, #35d6f2) 10%, transparent) var(--px, 50%),
-            transparent
-        );
-    }
-}
-
 .project-row:hover { padding-left: 1.6rem; }
 .project-row:hover::before { transform: scaleY(1); }
-.project-row:hover .row-sheen { opacity: 1; }
 
-.project-row > *:not(.row-sheen) { position: relative; z-index: 1; }
+.project-row > * { position: relative; z-index: 1; }
 
 .row-num {
     font-family: var(--font-mono);
@@ -738,13 +734,14 @@
 
 @media (prefers-reduced-motion: reduce) {
     .rn-char,
-    .hero-top,
-    .hero-meta,
     .hero-index {
         animation: none;
         opacity: 1;
         transform: none;
     }
+
+    .rn-line.rn-grad { animation: none; }
+    .scroll-cue { opacity: 1; }
 
     .avail-dot::after { animation: none; }
     .hero { transform: none; }
@@ -752,4 +749,102 @@
     .vmarquee-track { transform: none !important; }
     .row-title-out { display: none; }
     .project-row:hover .row-title-in { transform: none; }
+}
+
+/* =========================================================
+   FIG. 01 � CHIRP STRIP (scroll-scrubbed waveform)
+   ========================================================= */
+.chirp {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 4.5rem 4rem 0;
+}
+
+.chirp-figure {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 1.5rem 0 1.05rem;
+}
+
+.chirp-canvas {
+    display: block;
+    width: 100%;
+    height: 120px;
+}
+
+.chirp-cap {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+
+/* =========================================================
+   ALTITUDE RAIL (mission telemetry)
+   ========================================================= */
+.alt-rail {
+    position: fixed;
+    right: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    height: min(44vh, 400px);
+}
+
+.rail-track {
+    position: relative;
+    width: 1px;
+    height: 100%;
+    background: var(--line);
+}
+
+.rail-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--p, 0) * 100%);
+    background: linear-gradient(to top, rgba(var(--accent-rgb), 0), rgba(var(--accent-rgb), 0.7));
+}
+
+.rail-rocket {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--p, 0) * 100%);
+    transform: translate(-50%, 50%);
+    color: var(--fg);
+    line-height: 0;
+    filter: drop-shadow(0 0 5px rgba(var(--accent-rgb), 0.9));
+}
+
+.rail-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    line-height: 2.1;
+    white-space: nowrap;
+    text-align: left;
+}
+
+@media (max-width: 1100px) {
+    .alt-rail { display: none; }
+}
+
+@media (max-width: 900px) {
+    .chirp { padding-left: 2rem; padding-right: 2rem; }
+}
+
+@media (max-width: 640px) {
+    .chirp { padding-left: 1.35rem; padding-right: 1.35rem; }
+    .chirp-cap span:last-child { display: none; }
 }

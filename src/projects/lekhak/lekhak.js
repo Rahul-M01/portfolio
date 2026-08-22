@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './lekhak.css';
 import '../project-page.css';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import TiltCard from '../../common/TiltCard';
 import LINKS from '../../config/links';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -57,35 +58,23 @@ const features = [
     },
 ];
 
-const FeatureCard = ({ f, index }) => {
-    const ref = useRef(null);
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        el.style.setProperty('--my', `${e.clientY - r.top}px`);
-    };
-    return (
-        <div
-            ref={ref}
-            className="feature-card fade-up"
-            style={{ '--stagger': `${index * 90}ms` }}
-            onMouseMove={onMove}
-        >
-            <div className="fc-glow" aria-hidden />
-            <div className="fc-head">
-                <span className="fc-num">{f.num}</span>
-                <h3 className="fc-title accent">{f.title}</h3>
-            </div>
-            <ul className="fc-list">
-                {f.items.map((it, i) => (
-                    <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-                ))}
-            </ul>
+const FeatureCard = ({ f, index }) => (
+    <TiltCard
+        className="feature-card fade-up"
+        style={{ '--stagger': `${index * 90}ms` }}
+    >
+        <div className="fc-glow" aria-hidden />
+        <div className="fc-head">
+            <span className="fc-num">{f.num}</span>
+            <h3 className="fc-title accent">{f.title}</h3>
         </div>
-    );
-};
+        <ul className="fc-list">
+            {f.items.map((it, i) => (
+                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
+            ))}
+        </ul>
+    </TiltCard>
+);
 
 const Lekhak = () => {
     return (
@@ -168,3 +157,5 @@ const Lekhak = () => {
 };
 
 export default Lekhak;
+
+

@@ -2,7 +2,7 @@ import './App.css';
 import Bot from './projects/discord_bot/bot';
 import Homelab from './projects/homelab/homelab';
 import Home from './home/home';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import LayoutWithTracker from './useTracker/layoutTracker';
 import Drishyam from './projects/drishyam/drishyam';
 import DrishyamHome from './projects/drishyam/drishyam_site/drishyam_home';
@@ -58,6 +58,10 @@ function App() {
         {
             path: "/login",
             element: <LayoutWithTracker><Login /></LayoutWithTracker>,
+        },
+        {
+            path: "*",
+            element: <Navigate to="/" replace />,
         },
     ], { basename: process.env.PUBLIC_URL || '/' });
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './homelab.css';
 import '../project-page.css';
@@ -6,6 +6,7 @@ import homelabLogo from '../../images/homelab.png';
 import Header from '../../header/header';
 import Footer from '../../footer/Footer';
 import Chrome from '../../common/Chrome';
+import TiltCard from '../../common/TiltCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCloud, faLock, faLaptopFile, faUsersGear,
@@ -76,24 +77,14 @@ const services = [
 ];
 
 const ServiceCard = ({ s, index }) => {
-    const ref = useRef(null);
-    const onMove = (e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-        el.style.setProperty('--my', `${e.clientY - r.top}px`);
-    };
     const disabled = s.status !== 'LIVE';
     return (
-        <div
-            ref={ref}
+        <TiltCard
             className="feature-card fade-up"
             style={{
                 '--stagger': `${index * 90}ms`,
                 '--sub-accent-rgb': s.accentRgb,
             }}
-            onMouseMove={onMove}
         >
             <div className="fc-glow" aria-hidden />
             <div className="fc-head">
@@ -134,7 +125,7 @@ const ServiceCard = ({ s, index }) => {
                 )}
                 <span className={`fc-badge ${disabled ? 'wip' : 'live'}`}>{s.status}</span>
             </div>
-        </div>
+        </TiltCard>
     );
 };
 
@@ -215,3 +206,5 @@ const Homelab = () => {
 };
 
 export default Homelab;
+
+
