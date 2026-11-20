@@ -1,0 +1,11 @@
+.blackjack-sample { margin-top:32px; padding:32px clamp(20px,4vw,52px); display:grid; grid-template-columns:1fr 1.2fr; gap:24px; align-items:center; border:1px solid #dbc4a32b; border-radius:16px; background:radial-gradient(ellipse at 78% 60%,#3b3048cc,transparent 58%),#11131cc9; }
+.blackjack-sample h2 { margin:0; font:italic 400 clamp(2rem,4vw,3rem)/1.1 Georgia,serif; color:#f4e9d8; }
+.blackjack-sample p { color:#bbc1cd; line-height:1.6; font-size:.92rem; }
+.sample-controls,.sample-hand { display:flex; gap:8px; flex-wrap:wrap; }
+.sample-table { display:flex; align-items:center; justify-content:space-evenly; gap:20px; }
+.sample-table > div > span:first-child:not(.playing-card) { display:block; margin-bottom:8px; color:#d3c6bd; font-size:.8rem; }
+.playing-card { display:inline-flex; flex-direction:column; width:42px; height:60px; border-radius:5px; padding:4px 7px; color:#242329; background:#f4ecda; font:1.35rem Georgia,serif; box-shadow:0 4px 12px #0004; }
+.playing-card small { align-self:flex-end; }
+.red-suit { color:#963d4c; }
+.card-back { border:3px solid #f4ecda; background:repeating-linear-gradient(45deg,#6a526b 0 2px,#43374e 2px 5px); }
+@media(max-width:650px){.blackjack-sample {grid-template-columns:1fr;}.sample-table {order:-1;}.sample-hand{gap:4px;}.playing-card{width:34px;height:50px;font-size:1.1rem;}}

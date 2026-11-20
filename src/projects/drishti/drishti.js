@@ -1,162 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './drishti.css';
-import '../project-page.css';
-import drishtiLogo from '../../images/drishti.png';
-import Header from '../../header/header';
-import Footer from '../../footer/Footer';
-import Chrome from '../../common/Chrome';
-import TiltCard from '../../common/TiltCard';
-import LINKS from '../../config/links';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faHeartPulse, faGaugeHigh, faChartLine, faServer,
-    faBell, faTriangleExclamation, faEnvelopeOpenText,
-    faDesktop, faEye, faBoxesStacked,
-    faWifi, faPlug
-} from '@fortawesome/free-solid-svg-icons';
-
-const ACCENT = '#4FD1C5';
-const ACCENT_RGB = '79, 209, 197';
+import ProjectDetail from '../ProjectDetail';
 
 const features = [
     {
-        num: '01',
-        title: 'Unified Metrics',
-        items: [
-            { icon: faGaugeHigh, text: 'Scrapes /metrics from any service speaking Prometheus exposition format.' },
-            { icon: faChartLine, text: 'Live CPU, memory and disk percentages per target, graphed as sparklines.' },
-            { icon: faServer, text: 'One desktop dashboard instead of a pile of browser tabs.' },
-            { icon: faBoxesStacked, text: 'Tag projects into groups; the dashboard sorts itself.' },
-        ],
+        title: "Project checks",
+        summary: "Drishti checks the working tree, required files and dependencies in each repository.",
+        detail: "It recognises Node, Python and Gradle projects. The dashboard records the recent checks so I can see when something changed.",
     },
     {
-        num: '02',
-        title: 'Alerts',
-        items: [
-            { icon: faBell, text: 'Desktop notifications when a service crosses a threshold.' },
-            { icon: faTriangleExclamation, text: 'Severity tiers (info, warning, critical) with colour coding.' },
-            { icon: faEnvelopeOpenText, text: 'Daily digest so you know what happened overnight.' },
-        ],
+        title: "Dashboard updates",
+        summary: "The desktop view updates as each set of checks comes in.",
+        detail: "Server-sent events carry the results to the dashboard. Drishti also exposes a metrics endpoint for Prometheus.",
     },
     {
-        num: '03',
-        title: 'Network View',
-        items: [
-            { icon: faWifi, text: 'Reachability probes for every registered service.' },
-            { icon: faPlug, text: 'Port checks configured per project in one JSON file.' },
-            { icon: faEye, text: 'Highlights services that drop off the network.' },
-        ],
+        title: "Network checks",
+        summary: "A project can have a local service port to check.",
+        detail: "The result sits alongside the repository checks. I can see when the files are in place but the service itself isn’t answering.",
     },
     {
-        num: '04',
-        title: 'Desktop-Native',
-        items: [
-            { icon: faDesktop, text: 'Electron app, so it behaves like part of the OS rather than a browser page.' },
-            { icon: faHeartPulse, text: 'Checks run on your interval; alerts fire even while hidden to tray.' },
-            { icon: faServer, text: 'All configuration lives in a single JSON file next to the binary.' },
-        ],
+        title: "Background monitoring",
+        summary: "Drishti keeps checking from the system tray and can send desktop notifications.",
+        detail: "A JSON file lists the projects to watch. The dashboard server listens on the local machine.",
     },
 ];
 
-const FeatureCard = ({ f, index }) => (
-    <TiltCard
-        className="feature-card fade-up"
-        style={{ '--stagger': `${index * 90}ms` }}
-    >
-        <div className="fc-glow" aria-hidden />
-        <div className="fc-head">
-            <span className="fc-num">{f.num}</span>
-            <h3 className="fc-title accent">{f.title}</h3>
-        </div>
-        <ul className="fc-list">
-            {f.items.map((it, i) => (
-                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-            ))}
-        </ul>
-    </TiltCard>
-);
-
-const Drishti = () => {
-    return (
-        <div
-            className="project-page"
-            style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
-        >
-            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
-            <Header />
-
-            <section className="project-hero">
-                <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 07 / OBSERVABILITY'}</span>
-                    <span className="ph-status">DESKTOP / DAEMON</span>
-                </div>
-
-                <div className="ph-body">
-                    <div className="ph-logo-wrap">
-                        <img src={drishtiLogo} alt="Drishti" className="ph-logo" />
-                    </div>
-                    <div className="ph-text">
-                        <h1 className="ph-title">
-                            <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Drishti</span>
-                                <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
-                            </span>
-                            <span className="line">
-                                <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>Health</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>Monitor.</span>
-                            </span>
-                        </h1>
-                        <p className="ph-desc">
-                            Health monitoring for every service on the homelab. Drishti scrapes
-                            Prometheus endpoints, aggregates the health signals and puts them in one
-                            desktop dashboard, with native alerts when something goes red.
-                        </p>
-                        <div className="ph-actions">
-                            <a href={LINKS.drishti.download} target="_blank" rel="noreferrer" className="ph-action primary">
-                                <span>Download for desktop</span>
-                                <span className="arrow">↓</span>
-                            </a>
-                            <a href={LINKS.drishti.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
-                                <span>Source</span>
-                                <span className="arrow">↗</span>
-                            </a>
-                            <Link to="/" className="ph-action ghost">
-                                <span>Back to index</span>
-                                <span className="arrow">←</span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="project-features" id="features">
-                <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'Feature map'}</span>
-                    <h2 className="section-title">What <em>Drishti</em> watches.</h2>
-                </div>
-                <div className="feature-grid">
-                    {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
-                </div>
-            </section>
-
-            <nav className="project-nav">
-                <Link to="/yudhishtra" className="prev">
-                    <span className="label">← Previous</span>
-                    <span className="dest">Yudhishtra</span>
-                </Link>
-                <Link to="/" className="next">
-                    <span className="label">Back to →</span>
-                    <span className="dest">Home</span>
-                </Link>
-            </nav>
-
-            <Footer />
-        </div>
-    );
-};
-
-export default Drishti;
-
-
+export default function Project() {
+    return <ProjectDetail
+        path="/drishti"
+        sectionTitle="What Drishti checks"
+        description="Drishti keeps an eye on my local projects. I can see which repositories have uncommitted changes, which dependencies are missing and whether a service is reachable."
+        features={features}
+    />;
+}

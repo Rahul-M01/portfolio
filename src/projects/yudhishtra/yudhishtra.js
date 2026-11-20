@@ -1,170 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './yudhishtra.css';
-import '../project-page.css';
-import Header from '../../header/header';
-import Footer from '../../footer/Footer';
-import Chrome from '../../common/Chrome';
-import TiltCard from '../../common/TiltCard';
-import LINKS from '../../config/links';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCodeBranch, faFolderTree, faCircleExclamation,
-    faShieldHalved, faBugSlash, faTriangleExclamation,
-    faVial, faCheckDouble, faTerminal,
-    faLightbulb, faWandMagicSparkles, faListCheck,
-    faDesktop, faNetworkWired
-} from '@fortawesome/free-solid-svg-icons';
-
-const ACCENT = '#6B7BFF';
-const ACCENT_RGB = '107, 123, 255';
+import ProjectDetail from '../ProjectDetail';
 
 const features = [
     {
-        num: '01',
-        title: 'Repo Browser',
-        items: [
-            { icon: faCodeBranch, text: 'Finds every local git repo with unpushed commits or no remote configured.' },
-            { icon: faFolderTree, text: 'One-click drill into repo state: branches, diffs, staged changes.' },
-            { icon: faCircleExclamation, text: 'Surfaces the things you forgot: WIP branches, stashed work, orphan tags.' },
-        ],
+        title: "Repository browser",
+        summary: "The browser shows branches, diffs and staged changes in one place.",
+        detail: "It also helps me spot unpushed commits, missing remotes, stashes and orphan tags.",
     },
     {
-        num: '02',
-        title: 'Security Scanner',
-        items: [
-            { icon: faShieldHalved, text: 'Scans code for vulnerabilities before anything leaves the machine.' },
-            { icon: faBugSlash, text: 'Categorised by severity: critical, high, medium, low.' },
-            { icon: faTriangleExclamation, text: 'Explains each finding with remediation suggestions.' },
-        ],
+        title: "Code checks",
+        summary: "The model flags potential problems and groups them by severity.",
+        detail: "Each finding comes with an explanation and a suggested change that I can review.",
     },
     {
-        num: '03',
-        title: 'Test Generator',
-        items: [
-            { icon: faVial, text: 'Auto-generates tests using your project\'s existing test runner.' },
-            { icon: faCheckDouble, text: 'Runs the tests locally and reports failures inline.' },
-            { icon: faTerminal, text: 'Works with npm, pytest, go test or cargo, whatever\'s already wired up.' },
-        ],
+        title: "Test generation",
+        summary: "Yudhishtra writes tests for the runner the repository already uses.",
+        detail: "I can run them locally and read the failures in the app. It supports npm, pytest, Go and Cargo projects.",
     },
     {
-        num: '04',
-        title: 'Feature Suggestions',
-        items: [
-            { icon: faLightbulb, text: 'Reads your codebase and proposes next steps to work on.' },
-            { icon: faWandMagicSparkles, text: 'Suggestions tailored to the architecture it actually sees.' },
-            { icon: faListCheck, text: 'Exportable as a TODO list you can paste into your tracker.' },
-        ],
+        title: "Suggestions",
+        summary: "Suggestions refer back to the code in the open repository.",
+        detail: "I can turn the ones I want to keep into a to-do list.",
     },
     {
-        num: '05',
-        title: 'Fully Offline',
-        items: [
-            { icon: faDesktop, text: 'Runs entirely on your machine via Ollama. No API keys, no internet calls.' },
-            { icon: faNetworkWired, text: 'Your code never leaves the box. Safe for work, safe for secrets.' },
-            { icon: faTerminal, text: 'Model-agnostic, so you can swap between deepseek-coder, qwen and llama.' },
-        ],
+        title: "Local models",
+        summary: "Ollama handles the model calls on my computer.",
+        detail: "That keeps the code on the machine and lets me switch between models such as DeepSeek Coder, Qwen and Llama.",
     },
 ];
 
-const FeatureCard = ({ f, index }) => (
-    <TiltCard
-        className="feature-card fade-up"
-        style={{ '--stagger': `${index * 90}ms` }}
-    >
-        <div className="fc-glow" aria-hidden />
-        <div className="fc-head">
-            <span className="fc-num">{f.num}</span>
-            <h3 className="fc-title accent">{f.title}</h3>
-        </div>
-        <ul className="fc-list">
-            {f.items.map((it, i) => (
-                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-            ))}
-        </ul>
-    </TiltCard>
-);
-
-const Yudhishtra = () => {
-    return (
-        <div
-            className="project-page"
-            style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
-        >
-            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
-            <Header />
-
-            <section className="project-hero">
-                <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 06 / CODE AUDITOR'}</span>
-                    <span className="ph-status">OFFLINE / OLLAMA</span>
-                </div>
-
-                <div className="ph-body">
-                    <div className="ph-logo-wrap">
-                        <span className="ph-mono" aria-hidden>यु</span>
-                    </div>
-                    <div className="ph-text">
-                        <h1 className="ph-title">
-                            <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Yudhishtra</span>
-                                <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
-                            </span>
-                            <span className="line">
-                                <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>Code</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>Auditor.</span>
-                            </span>
-                        </h1>
-                        <p className="ph-desc">
-                            A desktop app for reviewing local git repos before you push. Vulnerability
-                            scanning, test generation and next-step suggestions, all running through
-                            Ollama on your own machine. Your code never leaves the box.
-                        </p>
-                        <div className="ph-actions">
-                            <a href={LINKS.yudhishtra.download} target="_blank" rel="noreferrer" className="ph-action primary">
-                                <span>Download for desktop</span>
-                                <span className="arrow">↓</span>
-                            </a>
-                            <a href={LINKS.yudhishtra.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
-                                <span>Source</span>
-                                <span className="arrow">↗</span>
-                            </a>
-                            <Link to="/" className="ph-action ghost">
-                                <span>Back to index</span>
-                                <span className="arrow">←</span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="project-features">
-                <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'Feature map'}</span>
-                    <h2 className="section-title">What <em>Yudhishtra</em> does.</h2>
-                </div>
-                <div className="feature-grid">
-                    {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
-                </div>
-            </section>
-
-            <nav className="project-nav">
-                <Link to="/kubera" className="prev">
-                    <span className="label">← Previous</span>
-                    <span className="dest">Kubera</span>
-                </Link>
-                <Link to="/drishti" className="next">
-                    <span className="label">Next project →</span>
-                    <span className="dest">Drishti</span>
-                </Link>
-            </nav>
-
-            <Footer />
-        </div>
-    );
-};
-
-export default Yudhishtra;
-
-
+export default function Project() {
+    return <ProjectDetail
+        path="/yudhishtra"
+        sectionTitle="From folder to review"
+        description="I open a local Git repository in Yudhishtra when I want a second look before a push. The model runs on my machine through Ollama."
+        features={features}
+    />;
+}

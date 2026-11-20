@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./drishyam_home.css";
+import "../../../login/login.css";
+import UtilityLayout from "../../../common/UtilityLayout";
 
 // Configured at build time. Unset means this deployment has no backend, so the
 // page says so rather than firing blocked mixed-content calls at localhost.
@@ -71,9 +73,9 @@ const DrishyamHome = () => {
   };
 
   return (
-    <div className="download-form">
+    <UtilityLayout><div className="download-form"><p className="eyebrow">Drishyam</p><h1>Your video library.</h1>
       <h2>Add a video</h2>
-      <div>
+      <div className="video-add">
         <label htmlFor="video-url" className="sr-only">Video URL</label>
         <input
           id="video-url"
@@ -92,6 +94,7 @@ const DrishyamHome = () => {
 
       <div>
         <h2>Library</h2>
+        {!videos.length && <p className="library-empty">No videos to show yet.</p>}
         <div className="video-list">
           {videos.map((video) => (
             <div key={video} className="video-item">
@@ -107,7 +110,7 @@ const DrishyamHome = () => {
           ))}
         </div>
       </div>
-    </div>
+    </div></UtilityLayout>
   );
 };
 

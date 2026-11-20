@@ -1,161 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './lekhak.css';
-import '../project-page.css';
-import Header from '../../header/header';
-import Footer from '../../footer/Footer';
-import Chrome from '../../common/Chrome';
-import TiltCard from '../../common/TiltCard';
-import LINKS from '../../config/links';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faListCheck, faCalendarDay, faFlag, faFilter,
-    faNoteSticky, faThumbtack, faMagnifyingGlass, faFloppyDisk,
-    faBell, faArrowsRotate, faMoon, faWindowRestore
-} from '@fortawesome/free-solid-svg-icons';
-
-const ACCENT = '#E8E4D8';
-const ACCENT_RGB = '232, 228, 216';
+import ProjectDetail from '../ProjectDetail';
 
 const features = [
     {
-        num: '01',
-        title: 'Prioritised Tasks',
-        items: [
-            { icon: faListCheck, text: 'Quick-capture to-dos with low / medium / high priority tags.' },
-            { icon: faCalendarDay, text: 'Calendar-aware due dates and overdue badges.' },
-            { icon: faFlag, text: 'Status filters for open, done and snoozed, all in the sidebar.' },
-            { icon: faFilter, text: 'Keyword search across every task in your history.' },
-        ],
+        title: "Tasks",
+        summary: "Tasks have a due date and one of three priorities.",
+        detail: "I can filter out completed or snoozed tasks, find overdue work or search for something I’ve already finished.",
     },
     {
-        num: '02',
-        title: 'Rich Notes',
-        items: [
-            { icon: faNoteSticky, text: 'Minimalist note editor built for writing, not formatting wars.' },
-            { icon: faThumbtack, text: 'Pin notes to keep recurring references one click away.' },
-            { icon: faMagnifyingGlass, text: 'Instant full-text search across every note.' },
-            { icon: faFloppyDisk, text: 'Auto-save on every keystroke, so there is no save button to forget.' },
-        ],
+        title: "Notes",
+        summary: "Changes save while I type. I can pin a note I keep coming back to.",
+        detail: "Full-text search looks inside the notes as well as their titles.",
     },
     {
-        num: '03',
-        title: 'Reminders',
-        items: [
-            { icon: faBell, text: 'Native OS notifications for one-off or recurring events.' },
-            { icon: faArrowsRotate, text: 'Daily, weekly or monthly repeats with flexible rules.' },
-            { icon: faWindowRestore, text: 'System tray persistence, so closing the window doesn\'t stop alerts.' },
-        ],
+        title: "Reminders",
+        summary: "A reminder shows up as a Windows notification.",
+        detail: "It can repeat daily, weekly or monthly. The tray process keeps it running when the main window is closed.",
     },
     {
-        num: '04',
-        title: 'Designed for You',
-        items: [
-            { icon: faMoon, text: 'High-contrast dark and light modes that match your system.' },
-            { icon: faFloppyDisk, text: 'All data lives in a local SQLite file. No accounts, no sync, no cloud.' },
-            { icon: faWindowRestore, text: 'Built for Windows first. Fast, keyboard-driven, tiny footprint.' },
-        ],
+        title: "On your desktop",
+        summary: "Notes and tasks live in a local SQLite file.",
+        detail: "The editor has keyboard shortcuts and can follow the light or dark theme in Windows.",
     },
 ];
 
-const FeatureCard = ({ f, index }) => (
-    <TiltCard
-        className="feature-card fade-up"
-        style={{ '--stagger': `${index * 90}ms` }}
-    >
-        <div className="fc-glow" aria-hidden />
-        <div className="fc-head">
-            <span className="fc-num">{f.num}</span>
-            <h3 className="fc-title accent">{f.title}</h3>
-        </div>
-        <ul className="fc-list">
-            {f.items.map((it, i) => (
-                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-            ))}
-        </ul>
-    </TiltCard>
-);
-
-const Lekhak = () => {
-    return (
-        <div
-            className="project-page"
-            style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
-        >
-            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
-            <Header />
-
-            <section className="project-hero">
-                <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 04 / PRODUCTIVITY'}</span>
-                    <span className="ph-status">DESKTOP / WINDOWS</span>
-                </div>
-
-                <div className="ph-body">
-                    <div className="ph-logo-wrap">
-                        <span className="ph-mono" aria-hidden>ल</span>
-                    </div>
-                    <div className="ph-text">
-                        <h1 className="ph-title">
-                            <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Lekhak</span>
-                                <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
-                            </span>
-                            <span className="line">
-                                <span className="w w-white" style={{ '--wd': '260ms' }}>tasks,</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>notes,</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>reminders.</span>
-                            </span>
-                        </h1>
-                        <p className="ph-desc">
-                            A privacy-first productivity app for Windows. Prioritised tasks, rich
-                            notes and scheduled reminders, all backed by a local SQLite file. Closes
-                            to the system tray so alerts keep firing in the background.
-                        </p>
-                        <div className="ph-actions">
-                            <a href={LINKS.lekhak.download} target="_blank" rel="noreferrer" className="ph-action primary">
-                                <span>Download for desktop</span>
-                                <span className="arrow">↓</span>
-                            </a>
-                            <a href={LINKS.lekhak.repo} target="_blank" rel="noreferrer" className="ph-action ghost">
-                                <span>Source</span>
-                                <span className="arrow">↗</span>
-                            </a>
-                            <Link to="/" className="ph-action ghost">
-                                <span>Back to index</span>
-                                <span className="arrow">←</span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="project-features" id="features">
-                <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'Feature map'}</span>
-                    <h2 className="section-title">What <em>Lekhak</em> ships with.</h2>
-                </div>
-                <div className="feature-grid">
-                    {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
-                </div>
-            </section>
-
-            <nav className="project-nav">
-                <Link to="/drishyam" className="prev">
-                    <span className="label">← Previous</span>
-                    <span className="dest">Drishyam</span>
-                </Link>
-                <Link to="/kubera" className="next">
-                    <span className="label">Next project →</span>
-                    <span className="dest">Kubera</span>
-                </Link>
-            </nav>
-
-            <Footer />
-        </div>
-    );
-};
-
-export default Lekhak;
-
-
+export default function Project() {
+    return <ProjectDetail
+        path="/lekhak"
+        sectionTitle="Using Lekhak"
+        description="I use Lekhak for notes, tasks and reminders on Windows. Closing the window leaves it in the system tray, so a reminder can still catch me later."
+        features={features}
+    />;
+}

@@ -44,27 +44,24 @@ export function initSmoothScroll() {
 
 /* Programmatic scroll that stays in sync with lenis while it runs. */
 export function smoothTo(target, options = {}) {
-    const { offset = 0, immediate = false } = options;
-
-    if (lenis) {
-        lenis.scrollTo(target, { offset, immediate });
-        return;
-    }
-
-    if (typeof target === 'number') {
-        window.scrollTo({ top: target, behavior: immediate ? 'auto' : 'smooth' });
-        return;
-    }
+    const { offset = 0 } = options;
+    const immediate = options.immediate || prefersReduced();
 
     const el = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY + offset;
-    window.scrollTo({ top: y, behavior: immediate ? 'auto' : 'smooth' });
+    if (typeof el !== 'number' && !el) return;
+    const top = (typeof el === 'number' ? el : el.getBoundingClientRect().top + window.scrollY) + offset;
+    if (lenis) {
+        lenis.resize();
+        lenis.scrollTo(top, { immediate });
+    } else {
+        window.scrollTo({ top, behavior: immediate ? 'auto' : 'smooth' });
+    }
 }
 
 /* Instant reposition (route changes) that also resets any lenis flight. */
 export function jumpTo(top) {
     if (lenis) {
+        lenis.resize();
         lenis.scrollTo(top, { immediate: true });
         return;
     }

@@ -1,0 +1,23 @@
+.launch-intro { position: fixed; inset: 0; z-index: 100; background: #04070c; overflow: hidden; animation: intro-exit .65s cubic-bezier(.2,.7,.3,1) 1.95s both; }
+.launch-skip { position: absolute; top: 30px; right: 35px; z-index: 4; display: flex; gap: 24px; padding: 13px 16px; border: 1px solid #ffffff22; border-radius: 8px; color: #c9cdd4; background: #ffffff05; font-size: .8rem; }
+.launch-horizon { position: absolute; width: 160%; height: 65%; left: -30%; bottom: -47%; border-radius: 50%; background: #101a29; box-shadow: 0 -3px 16px #d5b47f40, 0 -25px 130px #6b82a427; animation: horizon-drop 2s ease-in forwards; }
+.launch-vehicle { position: absolute; left: calc(50% - 40px); top: 36%; width: 80px; height: 176px; animation: rocket-flight 2.1s cubic-bezier(.6,0,.8,.4) both; }
+.launch-rocket { position: relative; z-index: 2; width: 80px; height: 176px; filter: drop-shadow(0 0 18px #bbc9da18); }
+.launch-flame { position: absolute; top: 154px; left: 24px; width: 32px; height: 180px; background: linear-gradient(#fff6db, #ffbe63 20%, #cf601470 65%, transparent); clip-path: polygon(8% 0,92% 0,81% 26%,100% 35%,65% 60%,50% 100%,30% 68%,0 29%); transform-origin: top; animation: exhaust .13s infinite alternate; filter: drop-shadow(0 0 13px #fabb65); }
+.launch-flame i { display: block; margin: 0 auto; width: 12px; height: 95px; background: linear-gradient(white,#fff4c4aa,transparent); }
+.launch-plume { position: absolute; top: 175px; left: -35px; width: 150px; height: 700px; background: radial-gradient(ellipse at 50% 0, #eebc7050, #dcb48212 30%, transparent 70%); filter: blur(17px); }
+.launch-streaks { position: absolute; inset: 0; }
+.launch-streaks i { position: absolute; top: -20%; left: var(--x); width: 1px; height: var(--length); background: linear-gradient(transparent,#c3d5e085,transparent); animation: star-flight .9s linear var(--delay) infinite; }
+.launch-caption { position: absolute; bottom: 12%; left: 20px; right: 20px; text-align: center; animation: caption-exit .4s ease 1.7s both; }
+.launch-caption > span { font-size: 1.05rem; color: #e5e1d9; }
+.launch-caption p { font-size: .82rem; color: #828b99; margin-top: 12px; }
+.launch-progress { width: 100px; height: 1px; background: #ffffff18; margin: 25px auto 0; overflow: hidden; }
+.launch-progress i { display: block; height: 100%; background: #ddba88; transform-origin: left; animation: launch-load 1.9s linear both; }
+@keyframes rocket-flight { 0% { transform: translateY(12vh) scale(.8); } 25% { transform: translateY(10vh) scale(.8); } 48% { transform: translateY(3vh) scale(.82); } 100% { transform: translateY(-100vh) scale(.65); } }
+@keyframes exhaust { from { transform: scaleY(.78) scaleX(.9); opacity: .85; } to { transform: scaleY(1.12); opacity: 1; } }
+@keyframes star-flight { to { transform: translateY(130vh); } }
+@keyframes horizon-drop { to { transform: translateY(20vh); opacity: 0; } }
+@keyframes launch-load { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes caption-exit { to { opacity: 0; transform: translateY(12px); } }
+@keyframes intro-exit { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .launch-intro { display: none; } }

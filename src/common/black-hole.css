@@ -1,0 +1,26 @@
+.black-hole {
+    position: absolute;
+    inset: 0 0 auto;
+    width: 100%;
+    height: clamp(850px, 67vw, 1100px);
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    mask-image: linear-gradient(#000 62%, transparent 100%);
+}
+.black-hole canvas,
+.black-hole-fallback { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.black-hole canvas { opacity: 0; }
+.black-hole.is-ready canvas { opacity: 1; }
+.black-hole-fallback { object-fit: cover; object-position: center; }
+.black-hole-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #02030770, transparent 55%);
+}
+.is-ready .black-hole-fallback { visibility: hidden; }
+@media (max-width: 700px) {
+    .black-hole { top: 135px; height: 610px; }
+    .black-hole-fallback { object-position: 67% center; }
+    .black-hole-shade { background: linear-gradient(90deg, #020307a0, transparent 90%); }
+}

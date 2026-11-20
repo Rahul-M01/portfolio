@@ -2,10 +2,10 @@
    Single source of truth for portfolio content.
    All pages import their copy from here.
    --------------------------------------------------------- */
-import discordLogo from '../images/discord.png';
-import homelabLogo from '../images/homelab.png';
-import videoLogo from '../images/video.png';
-import drishtiLogo from '../images/drishti.png';
+import discordLogo from '../assets/discord.png';
+import homelabLogo from '../assets/homelab.png';
+import videoLogo from '../assets/video.png';
+import drishtiLogo from '../assets/drishti.png';
 
 export const identity = {
     first: 'Rahul',
@@ -14,11 +14,9 @@ export const identity = {
     location: 'Cardiff, UK',
     status: 'Open to work',
     blurb:
-        'Two years of professional experience building full-stack features in Angular, ' +
-        'Spring Boot and PostgreSQL, and the test automation around them.',
+        "I’ve spent two years writing software with Angular, Spring Boot and PostgreSQL. Outside work, I look after the server that runs my own projects.",
     study:
-        'Finishing an MSc in Data Intensive Astrophysics, applying machine learning to ' +
-        'gravitational-wave data.',
+        "I'm finishing an MSc in Data Intensive Astrophysics. My research looks at how machine learning can help us analyse gravitational-wave data.",
     colophon: 'Everything below is built and hosted by me.',
 };
 
@@ -26,9 +24,7 @@ export const services = [
     {
         title: 'Bhima',
         tag: 'Discord bot',
-        desc:
-            'Moderation, music, poker, blackjack, leveling, polls, translation and live ' +
-            'analytics. Runs 24/7 on the homelab.',
+        desc: "Music, moderation and a blackjack table for Discord.",
         href: '/bot',
         img: discordLogo,
         mono: 'भ',
@@ -39,9 +35,7 @@ export const services = [
     {
         title: 'Agni',
         tag: 'Homelab',
-        desc:
-            'Self-hosted personal cloud, media server and networking stack. Nextcloud, ' +
-            'Plex and secure remote access.',
+        desc: "My home server for files, calendars and films.",
         href: '/homelab',
         img: homelabLogo,
         mono: 'अ',
@@ -52,9 +46,7 @@ export const services = [
     {
         title: 'Drishyam',
         tag: 'Video platform',
-        desc:
-            'Browser-native video host that also auto-downloads content from a pasted ' +
-            'link. Built for quick personal archives.',
+        desc: "A video library I host at home and watch in my browser.",
         href: '/drishyam',
         img: videoLogo,
         mono: 'दृ',
@@ -68,9 +60,7 @@ export const desktopApps = [
     {
         title: 'Lekhak',
         tag: 'Notes and tasks',
-        desc:
-            'Privacy-first desktop tasks, rich notes and scheduled reminders. Local ' +
-            'SQLite, system tray, dark and light themes.',
+        desc: "A Windows notebook that remembers to nudge me after I close it.",
         href: '/lekhak',
         mono: 'ल',
         hue: '#e8e4d8',
@@ -80,9 +70,7 @@ export const desktopApps = [
     {
         title: 'Kubera',
         tag: 'Finance tracker',
-        desc:
-            'Open banking dashboard with balances, spend analytics, category budgets ' +
-            'and recurring payment detection. Stays on your machine.',
+        desc: "Bank transactions and monthly budgets on my desktop.",
         href: '/kubera',
         mono: '₹',
         hue: '#f5c518',
@@ -92,9 +80,7 @@ export const desktopApps = [
     {
         title: 'Yudhishtra',
         tag: 'Code auditor',
-        desc:
-            'Offline analyser for local git repos. Scans for vulnerabilities, generates ' +
-            'tests and suggests next steps via Ollama.',
+        desc: "A code review tool that reads a local repo with Ollama.",
         href: '/yudhishtra',
         mono: 'यु',
         hue: '#6b7bff',
@@ -103,10 +89,8 @@ export const desktopApps = [
     },
     {
         title: 'Drishti',
-        tag: 'Health monitor',
-        desc:
-            'Collects Prometheus metrics from every service on the lab into a single ' +
-            'desktop dashboard.',
+        tag: 'Project monitor',
+        desc: "A desktop window onto the health of my local repositories.",
         href: '/drishti',
         img: drishtiLogo,
         mono: 'दृ',
@@ -121,8 +105,7 @@ export const experiments = [
         title: 'Simulation',
         tag: 'Browser demo',
         desc:
-            'Interactive simulation with physics, particles and playful maths. Hosted ' +
-            'on GitHub Pages.',
+            "A reusable booster flight simulation that runs in the browser.",
         href: 'https://rahul-m01.github.io/simulation/',
         external: true,
         mono: '∿',
@@ -135,15 +118,15 @@ export const experiments = [
 export const elsewhere = [
     {
         title: 'Gravitational-wave analysis',
-        note: 'MSc thesis. Machine-learning methods for binary black-hole and neutron-star data.',
+        note: "For my MSc thesis, I'm working with machine learning and gravitational-wave data from binary black holes and neutron stars.",
     },
     {
         title: 'Stock-market analysis pipeline',
-        note: '20 years of market data, 30+ engineered indicators, walk-forward validation.',
+        note: "I tested more than 30 indicators against 20 years of market data, moving the test window forward each time.",
     },
     {
         title: 'AI game development',
-        note: 'Won two international AI game-development competitions.',
+        note: "I've won two international AI game-development competitions.",
     },
 ];
 
@@ -174,21 +157,21 @@ export const groups = [
         id: 'work',
         numeral: 'I',
         title: 'Live services',
-        sub: 'Deployed on my homelab and running right now.',
+        sub: "The services I host at home.",
         projects: services,
     },
     {
         id: 'apps',
         numeral: 'II',
         title: 'Desktop apps',
-        sub: 'Local-first tools I use daily. No accounts, no cloud.',
+        sub: "Tools for notes, finances, code and monitoring.",
         projects: desktopApps,
     },
     {
         id: 'experiments',
         numeral: 'III',
         title: 'Experiments',
-        sub: 'Smaller browser builds.',
+        sub: "Smaller things I've made for the browser.",
         projects: experiments,
     },
 ];

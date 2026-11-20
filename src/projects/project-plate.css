@@ -1,0 +1,12 @@
+.plate { width:100%; aspect-ratio:2.05; overflow:hidden; position:relative; background:#080b10; }
+.plate img { display:block; width:100%; height:100%; object-fit:cover; object-position:var(--photo-position,center); }
+.project-figure { margin:0; }
+.project-figure .plate { height:clamp(310px,37vw,485px); aspect-ratio:auto; }
+.project-figure figcaption { margin:8px 0 0; font-size:.76rem; color:var(--muted); line-height:1.5; }
+.project-figure figcaption a { color:inherit; text-decoration:none; }
+.project-figure figcaption a:hover,.project-figure figcaption a:focus-visible { text-decoration:underline; }
+.photo-byline { color:#9ca3ad; }
+.cover-title { position:absolute; inset:auto 0 0; padding:50px clamp(20px,4vw,50px) clamp(19px,3vw,34px); background:linear-gradient(transparent,rgba(3,5,9,.8)); }
+.cover-title h1 { margin:0; font:400 clamp(3.15rem,7vw,6.1rem)/1.02 var(--font-editorial); letter-spacing:-.045em; color:#fff9ed; }
+.cover-title .case-kind { color:#f4ebda; text-shadow:0 1px 5px #000; }
+@media(max-width:700px) { .project-figure .plate { height:clamp(245px,69vw,350px); } }

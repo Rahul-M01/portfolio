@@ -1,0 +1,69 @@
+:root { --motion-ease:cubic-bezier(.2,.7,.2,1); }
+
+@keyframes motion-arrive {
+    from { opacity:.32; translate:0 9px; }
+    to { opacity:1; translate:0 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .case-lead > *, .case-materials, .login-title, .download-form h1 {
+        animation:motion-arrive .46s var(--motion-ease) backwards;
+    }
+    .case-lead h1 { animation-delay:35ms; }
+    .case-description { animation-delay:65ms; }
+    .case-actions, .case-materials { animation-delay:90ms; }
+    .case-portrait img { animation:portrait-develop .62s var(--motion-ease); }
+    @keyframes portrait-develop {
+        from { opacity:.45; clip-path:inset(5% 0 5% 0 round 9%); }
+        to { opacity:1; clip-path:inset(0 round 0); }
+    }
+    .detail-feature > div:not([hidden]), .profile-notes details[open] p {
+        animation:motion-arrive .25s var(--motion-ease);
+    }
+    .profile-notes summary span { transition:transform .2s var(--motion-ease); }
+    .case-pager a span, .footer-socials a span { transition:translate .2s var(--motion-ease); }
+    .case-pager a:is(:hover,:focus-visible) span, .footer-socials a:is(:hover,:focus-visible) span { translate:3px 0; }
+    .case-pager a:first-child:is(:hover,:focus-visible) span { translate:-3px 0; }
+    .playing-card { animation:deal-card .28s var(--motion-ease) backwards; }
+    .playing-card:nth-child(2) { animation-delay:55ms; }
+    @keyframes deal-card {
+        from { opacity:.3; transform:translate(10px,-9px) rotate(7deg); }
+        to { opacity:1; transform:none; }
+    }
+
+    @supports (animation-timeline: view()) {
+        .profile-heading, .profile-text, .profile-notes, .instruments h2,
+        .instrument-row, .detail-feature, .case-pager, .footer-main {
+            animation:scroll-arrival linear both;
+            animation-timeline:view();
+            animation-range:entry 0% entry 80%;
+        }
+        @keyframes scroll-arrival { from { opacity:.68; translate:0 12px; } to { opacity:1; translate:0 0; } }
+    }
+}
+@media (max-width:650px) and (prefers-reduced-motion: no-preference) {
+    .site-nav.is-open { animation:motion-arrive .19s var(--motion-ease); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header, .menu-toggle span { transition:none; }
+}
+
+.site-header { view-transition-name:site-navigation; }
+::view-transition-group(site-navigation) { animation:none; z-index:1; }
+::view-transition-old(site-navigation) { display:none; }
+::view-transition-new(site-navigation) { animation:none; }
+@media(prefers-reduced-motion:no-preference) {
+    ::view-transition-group(root) { animation-duration:480ms; }
+    ::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode:normal; }
+    ::view-transition-old(root) { animation:page-recede 480ms cubic-bezier(.32,0,.2,1) both; }
+    ::view-transition-new(root) { animation:page-uncover 480ms cubic-bezier(.36,.02,.17,1) both; }
+    @keyframes page-recede { to { transform:translateX(-4%); opacity:.64; } }
+    @keyframes page-uncover {
+        from { clip-path:polygon(100% 0,110% 0,110% 100%,110% 100%); transform:translateX(3%); }
+        to { clip-path:polygon(-10% 0,100% 0,100% 100%,0 100%); transform:translateX(0); }
+    }
+}
+@media(prefers-reduced-motion:reduce) {
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
+}

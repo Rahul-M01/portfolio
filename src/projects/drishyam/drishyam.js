@@ -1,158 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './drishyam.css';
-import '../project-page.css';
-import videoLogo from '../../images/video.png';
-import Header from '../../header/header';
-import Footer from '../../footer/Footer';
-import Chrome from '../../common/Chrome';
-import TiltCard from '../../common/TiltCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faVideo, faCloudArrowDown, faLink, faPlay,
-    faServer, faShieldHalved, faFilm, faFolderOpen,
-    faKeyboard, faWandMagicSparkles
-} from '@fortawesome/free-solid-svg-icons';
-
-const ACCENT = '#2ff8ff';
-const ACCENT_RGB = '47, 248, 255';
+import ProjectDetail from '../ProjectDetail';
 
 const features = [
     {
-        num: '01',
-        title: 'Upload & Host',
-        items: [
-            { icon: faVideo, text: 'Drop any video file into the browser and it gets encoded and stored straight away.' },
-            { icon: faFolderOpen, text: 'Organised library with thumbnails, durations and metadata.' },
-            { icon: faPlay, text: 'Adaptive HTML5 player, works on every modern device.' },
-        ],
+        title: "Uploads & playback",
+        summary: "I can upload a file and watch it from the same page.",
+        detail: "The library shows a thumbnail, duration and file details for each video. Playback uses the browser’s own video player.",
     },
     {
-        num: '02',
-        title: 'Auto-Download',
-        items: [
-            { icon: faLink, text: 'Paste any video URL and Drishyam fetches it in the background.' },
-            { icon: faCloudArrowDown, text: 'Supports hundreds of sources via a yt-dlp pipeline.' },
-            { icon: faWandMagicSparkles, text: 'Automatic transcoding to a clean, portable format.' },
-        ],
+        title: "Save from a link",
+        summary: "Pasting a supported link starts a background download.",
+        detail: "Drishyam uses yt-dlp to fetch the video. FFmpeg converts the download for playback.",
     },
     {
-        num: '03',
-        title: 'Self-Hosted',
-        items: [
-            { icon: faServer, text: 'Runs on my homelab. No third-party storage, no data collection.' },
-            { icon: faShieldHalved, text: 'Private by default. Authentication gated.' },
-            { icon: faFilm, text: 'Built for personal archives: videos stay yours, forever.' },
-        ],
+        title: "Hosted at home",
+        summary: "My video files stay on Agni, behind a sign-in.",
+        detail: "Uploads and downloads end up in the same archive, so I only have one library to look through.",
     },
     {
-        num: '04',
-        title: 'Fast Controls',
-        items: [
-            { icon: faKeyboard, text: 'Full keyboard shortcuts for playback and navigation.' },
-            { icon: faPlay, text: 'One-click share links with expiry.' },
-            { icon: faFolderOpen, text: 'Tag, rename and bulk-manage from a single view.' },
-        ],
+        title: "Library controls",
+        summary: "Tags and batch renaming help keep the library in order.",
+        detail: "I can navigate with the keyboard or make a share link that expires.",
     },
 ];
 
-const FeatureCard = ({ f, index }) => (
-    <TiltCard
-        className="feature-card fade-up"
-        style={{ '--stagger': `${index * 90}ms` }}
-    >
-        <div className="fc-glow" aria-hidden />
-        <div className="fc-head">
-            <span className="fc-num">{f.num}</span>
-            <h3 className="fc-title accent">{f.title}</h3>
-        </div>
-        <ul className="fc-list">
-            {f.items.map((it, i) => (
-                <li key={i}><FontAwesomeIcon icon={it.icon} />{it.text}</li>
-            ))}
-        </ul>
-    </TiltCard>
-);
-
-const Drishyam = () => {
-    return (
-        <div
-            className="project-page"
-            style={{ '--accent': ACCENT, '--accent-rgb': ACCENT_RGB }}
-        >
-            <Chrome pageA={ACCENT_RGB} pageB="185, 110, 224" />
-            <Header />
-
-            <section className="project-hero">
-                <div className="ph-meta">
-                    <span className="ph-tag">{'PROJECT 03 / VIDEO PLATFORM'}</span>
-                    <span className="ph-status">SELF-HOSTED</span>
-                </div>
-
-                <div className="ph-body">
-                    <div className="ph-logo-wrap">
-                        <img src={videoLogo} alt="Drishyam" className="ph-logo" />
-                    </div>
-                    <div className="ph-text">
-                        <h1 className="ph-title">
-                            <span className="line">
-                                <span className="w" style={{ '--wd': '0ms' }}>Drishyam</span>
-                                <span className="w serif" style={{ '--wd': '140ms' }}>,</span>
-                            </span>
-                            <span className="line">
-                                <span className="w w-white" style={{ '--wd': '260ms' }}>a</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '320ms' }}>Video</span>{' '}
-                                <span className="w w-white" style={{ '--wd': '380ms' }}>Platform.</span>
-                            </span>
-                        </h1>
-                        <p className="ph-desc">
-                            A browser-native video host built for personal archives. Upload directly,
-                            or paste a link and let Drishyam auto-download, transcode and catalogue
-                            it. Everything stays on my homelab.
-                        </p>
-                        <div className="ph-actions">
-                            <a
-                                href="/drishyam_home"
-                                className="ph-action primary"
-                            >
-                                <span>Visit Drishyam</span>
-                                <span className="arrow">↗</span>
-                            </a>
-                            <Link to="/" className="ph-action ghost">
-                                <span>Back to Home</span>
-                                <span className="arrow">←</span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="project-features">
-                <div className="feature-block-head fade-up">
-                    <span className="section-tag">{'What it does'}</span>
-                    <h2 className="section-title">Built for <em>keeping things</em>.</h2>
-                </div>
-                <div className="feature-grid">
-                    {features.map((f, i) => <FeatureCard key={f.num} f={f} index={i} />)}
-                </div>
-            </section>
-
-            <nav className="project-nav">
-                <Link to="/homelab" className="prev">
-                    <span className="label">← Previous</span>
-                    <span className="dest">Agni</span>
-                </Link>
-                <Link to="/lekhak" className="next">
-                    <span className="label">Next project →</span>
-                    <span className="dest">Lekhak</span>
-                </Link>
-            </nav>
-
-            <Footer />
-        </div>
-    );
-};
-
-export default Drishyam;
-
-
+export default function Project() {
+    return <ProjectDetail
+        path="/drishyam"
+        sectionTitle="Inside the library"
+        description="I built Drishyam so I could save a video and find it again later. I paste a link or upload a file, and my server takes care of the conversion."
+        features={features}
+    />;
+}

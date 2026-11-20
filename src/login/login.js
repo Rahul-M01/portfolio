@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UtilityLayout from '../common/UtilityLayout';
 import './login.css'
 
 // Configured at build time. Without it the form refuses to submit rather than
@@ -32,7 +33,7 @@ const Login = () => {
       });
 
       if (response.ok) {
-        navigate("/drishyam_home");
+        navigate("/drishyam_home", { viewTransition:true });
       } else {
         setError("Invalid username or password.");
       }
@@ -44,9 +45,9 @@ const Login = () => {
   };
 
   return (
-    <div className="login-card">
+    <UtilityLayout><div className="login-card">
       <div className="login-card-content">
-        <span className="login-title">Login</span>
+        <p className="eyebrow">Drishyam</p><h1 className="login-title">Welcome back.</h1><p className="login-intro">Sign in to your private video library.</p>
         <form className="login-form" onSubmit={handleLogin}>
           <label htmlFor="username">Username</label>
           <input
@@ -79,7 +80,7 @@ const Login = () => {
           </button>
         </form>
       </div>
-    </div>
+    </div></UtilityLayout>
   );
 };
 

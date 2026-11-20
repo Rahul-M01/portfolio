@@ -1,4 +1,5 @@
 import './App.css';
+import './common/motion.css';
 import Bot from './projects/discord_bot/bot';
 import Homelab from './projects/homelab/homelab';
 import Home from './home/home';
@@ -13,61 +14,23 @@ import Drishti from './projects/drishti/drishti';
 import ProtectedRoute from './routing/protected-route'
 import Login from './login/login'
 
-function App() {
-    const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <LayoutWithTracker><Home /></LayoutWithTracker>,
-        },
-        {
-            path: "/bot",
-            element: <LayoutWithTracker><Bot /></LayoutWithTracker>,
-        },
-        {
-            path: "/homelab",
-            element: <LayoutWithTracker><Homelab /></LayoutWithTracker>,
-        },
-        {
-            path: "/drishyam",
-            element: <LayoutWithTracker><Drishyam /></LayoutWithTracker>,
-        },
-        {
-            path: "/lekhak",
-            element: <LayoutWithTracker><Lekhak /></LayoutWithTracker>,
-        },
-        {
-            path: "/kubera",
-            element: <LayoutWithTracker><Kubera /></LayoutWithTracker>,
-        },
-        {
-            path: "/yudhishtra",
-            element: <LayoutWithTracker><Yudhishtra /></LayoutWithTracker>,
-        },
-        {
-            path: "/drishti",
-            element: <LayoutWithTracker><Drishti /></LayoutWithTracker>,
-        },
-        {
-            path: "/drishyam_home",
-            element: (
-                <ProtectedRoute>
-                    <LayoutWithTracker><DrishyamHome /></LayoutWithTracker>
-                </ProtectedRoute>
-            ),
-        },
-        {
-            path: "/login",
-            element: <LayoutWithTracker><Login /></LayoutWithTracker>,
-        },
-        {
-            path: "*",
-            element: <Navigate to="/" replace />,
-        },
-    ], { basename: process.env.PUBLIC_URL || '/' });
+const router = createBrowserRouter([{
+    element: <LayoutWithTracker />,
+    children: [
+        { index: true, element: <Home /> },
+        { path: 'bot', element: <Bot /> },
+        { path: 'homelab', element: <Homelab /> },
+        { path: 'drishyam', element: <Drishyam /> },
+        { path: 'lekhak', element: <Lekhak /> },
+        { path: 'kubera', element: <Kubera /> },
+        { path: 'yudhishtra', element: <Yudhishtra /> },
+        { path: 'drishti', element: <Drishti /> },
+        { path: 'drishyam_home', element: <ProtectedRoute><DrishyamHome /></ProtectedRoute> },
+        { path: 'login', element: <Login /> },
+        { path: '*', element: <Navigate to="/" replace /> },
+    ],
+}], { basename: process.env.PUBLIC_URL || '/' });
 
-    return (
-        <RouterProvider router={router} />
-    );
+export default function App() {
+    return <RouterProvider router={router} />;
 }
-
-export default App;
