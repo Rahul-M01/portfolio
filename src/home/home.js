@@ -14,7 +14,10 @@ export default function Home() {
                 <div className="profile-heading"><p>Cardiff, UK</p><h2 id="about-heading">About <em>me.</em></h2></div>
                 <div className="profile-text"><p>{identity.blurb}</p><p>{identity.study}</p></div>
                 <div className="profile-notes" id="elsewhere">{elsewhere.map(item => <details key={item.title}>
-                    <summary>{item.title}<span aria-hidden="true">+</span></summary><p>{item.note}</p></details>)}</div>
+                    <summary>{item.title}<span aria-hidden="true">+</span></summary>
+                    {item.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+                    {item.link && <p><a href={item.link.href}>{item.link.label} <span aria-hidden="true">↗</span></a></p>}
+                </details>)}</div>
             </section>
             <section className="instruments shell" id="skills" aria-labelledby="skills-heading">
                 <h2 id="skills-heading">What I <em>use.</em></h2>
