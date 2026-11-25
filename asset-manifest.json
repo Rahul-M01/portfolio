@@ -1,19 +1,35 @@
 {
   "files": {
-    "main.css": "/portfolio/static/css/main.f5e407ce.css",
-    "main.js": "/portfolio/static/js/main.bb9948be.js",
+    "main.css": "/portfolio/static/css/main.75baafdd.css",
+    "main.js": "/portfolio/static/js/main.4915d254.js",
     "static/js/787.7da95b79.chunk.js": "/portfolio/static/js/787.7da95b79.chunk.js",
     "static/media/drishti.png": "/portfolio/static/media/drishti.5c1a2596a61d90e50d70.png",
+    "static/media/bank-card.webp": "/portfolio/static/media/bank-card.9b8f8760c866e75f49fb.webp",
+    "static/media/gold-nib.webp": "/portfolio/static/media/gold-nib.e26f48e5fc74ddb60ee5.webp",
+    "static/media/film-reel.webp": "/portfolio/static/media/film-reel.8fcd2bda409a1acf625a.webp",
+    "static/media/black-hole-horizon.jpg": "/portfolio/static/media/black-hole-horizon.7615a08e7a003da3ad56.jpg",
+    "static/media/code-editor.webp": "/portfolio/static/media/code-editor.889f918a69819da8275a.webp",
+    "static/media/green-rack.webp": "/portfolio/static/media/green-rack.50bcc944971214ca5591.webp",
     "static/media/video.png": "/portfolio/static/media/video.5a41ced7ade8ba652461.png",
     "static/media/discord.png": "/portfolio/static/media/discord.18068f52d65606f255fc.png",
+    "static/media/headphones.webp": "/portfolio/static/media/headphones.49b07d44c11ba918cfa3.webp",
+    "static/media/cyan-drive.webp": "/portfolio/static/media/cyan-drive.0c396e8fd51251ba6fb3.webp",
     "static/media/homelab.png": "/portfolio/static/media/homelab.150edc4ff62f8207f612.png",
+    "static/media/film-reel-640.webp": "/portfolio/static/media/film-reel-640.c8552dee08878eb83046.webp",
+    "static/media/green-rack-640.webp": "/portfolio/static/media/green-rack-640.16618648afce5d52662d.webp",
+    "static/media/gold-nib-640.webp": "/portfolio/static/media/gold-nib-640.f87b7c1c1d7d04248b49.webp",
+    "static/media/code-editor-640.webp": "/portfolio/static/media/code-editor-640.99f4ee9299a30c5f7628.webp",
+    "static/media/bank-card-640.webp": "/portfolio/static/media/bank-card-640.0cbcf5e3c6a22b3eb361.webp",
+    "static/media/booster-landing.webp": "/portfolio/static/media/booster-landing.3a30fb5036e075da9039.webp",
+    "static/media/cyan-drive-640.webp": "/portfolio/static/media/cyan-drive-640.6d0127c83db8fcf00a75.webp",
+    "static/media/headphones-640.webp": "/portfolio/static/media/headphones-640.5c3ed9321a90b6f58e1a.webp",
     "index.html": "/portfolio/index.html",
-    "main.f5e407ce.css.map": "/portfolio/static/css/main.f5e407ce.css.map",
-    "main.bb9948be.js.map": "/portfolio/static/js/main.bb9948be.js.map",
+    "main.75baafdd.css.map": "/portfolio/static/css/main.75baafdd.css.map",
+    "main.4915d254.js.map": "/portfolio/static/js/main.4915d254.js.map",
     "787.7da95b79.chunk.js.map": "/portfolio/static/js/787.7da95b79.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f5e407ce.css",
-    "static/js/main.bb9948be.js"
+    "static/css/main.75baafdd.css",
+    "static/js/main.4915d254.js"
   ]
 }
