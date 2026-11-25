@@ -16,7 +16,7 @@ export const identity = {
     blurb:
         "I’ve spent two years writing software with Angular, Spring Boot and PostgreSQL. Outside work, I look after the server that runs my own projects.",
     study:
-        "I finished my MSc thesis in Data Intensive Astrophysics at Cardiff. I used simulated mergers to see how well I could work backwards from the signal to the masses of the two black holes.",
+        "I finished my MSc thesis in Data Intensive Astrophysics at Cardiff. I simulated pairs of black holes merging, so I knew how heavy each one was. Then I gave a model just the gravitational waves from each merger to see how well it could estimate those masses.",
     colophon: 'Everything below is built and hosted by me.',
 };
 
@@ -117,10 +117,10 @@ export const experiments = [
 
 export const elsewhere = [
     {
-        title: 'Measuring black holes from gravitational waves',
+        title: 'What can a gravitational wave tell us about two black holes?',
         paragraphs: [
-            "I trained neural networks on three versions of the same simulated signals. One showed how the wave changed over time, another showed its frequencies, and the third measured how closely it matched a template. I tried those on their own and in combination. The question was whether that choice changed what I could say about the masses of the two black holes.",
-            "I checked all seven models against Bilby, the sampler I used as a reference. Going from 20,000 training simulations to 200,000 roughly halved the average disagreement. Time and frequency together came closest on average, but a different input came out ahead depending on which of the five test signals I used. Once a model was loaded, drawing 20,000 samples took about 8 to 11 seconds on four CPU threads.",
+            "I trained neural networks on three versions of the same simulated signals. One showed how the wave changed over time, another showed its frequencies, and the third measured how closely it matched a template. I tried those on their own and in combination. That gave me seven ways to train a model on exactly the same mergers.",
+            "I compared their estimates with a standard method called Bilby on five simulated mergers. When I trained on 200,000 simulations instead of 20,000, the average gap between the models and Bilby roughly halved. Time and frequency together came closest on average, but a different input came out ahead depending on which of the five test signals I used. Once a model was loaded, drawing 20,000 samples took about 8 to 11 seconds on four CPU threads.",
         ],
     },
     {
@@ -129,14 +129,6 @@ export const elsewhere = [
             "For a group project at Cardiff, we tried to predict whether Microsoft shares would close higher 90 trading days later. We gave three models the same history, trained on the first 2,500 trading days, then moved the test forward 63 days at a time. That let us see how each model handled the next quarter.",
             "Microsoft ended up higher in about 62% of our examples, so a model could look fairly good just by saying “up”. We checked the two directions separately. The random forest did best on rises, with an F1 score of 0.79. The convolutional network was better at picking up falls. Our most complicated model combined three methods and still missed a lot of the downturns.",
         ],
-    },
-    {
-        title: 'Astral’s rocket demonstrator',
-        paragraphs: [
-            "I’m working on a 3D-printed rocket. A lot of the work at this stage comes down to access. I can make everything fit on a drawing and still have to take the whole thing apart to reach the electronics.",
-            "I built a site where you can scroll through the model and see where everything goes. The demonstrator is the one in ground development. The larger vehicles on the site are designs for later.",
-        ],
-        link: { label: 'Explore the demonstrator', href: 'https://rahul-m01.github.io/astral-technologies/demonstrator.html' },
     },
     {
         title: 'Landing a booster in the browser',

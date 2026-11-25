@@ -128,7 +128,7 @@ export default function ProjectAtlas() {
                     <div className="atlas-copy atlas-identity">
                         <p className="atlas-kicker">Software developer <span aria-hidden="true">/</span> Cardiff</p>
                         <h1 ref={title} tabIndex={-1}>Rahul<br /><em>Mahajan</em><span>.</span></h1>
-                        <p className="atlas-description">I build software and study<br /> gravitational waves.</p>
+                        <p className="atlas-description">I run a server at home for my files, my films and a Discord bot that deals blackjack.</p>
                         <Link className="atlas-cta" to="/#selected-work">Explore my work <span aria-hidden="true">↓</span></Link>
                     </div>
                 </> : <div className="atlas-copy project-copy" key={project.href}>
